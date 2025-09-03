@@ -1,0 +1,53 @@
+# UOB RM Sales Process & Workflow
+
+## 5-Step RM Working Process
+
+### 1. Preparation & Customer Engagement
+- ศึกษาข้อมูลลูกค้า (KYC, ฐานะการเงิน, ผลิตภัณฑ์ที่ถืออยู่)
+- เตรียม Product Knowledge และ Compliance Script
+- นัดหมายและสร้างความสัมพันธ์เบื้องต้น (Ice Breaking)
+
+### 2. Fact Finding & Needs Analysis
+- สอบถามข้อมูลลูกค้า: ภาระหนี้, ครอบครัว, สุขภาพ, งบประมาณ
+- จัดกลุ่มความต้องการ: Protect / Build / Enhance
+- วิเคราะห์ Gap (ช่องโหว่ความคุ้มครอง) และคำนวณทุนประกันที่เหมาะสม
+
+### 3. Solution Design & Presentation
+- Matching ผลิตภัณฑ์ที่เหมาะสม (Life, Health, PA, Unit-linked, Endowment)
+- อธิบายด้วย Benefit Illustration (BI) และภาษาเข้าใจง่าย
+- ย้ำ Coverage + Exclusion + สิทธิประโยชน์ทางภาษี
+- ปฏิบัติตาม Compliance Script และ Disclaimer
+
+### 4. Closing & Underwriting
+- ตอบข้อโต้แย้งลูกค้า (แพงไป / ยังไม่จำเป็น / กลัวเคลมยาก)
+- สรุปและปิดการขาย → กรอกใบคำขอเอาประกัน (Application Form)
+- เก็บเอกสารประกอบ และส่งเรื่องไปยังบริษัทประกันเพื่อพิจารณารับประกัน
+
+### 5. Policy Delivery & After-Sales Service
+- ส่งมอบกรมธรรม์ให้ลูกค้า + อธิบาย Free Look Period (15 วัน)
+- Follow-up หลังลูกค้าได้รับกรมธรรม์
+- แจ้งเตือนชำระเบี้ย, ต่ออายุ, เคลม, เปลี่ยนผู้รับประโยชน์
+- Cross-sell / Up-sell ตามความต้องการใหม่ของลูกค้า
+
+## Complete RM Workflow
+**Preparation → Fact Finding → Needs Analysis → Present → Handle Objection → Closing → Underwriting → Policy Delivery → After Sales**
+
+## How Chatbot Supports RM Process
+The chatbot helps RMs in 4 critical areas of the sales process:
+
+### 1. Fact Finding & Customer Understanding
+- ให้ RM ใหม่ใช้ฝึกซ้อมการถามหาความต้องการลูกค้า
+- ฝึกจัดกลุ่มความต้องการ: ป้องกัน/สร้างความมั่งคั่ง/เพิ่มความมั่งคั่ง
+
+### 2. Product Knowledge Enhancement
+- เข้าใจความหมายและรายละเอียดของผลิตภัณฑ์ประกัน
+- รู้จักประกันชีวิต/วินาศภัย, กรมธรรม์, rider ฯลฯ
+
+### 3. Compliance & Regulation Control
+- ตามกฎของ คปภ. และจรรยาบรรณ 10 ข้อ
+
+### 4. Soft Skills & Sales Process
+- Ice-breaking techniques
+- Negotiation skills
+- Handling customer pain points when they don't want to share real information</content>
+<parameter name="filePath">/Users/pookansmacbookpro/Documents/insurance-chatbot/data/documents/uob_rm_workflow.txt
