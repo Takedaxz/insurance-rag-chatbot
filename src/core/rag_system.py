@@ -1240,32 +1240,35 @@ Answer:"""
         return suggestions[:3]
     
     def validate_query(self, query: str) -> Tuple[bool, List[str]]:
-        """Validate query quality"""
+        """Validate query quality - relaxed validation for better usability"""
         errors = []
         
         # Check length
         if len(query.strip()) < 3:
             errors.append("Query too short (minimum 3 characters)")
         
-        if len(query) > 500:
-            errors.append("Query too long (maximum 500 characters)")
+        if len(query) > 1000:  # Increased from 500 to 1000
+            errors.append("Query too long (maximum 1000 characters)")
         
-        # Check for special characters
-        if re.search(r'[<>{}[\]\\]', query):
+        # Check for special characters (only malicious ones)
+        if re.search(r'[<>{}\[\]\\]', query):
             errors.append("Query contains invalid special characters")
         
         # Check for excessive whitespace
-        if re.search(r'\s{3,}', query):
+        if re.search(r'\s{5,}', query):  # Increased from 3 to 5
             errors.append("Query contains excessive whitespace")
         
-        # Check for repetitive words
+        # Relaxed repetitive word check - only flag if same word appears more than 5 times
         words = query.lower().split()
-        if len(words) > 2:
+        if len(words) > 5:
             word_counts = {}
             for word in words:
+                # Skip common words that naturally repeat
+                if word in ['the', 'a', 'an', 'and', 'or', 'of', 'to', 'for', 'in', 'on', 'with', 'by', 'from', 'at', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'can', 'may', 'might', 'must']:
+                    continue
                 word_counts[word] = word_counts.get(word, 0) + 1
-                if word_counts[word] > 3:
-                    errors.append("Query contains repetitive words")
+                if word_counts[word] > 5:  # Increased threshold from 3 to 5
+                    errors.append("Query contains excessive repetitive words")
                     break
         
         return len(errors) == 0, errors

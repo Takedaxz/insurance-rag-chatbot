@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จำลองและฝึกอบรม - UOB RM AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-page">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <h1>จำลองและฝึกอบรม</h1>
+                    <p>เล่นบทบาทจำลองเพื่อฝึกฝนและรับ feedback</p>
+                </div>
+                <nav class="nav">
+                    <a href="/" class="nav-link">หน้าหลัก</a>
+                    <a href="/knowledge" class="nav-link">คลังความรู้</a>
+                    <a href="/coaching" class="nav-link">โค้ช</a>
+                    <a href="/simulation" class="nav-link active">จำลอง</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="chat-container">
+            <div class="sidebar">
+                <!-- Simulation Controls -->
+                <div class="simulation-controls">
+                    <h3>สถานการณ์ฝึกอบรม</h3>
+                    
+                    <div class="scenario-card" onclick="selectScenario('new_customer')">
+                        <div class="scenario-title">พบลูกค้าใหม่</div>
+                        <div class="scenario-description">ลูกค้าครั้งแรก ต้องวิเคราะห์ความต้องการ</div>
+                        <span class="difficulty-badge difficulty-easy">ง่าย</span>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="selectScenario('objection_handling')">
+                        <div class="scenario-title">จัดการความคัดค้าน</div>
+                        <div class="scenario-description">ลูกค้าที่มีข้อกังวลเรื่องราคา/ความคุ้มครอง</div>
+                        <span class="difficulty-badge difficulty-medium">ปานกลาง</span>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="selectScenario('complex_family')">
+                        <div class="scenario-title">ครอบครัวซับซ้อน</div>
+                        <div class="scenario-description">การวางแผนประกันหลายชั่วอายุ</div>
+                        <span class="difficulty-badge difficulty-hard">ขั้นสูง</span>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="selectScenario('cross_selling')">
+                        <div class="scenario-title">โอกาสขายเพิ่มเติม</div>
+                        <div class="scenario-description">ลูกค้าเก่า ผลิตภัณฑ์เพิ่มเติม</div>
+                        <span class="difficulty-badge difficulty-medium">ปานกลาง</span>
+                    </div>
+                </div>
+
+                <!-- Scenario Setup -->
+                <div class="scenario-setup">
+                    <h3>การตั้งค่าการจำลอง</h3>
+                    
+                    <div class="action-item">
+                        <label>บุคลิกภาพลูกค้า:</label>
+                        <select id="customerPersonality">
+                            <option value="friendly">เป็นกันเอง & เปิดใจ</option>
+                            <option value="skeptical">ระแวง & ระมัดระวัง</option>
+                            <option value="analytical">วิเคราะห์ & สนใจรายละเอียด</option>
+                            <option value="busy">ยุ่ง & กดดันเรื่องเวลา</option>
+                            <option value="emotional">อารมณ์ & มุ่งเน้นครอบครัว</option>
+                        </select>
+                    </div>
+                    
+                    <div class="action-item">
+                        <label>ระดับความยาก:</label>
+                        <select id="difficultyLevel">
+                            <option value="beginner">ผู้เริ่มต้น</option>
+                            <option value="intermediate">ระดับกลาง</option>
+                            <option value="advanced">ขั้นสูง</option>
+                        </select>
+                    </div>
+                    
+                    <div class="action-item">
+                        <label>ระยะเวลาเซสชัน:</label>
+                        <select id="sessionDuration">
+                            <option value="5">5 นาที</option>
+                            <option value="10" selected>10 นาที</option>
+                            <option value="15">15 นาที</option>
+                        </select>
+                    </div>
+                    
+                    <button class="simulation-btn" onclick="startSimulation()" id="startBtn">
+                        เริ่มการจำลอง
+                    </button>
+                </div>
+
+                <!-- Performance Tracking -->
+                <div class="performance-tracking">
+                    <h3>ความก้าวหน้าของคุณ</h3>
+                    
+                    <div class="score-display">
+                        <span class="score-number" id="overallScore">0</span>
+                        <span class="score-label">คะแนนรวม</span>
+                    </div>
+                    
+                    <div class="performance-stats">
+                        <div class="performance-stat">
+                            <span class="stat-number" id="sessionsCompleted">0</span>
+                            <span class="stat-label">เซสชัน</span>
+                        </div>
+                        <div class="performance-stat">
+                            <span class="stat-number" id="avgScore">0</span>
+                            <span class="stat-label">คะแนนเฉลี่ย</span>
+                        </div>
+                        <div class="performance-stat">
+                            <span class="stat-number" id="bestScore">0</span>
+                            <span class="stat-label">คะแนนสูงสุด</span>
+                        </div>
+                        <div class="performance-stat">
+                            <span class="stat-number" id="improvementTrend">+0%</span>
+                            <span class="stat-label">การพัฒนา</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-main">
+
+
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-content">
+                            ยินดีต้อนรับสู่สภาพแวดล้อมการจำลองและฝึกอบรม!
+                            <br><br>
+                            นี่คือที่คุณสามารถฝึกการปฏิสัมพันธ์กับลูกค้าจริงได้ นี่คือวิธีการทำงาน:
+                            <br><br>
+                            <strong>ลือกความท้าทายของคุณ:</strong>
+                            <br>• เลือกสถานการณ์ฝึกอบรมจากแถบด้านข้าง
+                            <br>• ปรับแต่งบุคลิกภาพลูกค้าและระดับความยาก
+                            <br>• กำหนดระยะเวลาเซสชันที่คุณต้องการ
+                            <br><br>
+                            <strong>การเล่นบทบาทแบบโต้ตอบ:</strong>
+                            <br>• ฉันจะแสดงเป็นลูกค้าเสมือนจริงที่มีพฤติกรรมสมจริง
+                            <br>• ตอบสนองตามธรรมชาติเหมือนที่คุณจะทำในสถานการณ์จริง
+                            <br>• จัดการกับความคัดค้าน คำถาม และการตัดสินใจ
+                            <br><br>
+                            <strong>ผลป้อนกลับการปฏิบัติงาน:</strong>
+                            <br>• รับคะแนนละเอียดจากหลายเกณฑ์
+                            <br>• รับคำแนะนำเฉพาะเจาะสำหรับการพัฒนา
+                            <br>• ติดตามความก้าวหน้าตลอดเวลา
+                            <br><br>
+                            <em>ลือกสถานการณ์แล้วคลิก "เริ่มการจำลอง" เพื่อเริ่มเซสชันฝึกอบรมของคุณ!</em>
+                        </div>
+                        <div class="message-time" id="currentTime"></div>
+                    </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>กำลังเตรียมสภาพแวดล้อมการจำลอง...</p>
+                </div>
+
+                <!-- Typing indicator -->
+                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <div class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span class="typing-text">ลูกค้ากำลังตอบสนอง...</span>
+                </div>
+
+                <div class="chat-input">
+                    <div class="question-suggestions" id="suggestions">
+                        <button onclick="startQuickSimulation('new_customer')" class="suggestion-btn">
+                            ลูกค้าใหม่
+                        </button>
+                        <button onclick="startQuickSimulation('objection_handling')" class="suggestion-btn">
+                            ฝึกฝน: จัดการความคัดค้าน
+                        </button>
+                        <button onclick="startQuickSimulation('product_explanation')" class="suggestion-btn">
+                            นำเสนอผลิตภัณฑ์
+                        </button>
+                        <button onclick="showProgress()" class="suggestion-btn">
+                            ดูรายงานความก้าวหน้า
+                        </button>
+                        <button onclick="demoScoreUpdate()" class="suggestion-btn" style="background: #f59e0b; color: white;">
+                            ทดสอบคะแนน
+                        </button>
+                    </div>
+                    
+                    <!-- Simulation control buttons (shown during active simulation) -->
+                    <div class="simulation-controls-active" id="simControlsActive" style="display: none; margin-bottom: 10px; align-items: center; gap: 15px;">
+                        <button onclick="endSimulationManually()" class="suggestion-btn" id="endSimBtn" style="background: #ef4444; color: white;">
+                            หยุดการจำลอง
+                        </button>
+                        <span class="simulation-status" id="simStatus" style="color: #16a34a; font-weight: bold; font-size: 14px;">
+                            การจำลองกำลังทำงาน - ตอบกลับเพื่อดำเนินต่อ หรือหยุดการจำลอง
+                        </span>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="text" id="questionInput" placeholder="ตอบสนองกับลูกค้า หรือพิมพ์ข้อความในระหว่างการจำลอง..." onkeypress="handleKeyPress(event)" disabled>
+                        <button onclick="sendResponse()" id="sendButton" disabled>ส่ง</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ url_for('static', filename='js/simulation.js') }}"></script>
+</body>
+</html>

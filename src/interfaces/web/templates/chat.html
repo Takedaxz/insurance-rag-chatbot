@@ -1,9 +1,111 @@
 <!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คลังความรู้ - UOB RM AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-page">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <h1>📚 คลังความรู้</h1>
+                    <p>ระบบถาม-ตอบขั้นสูงสำหรับการเข้าถึงข้อมูลแบบครอบคลุม</p>
+                </div>
+                <nav class="nav">
+                    <a href="/" class="nav-link">หน้าหลัก</a>
+                    <a href="/knowledge" class="nav-link active">คลังความรู้</a>
+                    <a href="/coaching" class="nav-link">โค้ช</a>
+                    <a href="/simulation" class="nav-link">จำลอง</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="chat-container">
+            <div class="sidebar">
+                <div class="upload-section">
+                    <h3>อัปโหลดไฟล์</h3>
+                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" accept=".xlsx,.xls,.pdf,.txt,.csv" onchange="uploadFile(this)">
+                        <label for="fileInput">คลิกเพื่ออัปโหลดไฟล์ Excel, PDF หรือ Text</label>
+                    </div>
+                    <div id="uploadStatus"></div>
+                </div>
+
+                <div class="stats-section">
+                    <h3>สถิติ</h3>
+                    <div id="stats">
+                        <div class="stat-item">กำลังโหลด...</div>
+                    </div>
+                </div>
+
+                <div class="files-section">
+                    <h3>ไฟล์ที่อัปโหลด</h3>
+                    <div id="files">
+                        <div class="file-item">กำลังโหลด...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-main">
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-content">
+                            สวัสดีครับ! ผมเป็นผู้ช่วยคลังความรู้ของคุณ อัปโหลดเอกสารแล้วถามคำถามเฉพาะเจาะจงเกี่ยวกับ:
+                            <br>• รายละเอียดผลิตภัณฑ์และขั้นตอนการทำงาน
+                            <br>• แนวทางการปฏิบัติตามกฎระเบียบ
+                            <br>• คู่มือการปฏิบัติงานแบบทีละขั้นตอน
+                            <br>• คำแนะนำเชิงกลยุทธ์และภาพรวมกรณีศึกษา
+                        </div>
+                        <div class="message-time" id="currentTime"></div>
+                    </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>กำลังประมวลผลคำถามของคุณ...</p>
+                </div>
+
+                <div class="chat-input">
+                    <div class="question-suggestions">
+                        <button onclick="askSuggestedQuestion('ขั้นตอนการทำงานของ RM ที่สมบูรณ์จากเตรียมตัวจนถึงหลังการขายคืออะไร?')" class="suggestion-btn">
+                            ขั้นตอน RM ทำงานอย่างไร?
+                        </button>
+                        <button onclick="askSuggestedQuestion('วิธีการ fact finding ที่มีประสิทธิภาพสำหรับลูกค้าใหม่?')" class="suggestion-btn">
+                            วิธี Fact Finding
+                        </button>
+                        <button onclick="askSuggestedQuestion('ผลิตภัณฑ์ประกันที่แนะนำสำหรับลูกค้าที่มีครอบครัว?')" class="suggestion-btn">
+                            แนะนำผลิตภัณฑ์ประกัน
+                        </button>
+                        <button onclick="askSuggestedQuestion('วิธีการปิดการขายประกันที่มีประสิทธิภาพ?')" class="suggestion-btn">
+                            เทคนิคการปิดการขาย
+                        </button>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="questionInput" placeholder="ถามคำถามเกี่ยวกับเอกสารของคุณ..." onkeypress="handleKeyPress(event)">
+                        <button onclick="askQuestion()" id="askButton">ถาม</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ url_for('static', filename='js/knowledge.js') }}"></script>
+</body>
+</html>
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Browalia:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,7 +114,7 @@
         }
 
         body {
-            font-family: 'Browalia', 'Inter', 'Segoe UI', 'Noto Sans Thai', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f7fb;
             min-height: 100vh;
             display: flex;
@@ -378,29 +480,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Toast notification */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #10b981;
-            color: #ffffff;
-            padding: 0.9rem 1rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(-10px);
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            z-index: 1000;
-        }
 
-        .toast.show {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
 
         .message-content h1,
         .message-content h2,
@@ -542,8 +622,7 @@
         </div>
 
         <div class="chat-container">
-            <!-- Toast container -->
-            <div id="uploadToast" class="toast" role="status" aria-live="polite"></div>
+
             <div class="chat-messages" id="chatMessages">
                 <div class="message bot">
                     <div class="message-content">
@@ -714,39 +793,23 @@
 
                 if (data.status === 'success') {
                     statusDiv.innerHTML = `<div class="success">Uploaded ${data.filename}<br>Created ${data.chunks_created} chunks</div>`;
-                    // Show toast popup
-                    showToast(`File \"${data.filename}\" uploaded successfully`);
+
                     loadStats();
                     loadFiles();
                 } else {
                     statusDiv.innerHTML = `<div class="error">Upload failed: ${data.message}</div>`;
-                    showToast('Upload failed', true);
+
                 }
             } catch (error) {
                 statusDiv.innerHTML = `<div class="error">Upload error: ${error.message}</div>`;
-                showToast('Upload error', true);
+
             }
 
             // Clear input
             input.value = '';
         }
 
-        // Toast helper
-        function showToast(message, isError = false) {
-            const toast = document.getElementById('uploadToast');
-            if (!toast) return;
-            toast.textContent = message;
-            if (isError) {
-                toast.style.background = '#ef4444';
-                toast.style.borderColor = '#fecaca';
-            } else {
-                toast.style.background = '#10b981';
-                toast.style.borderColor = 'rgba(16,185,129,0.3)';
-            }
-            toast.classList.add('show');
-            clearTimeout(window.__toastTimer);
-            window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
-        }
+
 
         async function loadStats() {
             try {
@@ -804,14 +867,14 @@
                 });
                 const data = await resp.json();
                 if (data.status === 'success') {
-                    showToast(`Removed ${filename}`);
+
                     loadStats();
                     loadFiles();
                 } else {
-                    showToast(data.message || 'Delete failed', true);
+
                 }
             } catch (e) {
-                showToast('Network error while deleting', true);
+
             }
         }
     </script>

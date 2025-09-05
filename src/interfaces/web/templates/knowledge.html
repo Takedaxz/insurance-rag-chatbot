@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คลังความรู้ - UOB RM AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="chat-page">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <h1>คลังความรู้</h1>
+                    <p>ระบบถาม-ตอบเอกสาร</p>
+                </div>
+                <nav class="nav">
+                    <a href="/" class="nav-link">หน้าหลัก</a>
+                    <a href="/knowledge" class="nav-link active">คลังความรู้</a>
+                    <a href="/coaching" class="nav-link">โค้ช</a>
+                    <a href="/simulation" class="nav-link">จำลอง</a>
+                </nav>
+            </div>
+        </header>
+
+        <div class="chat-container">
+            <div class="sidebar">
+                <div class="upload-section">
+                    <h3>อัปโหลดไฟล์</h3>
+                    <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+                        <input type="file" id="fileInput" accept=".xlsx,.xls,.pdf,.txt,.csv" onchange="uploadFile(this)">
+                        <label for="fileInput">คลิกเพื่ออัปโหลดไฟล์ Excel, PDF หรือ Text</label>
+                    </div>
+                    <div id="uploadStatus"></div>
+                </div>
+
+                <div class="stats-section">
+                    <h3>สถิติ</h3>
+                    <div id="stats">
+                        <div class="stat-item">กำลังโหลด...</div>
+                    </div>
+                </div>
+
+                <div class="files-section">
+                    <h3>ไฟล์ที่อัปโหลด</h3>
+                    <div id="files">
+                        <div class="file-item">กำลังโหลด...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-main">
+                <!-- Toast container -->
+                <div id="uploadToast" class="toast" role="status" aria-live="polite"></div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-content">
+                            สวัสดีครับ! ผมเป็นผู้ช่วยคลังความรู้
+                            <br><br>
+                            อัปโหลดเอกสารแล้วถามคำถามเฉพาะเจาะจงเกี่ยวกับ:
+                            <br>• <strong>รายละเอียดผลิตภัณฑ์และขั้นตอนการทำงาน:</strong> ข้อมูลเชิงลึกเกี่ยวกับผลิตภัณฑ์ประกันต่างๆ
+                            <br>• <strong>แนวทางการปฏิบัติตามกฎระเบียบ:</strong> ข้อกำหนดและระเบียบที่ต้องปฏิบัติตาม
+                            <br>• <strong>คู่มือการปฏิบัติงานแบบขั้นตอน:</strong> วิธีการทำงานที่ละเอียดและชัดเจน
+                            <br>• <strong>คำแนะนำเชิงกลยุทธ์และการวิเคราะห์กรณีศึกษา:</strong> แนวทางการตัดสินใจและแก้ไขปัญหา
+                            <br><br>
+                            <em>อัปโหลดเอกสารของคุณแล้วเริ่มถามคำถามได้เลย!</em>
+                        </div>
+                        <div class="message-time" id="currentTime"></div>
+                    </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <p>กำลังประมวลผลคำถามของคุณ...</p>
+                </div>
+
+                <!-- Typing indicator -->
+                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <div class="typing-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span class="typing-text">ผู้ช่วยคลังความรู้กำลังค้นหาคำตอบ...</span>
+                </div>
+
+                <div class="chat-input">
+                    <div class="question-suggestions">
+                        <button onclick="askSuggestedQuestion('ขั้นตอนการทำงานของ RM ที่สมบูรณ์จากเตรียมตัวจนถึงหลังการขายคืออะไร?')" class="suggestion-btn">
+                            ขั้นตอน RM ทำงานอย่างไร?
+                        </button>
+                        <button onclick="askSuggestedQuestion('วิธีการ fact finding ที่มีประสิทธิภาพสำหรับลูกค้าใหม่?')" class="suggestion-btn">
+                            วิธี Fact Finding
+                        </button>
+                        <button onclick="askSuggestedQuestion('ผลิตภัณฑ์ประกันที่แนะนำสำหรับลูกค้าที่มีครอบครัว?')" class="suggestion-btn">
+                            แนะนำผลิตภัณฑ์ประกัน
+                        </button>
+                        <button onclick="askSuggestedQuestion('วิธีการปิดการขายประกันที่มีประสิทธิภาพ?')" class="suggestion-btn">
+                            เทคนิคการปิดการขาย
+                        </button>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="questionInput" placeholder="ถามคำถามเกี่ยวกับเอกสารของคุณ... เช่น 'ขั้นตอนการทำงานของ RM คืออะไร?'" onkeypress="handleKeyPress(event)">
+                        <button onclick="askQuestion()" id="askButton">ถาม</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ url_for('static', filename='js/knowledge.js') }}"></script>
+</body>
+</html>
