@@ -60,19 +60,20 @@ async function askQuestion() {
 
         if (data.status === 'success') {
             let botMessage = data.answer;
+            let sourcesHtml = '';
             
-            // Add sources if available
+            // Add sources in plain text format (not markdown)
             if (data.sources && data.sources.length > 0) {
-                botMessage += '\\n\\n<div class="sources"><h4>Sources:</h4>';
+                sourcesHtml = '<div class="sources"><h4>Sources:</h4>';
                 data.sources.forEach((source, index) => {
                     const filename = source.metadata?.filename || 'Unknown';
                     const content = source.content.substring(0, 100) + '...';
-                    botMessage += `<div class="source-item"><strong>${index + 1}. ${filename}</strong><br>${content}</div>`;
+                    sourcesHtml += `<div class="source-item"><strong>${index + 1}. ${filename}</strong><br>${content}</div>`;
                 });
-                botMessage += '</div>';
+                sourcesHtml += '</div>';
             }
 
-            addMessage(botMessage, 'bot');
+            addMessage(botMessage, 'bot', sourcesHtml);
         } else {
             addMessage(`Error: ${data.message}`, 'bot');
         }
@@ -85,7 +86,7 @@ async function askQuestion() {
     }
 }
 
-function addMessage(content, sender) {
+function addMessage(content, sender, sourcesHtml = '') {
     const messagesContainer = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}`;
@@ -102,6 +103,13 @@ function addMessage(content, sender) {
     // Render Markdown for bot messages, keep plain text for user messages
     if (sender === 'bot') {
         contentDiv.innerHTML = marked.parse(content);
+        
+        // Add sources as plain HTML (not processed through markdown)
+        if (sourcesHtml) {
+            const sourcesDiv = document.createElement('div');
+            sourcesDiv.innerHTML = sourcesHtml;
+            contentDiv.appendChild(sourcesDiv);
+        }
     } else {
         contentDiv.textContent = content;
     }
@@ -203,6 +211,18 @@ async function loadFiles() {
 
 async function deleteUploadedFile(filename) {
     if (!confirm(`Delete \"${filename}\" from the index?`)) return;
+    
+    // Show loading state
+    const fileItems = document.querySelectorAll('.file-item');
+    fileItems.forEach(item => {
+        if (item.querySelector('.filename').textContent.includes(filename.slice(0, 15))) {
+            item.style.opacity = '0.5';
+            const deleteBtn = item.querySelector('button');
+            deleteBtn.textContent = 'Deleting...';
+            deleteBtn.disabled = true;
+        }
+    });
+    
     try {
         const resp = await fetch('/api/files/delete', {
             method: 'POST',
@@ -210,14 +230,22 @@ async function deleteUploadedFile(filename) {
             body: JSON.stringify({ filename })
         });
         const data = await resp.json();
+        
         if (data.status === 'success') {
-
+            // Immediately update the UI
             loadStats();
             loadFiles();
+            
+            // Show success message
+            addMessage(`File \"${filename}\" deleted successfully. Removed ${data.chunks_removed || 0} chunks.`, 'bot');
         } else {
-
+            // Show error and restore UI
+            addMessage(`Failed to delete file: ${data.message}`, 'bot');
+            loadFiles(); // Restore the file list
         }
     } catch (e) {
-
+        // Show error and restore UI
+        addMessage(`Error deleting file: ${e.message}`, 'bot');
+        loadFiles(); // Restore the file list
     }
 }

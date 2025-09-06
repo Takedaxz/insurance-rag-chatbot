@@ -14,25 +14,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 print("🚀 Starting UOB RM AI Assistant - Multi-Feature Interface")
 print("=" * 60)
 
-# Check required environment variables
-required_vars = ["OPENAI_API_KEY"]
-missing_vars = [var for var in required_vars if not os.getenv(var)]
-
-if missing_vars:
-    print(f"❌ Missing required environment variables: {', '.join(missing_vars)}")
-    print("Please set them in your .env file before running.")
-    sys.exit(1)
-
-# Optional environment variables
-if not os.getenv("LLAMA_CLOUD_API_KEY"):
-    print("ℹ️  LLAMA_CLOUD_API_KEY not set (LlamaParse disabled for performance)")
-
-if not os.getenv("TAVILY_API_KEY"):
-    print("ℹ️  TAVILY_API_KEY not set (Web search disabled)")
-
-if not os.getenv("LANGFUSE_PUBLIC_KEY"):
-    print("ℹ️  LANGFUSE keys not set (Telemetry disabled for performance)")
-
 print("\n📋 Available Features:")
 print("  🏠 Homepage - Feature overview and navigation")
 print("  📚 Knowledge Mode - Deep Q&A with document uploads (READY)")
