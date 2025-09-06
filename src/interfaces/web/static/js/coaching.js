@@ -10,16 +10,59 @@ let coachingInsights = [];
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    updateTime();
-    setInterval(updateTime, 1000);
+    generateDynamicWelcomeMessage();
     loadPerformanceMetrics();
     loadCoachingHistory();
 });
 
-function updateTime() {
-    const now = new Date();
-    const timeString = now.toLocaleTimeString();
-    document.getElementById('currentTime').textContent = timeString;
+function generateDynamicWelcomeMessage() {
+    const welcomeMessages = [
+        {
+            greeting: "ยินดีต้อนรับสู่ผู้ช่วยโค้ชส่วนตัวของคุณ!",
+            intro: "พร้อมช่วยให้คุณเป็น UOB Relationship Manager ด้วยการโค้ชที่ปรับให้เหมาะกับคุณเฉพาะตัว:",
+            features: [
+                "<strong>การวิเคราะห์คู่แข่ง:</strong> เจาะลึกจุดแข็ง-จุดอ่อน เทคนิคเอาชนะคู่แข่ง",
+                "<strong>คำสำคัญที่ทรงพลัง:</strong> ประโยคมหัศจรรย์ที่สร้างผลกระทบทันที",
+                "<strong>กลยุทธ์รับมือทุกสถานการณ์:</strong> เทคนิคจัดการคำคัดค้านแบบมืออาชีพ",
+                "<strong>คราฟต์คำตอบสมบูรณ์:</strong> สร้างการตอบสนองที่โน้มน้าวใจลูกค้า"
+            ],
+            tip: "เริ่มต้นได้เลย: ใช้เครื่องมือด่วนด้านซ้าย หรือถามเฉพาะเจาะจงเกี่ยวกับเทคนิคการขาย!"
+        },
+        {
+            greeting: "เตรียมพร้อมยกระดับทักษะการเป็น RM แล้วหรือยัง?",
+            intro: "วันนี้เรามาฝึกฝนเพื่อให้คุณเป็น Top Performer กันเลย ฉันจะช่วยคุณใน:",
+            features: [
+                "<strong>การแกว่งคู่แข่ง:</strong> รู้จุดแข็งเรา ใช้ประโยชน์จากจุดอ่อนเขา",
+                "<strong>เวทมนตร์คำพูด:</strong> คำศัพท์และวลีที่ทำให้ลูกค้าพยักหน้า",
+                "<strong>บทบาทสมมุติ:</strong> เตรียมพร้อมรับมือทุกสถานการณ์ขาย",
+                "<strong>คำตอบปังๆ:</strong> สร้างการตอบสนองที่เข้าถึงใจลูกค้า"
+            ],
+            tip: "Tip: เลือกใช้ปุ่มทางลัดเพื่อการโค้ชแบบเร็ว หรือพิมพ์คำถามเพื่อรับคำแนะนำเฉพาะทาง"
+        },
+        {
+            greeting: "พร้อมมั้ย ที่จะกลายเป็น UOB RM ตัวจริง?",
+            intro: "มาร่วมเจาะลึกเทคนิคการขายระดับโปรกันเลย! ฉันมีทุกสิ่งที่คุณต้องการ:",
+            features: [
+                "<strong>ศึกแดนการแข่งขัน:</strong> วิเคราะห์และเอาชนะคู่แข่งทุกราย",
+                "<strong>ศิลปะแห่งคำพูด:</strong> สร้างสรรค์ข้อความที่สัมผัสหัวใจ",
+                "<strong>เครื่องมือแก้ปัญหา:</strong> วิธีจัดการความท้าทายในการขาย",
+                "<strong>การตอบสนองชั้นเซียน:</strong> คำตอบที่ครบครันและน่าเชื่อถือ"
+            ],
+            tip: "เริ่มเลย: คลิกเครื่องมือโค้ชด่วน หรือถามคำถามเฉพาะเพื่อรับคำแนะนำระดับเซียน!"
+        }
+    ];
+    
+    // Select a random welcome message
+    const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+    
+    // Create message content
+    let messageContent = `${randomMessage.greeting}<br><br>`;
+    messageContent += `${randomMessage.intro}<br>`;
+    messageContent += randomMessage.features.map(feature => `<br>• ${feature}`).join('');
+    messageContent += `<br><br><em>${randomMessage.tip}</em>`;
+    
+    // Add the welcome message with a fixed timestamp
+    addMessageWithTimestamp(messageContent, 'bot', new Date().toLocaleTimeString());
 }
 
 function askSuggestedQuestion(question) {
@@ -224,6 +267,10 @@ function loadCoachingHistory() {
 }
 
 function addMessage(content, sender) {
+    addMessageWithTimestamp(content, sender, new Date().toLocaleTimeString());
+}
+
+function addMessageWithTimestamp(content, sender, timestamp) {
     const messagesContainer = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
     
@@ -268,7 +315,7 @@ function addMessage(content, sender) {
     
     const timeDiv = document.createElement('div');
     timeDiv.className = 'message-time';
-    timeDiv.textContent = new Date().toLocaleTimeString();
+    timeDiv.textContent = timestamp; // Use provided timestamp instead of generating new one
     
     messageDiv.appendChild(contentDiv);
     messageDiv.appendChild(timeDiv);

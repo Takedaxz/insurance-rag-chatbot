@@ -56,6 +56,43 @@
                         <div class="scenario-description">ลูกค้าเก่า ผลิตภัณฑ์เพิ่มเติม</div>
                         <span class="difficulty-badge difficulty-medium">ปานกลาง</span>
                     </div>
+                    
+                    <!-- NEW SCENARIOS -->
+                    <div class="scenario-card" onclick="selectScenario('high_net_worth')">
+                        <div class="scenario-title">ลูกค้า High Net Worth</div>
+                        <div class="scenario-description">ลูกค้าระดับสูง ต้องการความเป็นเลิศ</div>
+                        <span class="difficulty-badge difficulty-hard">ขั้นสูง</span>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="selectScenario('young_professional')">
+                        <div class="scenario-title">วัยทำงานยุคใหม่</div>
+                        <div class="scenario-description">Gen Y/Z ต้องการผลิตภัณฑ์ยืดหยุ่น</div>
+                        <span class="difficulty-badge difficulty-easy">ง่าย</span>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="selectScenario('senior_planning')">
+                        <div class="scenario-title">การเตรียมพร้อมเกษียณ</div>
+                        <div class="scenario-description">ลูกค้าวัยใกล้เกษียณ ต้องการความมั่นคง</div>
+                        <span class="difficulty-badge difficulty-medium">ปานกลาง</span>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="selectScenario('business_owner')">
+                        <div class="scenario-title">เจ้าของธุรกิจ</div>
+                        <div class="scenario-description">SME ต้องการประกันธุรกิจและส่วนตัว</div>
+                        <span class="difficulty-badge difficulty-hard">ขั้นสูง</span>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="selectScenario('crisis_situation')">
+                        <div class="scenario-title">สถานการณ์วิกฤติ</div>
+                        <div class="scenario-description">ลูกค้าต้องการความช่วยเหลือด่วน</div>
+                        <span class="difficulty-badge difficulty-hard">ขั้นสูง</span>
+                    </div>
+                    
+                    <div class="scenario-card" onclick="selectScenario('investment_focused')">
+                        <div class="scenario-title">มุ่งเน้นการลงทุน</div>
+                        <div class="scenario-description">ลูกค้าต้องการประกันแบบลงทุน</div>
+                        <span class="difficulty-badge difficulty-medium">ปานกลาง</span>
+                    </div>
                 </div>
 
                 <!-- Scenario Setup -->
@@ -124,6 +161,95 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Score Dashboard -->
+                <div class="score-dashboard">
+                    <h3>แดชบอร์ดคะแนน</h3>
+                    
+                    <!-- Overall Performance Chart -->
+                    <div class="performance-chart">
+                        <h4>แนวโน้มคะแนนโดยรวม</h4>
+                        <canvas id="performanceChart" width="280" height="120"></canvas>
+                        <div id="chartPlaceholder" class="chart-placeholder" style="display: none;">
+                            <div class="placeholder-content">
+                                <div class="placeholder-icon">📊</div>
+                                <p>ทำการจำลองอย่างน้อย 3 ครั้ง<br>เพื่อดูแผนภูมิแนวโน้ม</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detailed Metrics Breakdown -->
+                    <div class="metrics-breakdown">
+                        <h4>คะแนนตามทักษะ (ครั้งล่าสุด)</h4>
+                        <div class="skill-meters" id="skillMeters">
+                            <div class="skill-meter">
+                                <div class="skill-info">
+                                    <span class="skill-name">การสร้างความสัมพันธ์</span>
+                                    <span class="skill-score" id="rapport_score">-</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" id="rapport_progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-info">
+                                    <span class="skill-name">การค้นหาความต้องการ</span>
+                                    <span class="skill-score" id="needs_score">-</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" id="needs_progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-info">
+                                    <span class="skill-name">ความรู้ผลิตภัณฑ์</span>
+                                    <span class="skill-score" id="product_score">-</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" id="product_progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-info">
+                                    <span class="skill-name">การจัดการความคัดค้าน</span>
+                                    <span class="skill-score" id="objection_score">-</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" id="objection_progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-info">
+                                    <span class="skill-name">ความสามารถในการปิดการขาย</span>
+                                    <span class="skill-score" id="closing_score">-</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" id="closing_progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="skill-meter">
+                                <div class="skill-info">
+                                    <span class="skill-name">ทักษะการสื่อสาร</span>
+                                    <span class="skill-score" id="communication_score">-</span>
+                                </div>
+                                <div class="skill-bar">
+                                    <div class="skill-progress" id="communication_progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Sessions -->
+                    <div class="recent-sessions">
+                        <h4>เซสชันล่าสุด</h4>
+                        <div class="session-list" id="recentSessionsList">
+                            <div class="no-sessions">
+                                <p>ยังไม่มีการจำลอง</p>
+                                <small>เริ่มการจำลองเพื่อดูประวัติ</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="chat-main">
@@ -132,7 +258,7 @@
                 
                 <div class="chat-messages" id="chatMessages">
                     <div class="message bot">
-                        <div class="message-content">
+                        <!-- <div class="message-content">
                             ยินดีต้อนรับสู่สภาพแวดล้อมการจำลองและฝึกอบรม!
                             <br><br>
                             นี่คือที่คุณสามารถฝึกการปฏิสัมพันธ์กับลูกค้าจริงได้ นี่คือวิธีการทำงาน:
@@ -153,14 +279,14 @@
                             <br>• ติดตามความก้าวหน้าตลอดเวลา
                             <br><br>
                             <em>ลือกสถานการณ์แล้วคลิก "เริ่มการจำลอง" เพื่อเริ่มเซสชันฝึกอบรมของคุณ!</em>
-                        </div>
-                        <div class="message-time" id="currentTime"></div>
+                        </div> -->
+                        <div class="message-time"><!-- Fixed timestamp will be set by JavaScript --></div>
                     </div>
                 </div>
 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <p>กำลังเตรียมสภาพแวดล้อมการจำลอง...</p>
+                    <p>กำลังจำลอง...</p>
                 </div>
 
                 <!-- Typing indicator -->
@@ -168,7 +294,7 @@
                     <div class="typing-dots">
                         <span></span><span></span><span></span>
                     </div>
-                    <span class="typing-text">ลูกค้ากำลังตอบสนอง...</span>
+                    <span class="typing-text">ลูกค้ากำลังตอบ...</span>
                 </div>
 
                 <div class="chat-input">
@@ -179,14 +305,29 @@
                         <button onclick="startQuickSimulation('objection_handling')" class="suggestion-btn">
                             ฝึกฝน: จัดการความคัดค้าน
                         </button>
-                        <button onclick="startQuickSimulation('product_explanation')" class="suggestion-btn">
-                            นำเสนอผลิตภัณฑ์
+                        <button onclick="startQuickSimulation('high_net_worth')" class="suggestion-btn">
+                            ลูกค้า High Net Worth
+                        </button>
+                        <button onclick="startQuickSimulation('young_professional')" class="suggestion-btn">
+                            วัยทำงานยุคใหม่
+                        </button>
+                        <button onclick="startQuickSimulation('business_owner')" class="suggestion-btn">
+                            เจ้าของธุรกิจ
                         </button>
                         <button onclick="showProgress()" class="suggestion-btn">
                             ดูรายงานความก้าวหน้า
                         </button>
                         <button onclick="demoScoreUpdate()" class="suggestion-btn" style="background: #f59e0b; color: white;">
                             ทดสอบคะแนน
+                        </button>
+                        <button onclick="clearPerformanceData()" class="suggestion-btn" style="background: #ef4444; color: white;">
+                            ล้างข้อมูล
+                        </button>
+                        <button onclick="exportPerformanceData()" class="suggestion-btn" style="background: #059669; color: white;">
+                            ส่งออกข้อมูล
+                        </button>
+                        <button onclick="importPerformanceData()" class="suggestion-btn" style="background: #7c3aed; color: white;">
+                            นำเข้าข้อมูล
                         </button>
                     </div>
                     

@@ -5,16 +5,60 @@ let isProcessing = false;
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    updateTime();
+    generateDynamicWelcomeMessage();
     loadStats();
     loadFiles();
-    setInterval(updateTime, 1000);
+    // Remove continuous time updates - timestamps are now fixed when messages are created
 });
 
-function updateTime() {
-    const now = new Date();
-    const timeString = now.toLocaleTimeString();
-    document.getElementById('currentTime').textContent = timeString;
+function generateDynamicWelcomeMessage() {
+    const welcomeMessages = [
+        {
+            greeting: "สวัสดีครับ! ผมเป็นผู้ช่วยคลังความรู้ UOB ที่พร้อมช่วยเหลือคุณ",
+            intro: "อัปโหลดเอกสารแล้วถามคำถามเฉพาะเจาะจงเกี่ยวกับ:",
+            features: [
+                "<strong>รายละเอียดผลิตภัณฑ์และขั้นตอนการทำงาน:</strong> ข้อมูลเชิงลึกเกี่ยวกับผลิตภัณฑ์ประกันต่างๆ",
+                "<strong>แนวทางการปฏิบัติตามกฎระเบียบ:</strong> ข้อกำหนดและระเบียบที่ต้องปฏิบัติตาม",
+                "<strong>คู่มือการปฏิบัติงานแบบขั้นตอน:</strong> วิธีการทำงานที่ละเอียดและชัดเจน",
+                "<strong>คำแนะนำเชิงกลยุทธ์และการวิเคราะห์กรณีศึกษา:</strong> แนวทางการตัดสินใจและแก้ไขปัญหา"
+            ],
+            tip: "เริ่มต้น: อัปโหลดเอกสารของคุณแล้วเริ่มถามคำถามได้เลย!"
+        },
+        {
+            greeting: "ยินดีต้อนรับครับ! พร้อมเป็นคลังความรู้ประกันที่ครบครันสำหรับคุณ",
+            intro: "ระบบนี้จะช่วยให้คุณเข้าถึงข้อมูลได้อย่างรวดเร็วในเรื่อง:",
+            features: [
+                "<strong>การค้นหาข้อมูลผลิตภัณฑ์:</strong> รายละเอียดครอบคลุมทุกประเภทประกัน",
+                "<strong>กระบวนการและขั้นตอนงาน:</strong> วิธีปฏิบัติงานที่ถูกต้องและมีประสิทธิภาพ",
+                "<strong>เทคนิคการขายและการบริการ:</strong> กลยุทธ์ที่ช่วยเพิ่มประสิทธิภาพ",
+                "<strong>มาตรฐานและข้อกำหนด:</strong> ข้อกฎหมายและระเบียบที่เกี่ยวข้อง"
+            ],
+            tip: "เคล็ดลับ: ใช้คำถามเฉพาะเจาะจงจะได้คำตอบที่ตรงใจมากขึ้น!"
+        },
+        {
+            greeting: "สวัสดีค่ะ! ฉันคือระบบคลังความรู้อัจฉริยะที่จะช่วยคุณค้นหาข้อมูล",
+            intro: "มาใช้ประโยชน์จากความรู้ที่ครบครันใน:",
+            features: [
+                "<strong>ข้อมูลผลิตภัณฑ์ครบถ้วน:</strong> ทุกรายละเอียดที่ RM ต้องรู้",
+                "<strong>การอบรมและพัฒนาทักษะ:</strong> เนื้อหาสำหรับการเรียนรู้",
+                "<strong>ความปลอดภัยและการปฏิบัติตาม:</strong> มาตรฐานและข้อกำหนด",
+                "<strong>กรณีศึกษาและตัวอย่าง:</strong> ประสบการณ์จริงจากการทำงาน"
+            ],
+            tip: "ลองใช้: อัปโหลดเอกสารแล้วถามอะไรก็ได้ที่อยากรู้!"
+        }
+    ];
+    
+    // Select a random welcome message
+    const randomMessage = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+    
+    // Create message content
+    let messageContent = `${randomMessage.greeting}<br><br>`;
+    messageContent += `${randomMessage.intro}<br>`;
+    messageContent += randomMessage.features.map(feature => `<br>• ${feature}`).join('');
+    messageContent += `<br><br><em>${randomMessage.tip}</em>`;
+    
+    // Add the welcome message with a fixed timestamp
+    addMessageWithTimestamp(messageContent, 'bot', new Date().toLocaleTimeString());
 }
 
 function askSuggestedQuestion(question) {
@@ -87,6 +131,10 @@ async function askQuestion() {
 }
 
 function addMessage(content, sender, sourcesHtml = '') {
+    addMessageWithTimestamp(content, sender, new Date().toLocaleTimeString(), sourcesHtml);
+}
+
+function addMessageWithTimestamp(content, sender, timestamp, sourcesHtml = '') {
     const messagesContainer = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${sender}`;
@@ -116,7 +164,7 @@ function addMessage(content, sender, sourcesHtml = '') {
     
     const timeDiv = document.createElement('div');
     timeDiv.className = 'message-time';
-    timeDiv.textContent = new Date().toLocaleTimeString();
+    timeDiv.textContent = timestamp; // Use provided timestamp instead of generating new one
     
     messageDiv.appendChild(contentDiv);
     messageDiv.appendChild(timeDiv);
