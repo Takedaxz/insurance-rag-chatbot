@@ -2,12 +2,17 @@
 // ========================
 
 let isProcessing = false;
+let adminMode = false;
+let showSources = false;
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
     generateDynamicWelcomeMessage();
-    loadStats();
-    loadFiles();
+    loadAdminModeState();
+    if (adminMode) {
+        loadStats();
+        loadFiles();
+    }
     // Remove continuous time updates - timestamps are now fixed when messages are created
 });
 
@@ -61,6 +66,49 @@ function generateDynamicWelcomeMessage() {
     addMessageWithTimestamp(messageContent, 'bot', new Date().toLocaleTimeString());
 }
 
+// Admin toggle functionality
+function toggleAdminMode() {
+    adminMode = !adminMode;
+    const sidebar = document.getElementById('adminSidebar');
+    const toggleBtn = document.getElementById('adminToggle');
+    
+    if (adminMode) {
+        sidebar.style.display = 'block';
+        toggleBtn.textContent = 'Admin';
+        toggleBtn.style.background = '#16a34a';
+        showSources = true;
+        loadStats();
+        loadFiles();
+    } else {
+        sidebar.style.display = 'none';
+        toggleBtn.textContent = 'Admin';
+        toggleBtn.style.background = '#6b7280';
+        showSources = false;
+    }
+    
+    // Save admin mode state
+    localStorage.setItem('knowledge_admin_mode', adminMode);
+    localStorage.setItem('knowledge_show_sources', showSources);
+}
+
+// Load admin mode state from localStorage
+function loadAdminModeState() {
+    const savedAdminMode = localStorage.getItem('knowledge_admin_mode');
+    const savedShowSources = localStorage.getItem('knowledge_show_sources');
+    
+    if (savedAdminMode === 'true') {
+        adminMode = true;
+        showSources = savedShowSources === 'true';
+        
+        const sidebar = document.getElementById('adminSidebar');
+        const toggleBtn = document.getElementById('adminToggle');
+        
+        sidebar.style.display = 'block';
+        toggleBtn.textContent = 'Admin';
+        toggleBtn.style.background = '#16a34a';
+    }
+}
+
 function askSuggestedQuestion(question) {
     document.getElementById('questionInput').value = question;
     askQuestion();
@@ -106,8 +154,8 @@ async function askQuestion() {
             let botMessage = data.answer;
             let sourcesHtml = '';
             
-            // Add sources in plain text format (not markdown)
-            if (data.sources && data.sources.length > 0) {
+            // Only show sources if admin mode is enabled
+            if (showSources && data.sources && data.sources.length > 0) {
                 sourcesHtml = '<div class="sources"><h4>Sources:</h4>';
                 data.sources.forEach((source, index) => {
                     const filename = source.metadata?.filename || 'Unknown';
@@ -142,10 +190,16 @@ function addMessageWithTimestamp(content, sender, timestamp, sourcesHtml = '') {
     const contentDiv = document.createElement('div');
     contentDiv.className = 'message-content';
     
+    // Apply Noto Sans Thai font for better Thai text rendering
+    contentDiv.style.fontFamily = "'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif";
+    
     // Check if content contains Thai characters
-    const hasThaiChars = /[\\u0E00-\\u0E7F]/.test(content);
+    const hasThaiChars = /[\u0E00-\u0E7F]/.test(content);
     if (hasThaiChars) {
         contentDiv.setAttribute('lang', 'th');
+        // Ensure proper Thai font rendering
+        contentDiv.style.lineHeight = '1.6';
+        contentDiv.style.fontWeight = '400';
     }
     
     // Render Markdown for bot messages, keep plain text for user messages
@@ -156,6 +210,7 @@ function addMessageWithTimestamp(content, sender, timestamp, sourcesHtml = '') {
         if (sourcesHtml) {
             const sourcesDiv = document.createElement('div');
             sourcesDiv.innerHTML = sourcesHtml;
+            sourcesDiv.style.fontFamily = "'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif";
             contentDiv.appendChild(sourcesDiv);
         }
     } else {
@@ -165,6 +220,7 @@ function addMessageWithTimestamp(content, sender, timestamp, sourcesHtml = '') {
     const timeDiv = document.createElement('div');
     timeDiv.className = 'message-time';
     timeDiv.textContent = timestamp; // Use provided timestamp instead of generating new one
+    timeDiv.style.fontFamily = "'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif";
     
     messageDiv.appendChild(contentDiv);
     messageDiv.appendChild(timeDiv);

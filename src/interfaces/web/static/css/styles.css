@@ -140,6 +140,68 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Admin Toggle Button */
+.admin-toggle {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-left: 1rem;
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+}
+
+.admin-toggle:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Enhanced Thai Text Rendering */
+.message-content {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.message-content[lang="th"] {
+    font-family: 'Noto Sans Thai', sans-serif;
+    line-height: 1.7;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+/* Thai text in input fields */
+input[type="text"], textarea {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* Thai text in buttons */
+button, .suggestion-btn {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* Sources styling with Thai font */
+.sources {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(243, 244, 246, 0.8);
+    border-radius: 8px;
+    border-left: 4px solid #003d82;
+}
+
+.source-item {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
 /* Hero Section - UOB Themed */
 .hero {
     background: #ffffff;
@@ -487,6 +549,8 @@ body {
     overflow: hidden;
     box-shadow: 0 8px 25px rgba(0, 61, 130, 0.08);
     min-width: 0;
+    height: 100%;
+    max-height: calc(100vh - 80px);
 }
 
 .chat-messages {
@@ -494,7 +558,8 @@ body {
     padding: 1.25rem 1.25rem 0.75rem;
     overflow-y: auto;
     background: #ffffff;
-    min-height: 0;
+    min-height: 400px;
+    max-height: calc(100vh - 180px);
 }
 
 .message {
@@ -2095,8 +2160,8 @@ body {
     .chat-container {
         flex-direction: column;
         padding: 1rem;
-        height: calc(100vh - 120px); /* Account for mobile header height */
-        min-height: calc(100vh - 120px);
+        height: calc(100vh - 80px); /* Account for mobile header height */
+        min-height: calc(100vh - 80px);
     }
     
     .sidebar {

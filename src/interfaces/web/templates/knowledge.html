@@ -23,12 +23,15 @@
                     <a href="/knowledge" class="nav-link active">คลังความรู้</a>
                     <a href="/coaching" class="nav-link">โค้ช</a>
                     <a href="/simulation" class="nav-link">จำลอง</a>
+                    <button onclick="toggleAdminMode()" class="admin-toggle" id="adminToggle">
+                        Admin
+                    </button>
                 </nav>
             </div>
         </header>
 
         <div class="chat-container">
-            <div class="sidebar">
+            <div class="sidebar" id="adminSidebar" style="display: none;">
                 <div class="upload-section">
                     <h3>อัปโหลดไฟล์</h3>
                     <div class="file-upload" onclick="document.getElementById('fileInput').click()">
