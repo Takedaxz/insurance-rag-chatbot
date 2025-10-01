@@ -1,14 +1,15 @@
-#!/usr/bin/env python3
 """
-Test script to verify the _is_comparison_query method fix
+Integration test to verify the _is_comparison_query method fix
 """
 
+import pytest
 import sys
 import os
 
 # Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
+@pytest.mark.integration
 def test_comparison_query_detection():
     """Test the _is_comparison_query method"""
     print("🧪 Testing _is_comparison_query method...")
@@ -54,6 +55,7 @@ def test_comparison_query_detection():
         print(f"❌ Unexpected error: {e}")
         return False
 
+@pytest.mark.integration
 def test_query_execution():
     """Test a full query to ensure no AttributeError"""
     print("\n🧪 Testing full query execution...")
@@ -91,22 +93,4 @@ def test_query_execution():
         print(f"❌ Unexpected error: {e}")
         return False
 
-if __name__ == "__main__":
-    print("🚀 Testing AttributeError fix for _is_comparison_query")
-    print("=" * 60)
-    
-    # Test 1: Method existence and functionality
-    test1_passed = test_comparison_query_detection()
-    
-    # Test 2: Full query execution
-    test2_passed = test_query_execution()
-    
-    print("\n" + "=" * 60)
-    if test1_passed and test2_passed:
-        print("🎉 SUCCESS: AttributeError has been fixed!")
-        print("✅ The _is_comparison_query method is now properly implemented")
-        print("✅ Full query execution works without AttributeError")
-    else:
-        print("❌ FAILURE: AttributeError fix incomplete")
-        
-    print("=" * 60)
+# Remove the main block since this is now a pytest test

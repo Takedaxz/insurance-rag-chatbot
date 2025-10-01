@@ -1,20 +1,20 @@
-#!/usr/bin/env python3
 """
-Performance Test Script
-=======================
+Original Performance Test Script
+===============================
 Quick test to verify performance improvements.
 """
 
+import pytest
 import sys
 import os
 import time
 
 # Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
-from src.core.rag_system import get_rag_system
-
-def test_performance():
+@pytest.mark.slow
+@pytest.mark.e2e
+def test_original_performance():
     """Test the performance of the optimized RAG system"""
     print("🚀 Testing Performance Optimizations")
     print("=" * 50)
@@ -72,5 +72,4 @@ def test_performance():
     else:
         print("⚠️ Response time could be further optimized")
 
-if __name__ == "__main__":
-    test_performance()
+# Remove the main block since this is now a pytest test

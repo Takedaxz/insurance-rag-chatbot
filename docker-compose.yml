@@ -1,0 +1,93 @@
+# Docker Compose for UOB RM AI Assistant
+# ======================================
+
+version: '3.8'
+
+services:
+  # Main web application
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: uob-rm-assistant
+    ports:
+      - "5500:5500"
+    environment:
+      - FLASK_ENV=production
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - LLAMA_CLOUD_API_KEY=${LLAMA_CLOUD_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
+      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
+      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5500/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Development service
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: uob-rm-assistant-dev
+    ports:
+      - "5501:5500"
+    environment:
+      - FLASK_ENV=development
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - LLAMA_CLOUD_API_KEY=${LLAMA_CLOUD_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
+      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
+      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
+    volumes:
+      - .:/app
+      - ./data:/app/data
+      - ./logs:/app/logs
+    restart: unless-stopped
+    profiles:
+      - dev
+
+  # Terminal interface service
+  terminal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: uob-rm-terminal
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - LLAMA_CLOUD_API_KEY=${LLAMA_CLOUD_API_KEY}
+      - TAVILY_API_KEY=${TAVILY_API_KEY}
+      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY}
+      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY}
+      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    command: ["python", "main.py"]
+    stdin_open: true
+    tty: true
+    profiles:
+      - terminal
+
+# Networks
+networks:
+  default:
+    name: uob-rm-network
+
+# Volumes
+volumes:
+  data:
+    driver: local
+  logs:
+    driver: local

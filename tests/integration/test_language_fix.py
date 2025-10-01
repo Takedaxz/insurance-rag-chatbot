@@ -1,15 +1,16 @@
-#!/usr/bin/env python3
 """
-Test script to verify the coaching language detection fix
+Integration test to verify the coaching language detection fix
 """
 
+import pytest
 import sys
 import os
 import re
 
 # Add src to path
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
+@pytest.mark.integration
 def test_language_detection():
     """Test the language detection in coaching prompts"""
     
@@ -70,6 +71,7 @@ def test_language_detection():
         
     return all_passed
 
+@pytest.mark.integration
 def test_thai_character_detection():
     """Test the Thai character detection regex"""
     print("\\n🧪 Testing Thai character detection regex...")
@@ -91,22 +93,4 @@ def test_thai_character_detection():
         status = "✅ PASS" if result == expected else "❌ FAIL"
         print(f"   {status} - '{text}' ({description}) -> {result} (expected: {expected})")
 
-if __name__ == "__main__":
-    print("🚀 Testing Coaching Language Detection Fix")
-    print("=" * 60)
-    
-    # Test 1: Thai character detection
-    test_thai_character_detection()
-    
-    # Test 2: Language detection in coaching prompts
-    test_passed = test_language_detection()
-    
-    print("\\n" + "=" * 60)
-    if test_passed:
-        print("🎉 ALL TESTS PASSED: Coaching language detection is working correctly!")
-        print("✅ The system will now respond in Thai when questions are in Thai")
-        print("✅ The system will respond in English when questions are in English")
-    else:
-        print("❌ SOME TESTS FAILED: Language detection needs further adjustment")
-        
-    print("=" * 60)
+# Remove the main block since this is now a pytest test
