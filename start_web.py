@@ -27,7 +27,7 @@ print("  💾 In-memory FAISS index caching")
 print("  🎯 Optimized chunking and retrieval")
 
 print(f"\n🌐 Starting web server...")
-print(f"📱 Access your assistant at: http://localhost:5501")
+print(f"📱 Access your assistant at: http://localhost:5500")
 print(f"🔧 Debug mode: {os.getenv('FLASK_ENV') == 'development'}")
 print("=" * 60)
 
@@ -36,4 +36,4 @@ from src.interfaces.web.app import app
 
 if __name__ == "__main__":
     debug_mode = os.getenv('FLASK_ENV') == 'development'
-    app.run(debug=debug_mode, host='0.0.0.0', port=5501)
+    app.run(debug=debug_mode, host='0.0.0.0', port=5500)

@@ -1,0 +1,2189 @@
+/* ===================================
+   UOB RM AI Assistant - Global Styles
+   UOB Brand Theme Implementation
+   =================================== */
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background: #f7fafc;
+    margin: 0;
+    padding: 0;
+    /* Prevent layout shifts */
+    min-height: 100vh;
+    position: relative;
+}
+
+/* Page content wrapper to prevent shifting */
+.page-content {
+    padding-top: 0; /* Removed padding since header isn't fixed */
+    min-height: calc(100vh - 80px); /* Account for header height */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* ===================================
+   HOMEPAGE STYLES
+   =================================== */
+
+.homepage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    /* Ensure consistent layout */
+    position: relative;
+}
+
+/* Header Navigation - UOB Brand Colors - Fixed Positioning */
+.header {
+    background: #003d82;
+    color: white;
+    padding: 1.25rem 0;
+    position: relative;
+    min-height: 80px; /* Fixed minimum height */
+    display: flex;
+    align-items: center;
+    /* box-shadow: 0 4px 20px rgba(0, 61, 130, 0.15);
+    border-bottom: 3px solid #0066cc; */
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 60px; /* Ensure consistent height */
+}
+
+.logo {
+    flex: 1;
+    max-width: 50%;
+    min-width: 200px; /* Prevent logo from shrinking too much */
+}
+
+.nav {
+    display: flex;
+    gap: 2rem;
+    flex-shrink: 0;
+    margin-left: auto;
+    align-items: center; /* Center nav items vertically */
+    height: 60px; /* Fixed height for nav */
+}
+
+.logo h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.logo p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    display: inline-block; /* Ensure consistent sizing */
+    white-space: nowrap; /* Prevent text wrapping */
+    min-width: 0; /* Allow flex shrinking if needed */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.5s;
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: rgba(255, 255, 255, 0.2);
+    /* Remove transform to prevent shifting */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Admin Toggle Button */
+.admin-toggle {
+    background: #6b7280;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-left: 1rem;
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+}
+
+.admin-toggle:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Enhanced Thai Text Rendering */
+.message-content {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.message-content[lang="th"] {
+    font-family: 'Noto Sans Thai', sans-serif;
+    line-height: 1.7;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+/* Thai text in input fields */
+input[type="text"], textarea {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* Thai text in buttons */
+button, .suggestion-btn {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* Sources styling with Thai font */
+.sources {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(243, 244, 246, 0.8);
+    border-radius: 8px;
+    border-left: 4px solid #003d82;
+}
+
+.source-item {
+    font-family: 'Noto Sans Thai', 'Inter', 'Segoe UI', sans-serif;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+/* Hero Section - UOB Themed */
+.hero {
+    background: #ffffff;
+    padding: 5rem 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23003d82" fill-opacity="0.05"><circle cx="30" cy="30" r="4"/></g></svg>') repeat;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h2 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: #003d82;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 61, 130, 0.1);
+    background: #003d82;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: #64748b;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: #003d82;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+/* Features Section */
+.features {
+    padding: 4rem 0;
+    background: white;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Feature Cards - Enhanced UOB Styling */
+.feature-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 61, 130, 0.08);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 4px;
+    background: #003d82;
+    transition: left 0.6s ease;
+}
+
+.feature-card:hover::before {
+    left: 0;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 61, 130, 0.15);
+    border-color: #0066cc;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.feature-list {
+    list-style: none;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.feature-list li {
+    margin-bottom: 0.75rem;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feature-btn {
+    display: inline-block;
+    background: #003d82;
+    color: white;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 61, 130, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.6s;
+}
+
+.feature-btn:hover::before {
+    left: 100%;
+}
+
+.feature-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 61, 130, 0.4);
+}
+
+.feature-status {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Quick Start Section */
+.quick-start {
+    background: #f8fafc;
+    padding: 4rem 0;
+}
+
+.quick-start h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 3rem;
+    color: #1e293b;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.step {
+    text-align: center;
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.step-number {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 50%;
+    line-height: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.step h4 {
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.step p {
+    color: #64748b;
+}
+
+/* Footer */
+.footer {
+    background: #1e293b;
+    color: white;
+    padding: 3rem 0 1rem;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+    margin-bottom: 1rem;
+    color: #f1f5f9;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-section ul li a:hover {
+    color: #f1f5f9;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #374151;
+    color: #9ca3af;
+}
+
+/* ===================================
+   CHAT/KNOWLEDGE MODE STYLES - UOB Theme
+   Enhanced with Fixed Navigation Support
+   =================================== */
+
+.chat-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f7fafc;
+    /* Ensure consistent layout across pages */
+    position: relative;
+}
+
+.chat-container {
+    display: flex;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    /* Fixed height accounting for header */
+    height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px);
+}
+
+.sidebar {
+    width: 320px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 1.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 8px 25px rgba(0, 61, 130, 0.08);
+    overflow-y: auto;
+    max-height: 100%;
+}
+
+.chat-main {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 61, 130, 0.08);
+    min-width: 0;
+    height: 100%;
+    max-height: calc(100vh - 80px);
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 1.25rem 1.25rem 0.75rem;
+    overflow-y: auto;
+    background: #ffffff;
+    min-height: 400px;
+    max-height: calc(100vh - 180px);
+}
+
+.message {
+    margin-bottom: 1rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.message.user {
+    text-align: right;
+}
+
+.message.bot {
+    text-align: left;
+}
+
+.message-content {
+    display: inline-block;
+    max-width: 70%;
+    padding: 1.2rem 1.5rem;
+    border-radius: 16px;
+    word-wrap: break-word;
+    font-family: 'Noto Sans Thai', 'Sarabun', 'Inter', 'Segoe UI', sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.message.user .message-content {
+    background: #e3f2fd;
+    color: #003d82;
+    border: 2px solid #0066cc;
+}
+
+.message.bot .message-content {
+    background: #ffffff;
+    color: #1a202c;
+    border: 2px solid #e2e8f0;
+}
+
+.message-time {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.4rem;
+}
+
+.chat-input {
+    padding: 1.2rem 1.5rem;
+    background: #ffffff;
+    border-top: 2px solid #e2e8f0;
+    position: sticky;
+    bottom: 0;
+}
+
+.input-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border: 2px solid #cbd5e1;
+    border-radius: 25px;
+    background: #ffffff;
+    color: #1a202c;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.chat-input input:focus {
+    border-color: #0066cc;
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+    transform: translateY(-1px);
+}
+
+.chat-input button {
+    padding: 1rem 1.8rem;
+    border: none;
+    border-radius: 16px;
+    background: #0059bf;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chat-input button:hover {
+    transform: translateY(-2px);
+}
+
+.chat-input button:disabled {
+    background: #003989;
+    color: #ffffff;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Sidebar Components - UOB Theme */
+.upload-section,
+.stats-section,
+.files-section {
+    margin-bottom: 2rem;
+}
+
+.upload-section h3,
+.stats-section h3,
+.files-section h3 {
+    color: #003d82;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.file-upload {
+    background: #e3f2fd;
+    border: 3px dashed #0066cc;
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #003d82;
+    position: relative;
+    overflow: hidden;
+}
+
+.file-upload::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 102, 204, 0.1);
+    transition: left 0.6s;
+}
+
+.file-upload:hover::before {
+    left: 100%;
+}
+
+.file-upload:hover {
+    border-color: #003d82;
+    background: #bbdefb;
+    transform: translateY(-2px);
+}
+
+.file-upload input {
+    display: none;
+}
+
+.file-upload label {
+    color: #003d82;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.stat-item,
+.file-item {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
+    color: #1a202c;
+    border: 2px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover,
+.file-item:hover {
+    border-color: #0066cc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.1);
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.file-actions button {
+    background: transparent;
+    border: 1px solid #e5e7eb;
+    color: #ef4444;
+    border-radius: 8px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}
+
+.file-actions button:hover {
+    background: #fee2e2;
+    border-color: #fecaca;
+}
+
+/* Question Suggestions - UOB Theme */
+.question-suggestions {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    padding: 0 0.5rem;
+}
+
+.suggestion-btn {
+    background: #e3f2fd;
+    border: 2px solid #0066cc;
+    color: #003d82;
+    padding: 0.5rem 0.75rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.suggestion-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 102, 204, 0.1);
+    transition: left 0.6s;
+}
+
+.suggestion-btn:hover::before {
+    left: 100%;
+}
+
+.suggestion-btn:hover {
+    background: #bbdefb;
+    border-color: #003d82;
+    color: #003d82;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.2);
+}
+
+/* Enhanced disabled state for buttons */
+.suggestion-btn:disabled {
+    background: #f1f5f9 !important;
+    color: #94a3b8 !important;
+    border-color: #e2e8f0 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+    opacity: 0.6 !important;
+}
+
+/* Specific styling for disabled end simulation button */
+#endSimBtn:disabled {
+    background: #fca5a5 !important;
+    color: #7f1d1d !important;
+    border-color: #fecaca !important;
+}
+
+/* Enhanced styling for performance reports */
+.performance-message .message-content {
+    font-family: 'Noto Sans Thai', sans-serif;
+}
+
+.performance-message .message-content h1 {
+    color: #16a34a;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    border-bottom: 2px solid #16a34a;
+    padding-bottom: 0.5rem;
+}
+
+.performance-message .message-content hr {
+    border: none;
+    border-top: 2px solid #dcfce7;
+    margin: 1rem 0;
+}
+
+.performance-message .message-content strong {
+    color: #15803d;
+}
+
+.performance-message .message-content em {
+    color: #16a34a;
+    font-style: normal;
+    font-weight: 500;
+}
+
+/* Loading States - UOB Theme */
+.loading {
+    display: none;
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #003d82;
+    background: #f8faff;
+    border: 2px solid #e3f2fd;
+    border-radius: 16px;
+    margin: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.08);
+}
+
+.loading.show {
+    display: block;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.loading p {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+    color: #003d82;
+}
+
+.spinner {
+    border: 4px solid #e3f2fd;
+    border-top: 4px solid #0066cc;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+}
+
+/* Typing Indicator - UOB Theme */
+.typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    margin: 0.5rem 0;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    color: #003d82;
+    font-style: italic;
+}
+
+.typing-dots {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.typing-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #0066cc;
+    animation: typing 1.4s infinite;
+}
+
+.typing-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Alerts and Messages */
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+    border: 1px solid #fecaca;
+}
+
+.success {
+    background: #dcfce7;
+    color: #065f46;
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+    border: 1px solid #bbf7d0;
+}
+
+.sources {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+    background: #eef2ff;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.sources h4 {
+    color: #1565c0;
+    margin-bottom: 0.5rem;
+}
+
+.source-item {
+    background: #ffffff;
+    padding: 0.5rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #374151;
+    border: 1px solid #e5e7eb;
+}
+
+
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes typing {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================================
+   COACHING MODE SPECIFIC STYLES - UOB Theme
+   =================================== */
+
+.coaching-tools,
+.quick-actions,
+.performance-section {
+    margin-bottom: 2rem;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.08);
+}
+
+.coaching-tools h3,
+.quick-actions h3,
+.performance-section h3 {
+    color: #003d82;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tool-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #e3f2fd;
+    border-radius: 12px;
+    border: 2px solid #bbdefb;
+}
+
+.tool-section h4 {
+    color: #003d82;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.tool-btn {
+    background: #003d82;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 61, 130, 0.2);
+}
+
+.tool-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.3);
+}
+
+/* Coaching Assistant Specific Styles */
+.coaching-tools,
+.quick-actions,
+.performance-section {
+    margin-bottom: 2rem;
+}
+
+.coaching-tools h3,
+.quick-actions h3,
+.performance-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.tool-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.tool-section h4 {
+    color: #374151;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+}
+
+.tool-btn {
+    display: block;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tool-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.tool-btn:last-child {
+    margin-bottom: 0;
+}
+
+.action-item {
+    margin-bottom: 1rem;
+}
+
+.action-item label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.action-item select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: white;
+    font-size: 0.9rem;
+}
+
+.metric-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.metric-item:last-child {
+    border-bottom: none;
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.metric-value {
+    font-weight: 600;
+    color: #111827;
+}
+
+/* Simulation Assistant Specific Styles */
+.simulation-controls,
+.scenario-setup,
+.performance-tracking {
+    margin-bottom: 2rem;
+}
+
+.simulation-controls h3,
+.scenario-setup h3,
+.performance-tracking h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.scenario-card {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.scenario-card:hover {
+    background: #eef2ff;
+    border-color: #3b82f6;
+}
+
+.scenario-card.active {
+    background: #eef2ff;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.scenario-title {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.25rem;
+}
+
+.scenario-description {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.difficulty-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.5rem;
+}
+
+.difficulty-easy {
+    background: #dcfce7;
+    color: #065f46;
+}
+
+.difficulty-medium {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.difficulty-hard {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.simulation-btn {
+    width: 100%;
+    padding: 1rem;
+    background: #059669;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1rem;
+}
+
+.simulation-btn:hover {
+    background: #047857;
+    transform: translateY(-1px);
+}
+
+.simulation-btn:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.score-display {
+    background: #f0f9ff;
+    border: 1px solid #0284c7;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.score-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0284c7;
+    display: block;
+}
+
+.score-label {
+    font-size: 0.9rem;
+    color: #0369a1;
+    margin-top: 0.25rem;
+}
+
+.performance-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.performance-stat {
+    text-align: center;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 6px;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #111827;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* Score Dashboard Styles */
+.score-dashboard {
+    margin-bottom: 2rem;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.08);
+    transition: all 0.3s ease;
+}
+
+.score-dashboard:hover {
+    box-shadow: 0 8px 25px rgba(0, 61, 130, 0.12);
+    transform: translateY(-2px);
+}
+
+.score-dashboard h3 {
+    color: #003d82;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    text-align: center;
+    font-weight: 600;
+    border-bottom: 2px solid #e3f2fd;
+    padding-bottom: 0.75rem;
+}
+
+/* Performance Chart */
+.performance-chart {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.performance-chart h4 {
+    color: #374151;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.performance-chart canvas {
+    max-width: 100%;
+    height: 120px;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.chart-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    background: #f9fafb;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    color: #6b7280;
+    transition: all 0.3s ease;
+}
+
+.chart-placeholder:hover {
+    border-color: #0066cc;
+    background: #f0f9ff;
+    color: #003d82;
+}
+
+.placeholder-content {
+    text-align: center;
+    animation: pulse 2s infinite;
+}
+
+.placeholder-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+}
+
+.placeholder-content p {
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Skill Meters */
+.metrics-breakdown {
+    margin-bottom: 1.5rem;
+}
+
+.metrics-breakdown h4 {
+    color: #374151;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.metrics-breakdown h4::before {
+    content: '📊';
+    font-size: 1.2rem;
+}
+
+.skill-meters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.skill-meter {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-meter:hover {
+    background: #f1f5f9;
+    border-color: #0066cc;
+    transform: translateX(4px);
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.1);
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.skill-name {
+    font-size: 0.9rem;
+    color: #374151;
+    font-weight: 600;
+}
+
+.skill-score {
+    font-size: 0.9rem;
+    color: #003d82;
+    font-weight: 700;
+    background: #e3f2fd;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    border: 1px solid #bbdefb;
+}
+
+.skill-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.skill-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(255,255,255,0.3) 0%, 
+        rgba(255,255,255,0.1) 50%, 
+        rgba(255,255,255,0.3) 100%);
+    pointer-events: none;
+}
+
+.skill-progress {
+    height: 100%;
+    background: linear-gradient(90deg, 
+        #ef4444 0%, 
+        #f97316 25%, 
+        #eab308 50%, 
+        #22c55e 75%, 
+        #16a34a 100%);
+    border-radius: 6px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.skill-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(255,255,255,0.4) 50%, 
+        transparent 100%);
+    animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Recent Sessions */
+.recent-sessions {
+    margin-bottom: 1rem;
+}
+
+.recent-sessions h4 {
+    color: #374151;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.recent-sessions h4::before {
+    content: '📝';
+    font-size: 1.2rem;
+}
+
+.session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.session-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.session-list::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+.session-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+
+.session-list::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.session-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #3b82f6, #1e40af);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.session-item:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateX(6px);
+    box-shadow: 0 4px 12px rgba(0, 61, 130, 0.1);
+}
+
+.session-item:hover::before {
+    opacity: 1;
+}
+
+.session-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+}
+
+.session-scenario {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.9rem;
+}
+
+.session-date {
+    color: #6b7280;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.session-score {
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    text-align: center;
+    min-width: 60px;
+    border: 1px solid;
+    transition: all 0.3s ease;
+}
+
+.session-score.excellent {
+    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    color: #065f46;
+    border-color: #16a34a;
+}
+
+.session-score.good {
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    color: #1e40af;
+    border-color: #3b82f6;
+}
+
+.session-score.average {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    color: #92400e;
+    border-color: #f59e0b;
+}
+
+.session-score.poor {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    color: #991b1b;
+    border-color: #ef4444;
+}
+
+.session-score:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.no-sessions {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #6b7280;
+    background: #f9fafb;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.no-sessions:hover {
+    border-color: #0066cc;
+    background: #f0f9ff;
+    color: #003d82;
+}
+
+.no-sessions p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.no-sessions small {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    margin-top: 0.5rem;
+    display: block;
+}
+
+/* Performance Management Buttons Enhancement */
+.suggestion-btn[onclick*="Performance"], 
+.suggestion-btn[onclick*="export"], 
+.suggestion-btn[onclick*="import"], 
+.suggestion-btn[onclick*="clear"] {
+    position: relative;
+    overflow: hidden;
+}
+
+.suggestion-btn[onclick*="Performance"]::before, 
+.suggestion-btn[onclick*="export"]::before, 
+.suggestion-btn[onclick*="import"]::before, 
+.suggestion-btn[onclick*="clear"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.6s;
+}
+
+.suggestion-btn[onclick*="Performance"]:hover::before, 
+.suggestion-btn[onclick*="export"]:hover::before, 
+.suggestion-btn[onclick*="import"]:hover::before, 
+.suggestion-btn[onclick*="clear"]:hover::before {
+    left: 100%;
+}
+
+/* Responsive Design for Score Dashboard */
+@media (max-width: 768px) {
+    .score-dashboard {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .score-dashboard h3 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .skill-meters {
+        gap: 0.5rem;
+    }
+    
+    .skill-meter {
+        padding: 0.75rem;
+    }
+    
+    .skill-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .skill-score {
+        align-self: flex-end;
+        font-size: 0.8rem;
+        padding: 0.2rem 0.4rem;
+    }
+    
+    .performance-chart {
+        padding: 0.75rem;
+    }
+    
+    .performance-chart canvas {
+        height: 100px;
+    }
+    
+    .chart-placeholder {
+        height: 100px;
+    }
+    
+    .placeholder-icon {
+        font-size: 2rem;
+    }
+    
+    .session-item {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .session-scenario {
+        font-size: 0.85rem;
+    }
+    
+    .session-score {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.4rem;
+        min-width: 50px;
+    }
+    
+    .session-list {
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .score-dashboard {
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+    
+    .metrics-breakdown h4,
+    .recent-sessions h4 {
+        font-size: 0.9rem;
+    }
+    
+    .skill-meter {
+        padding: 0.5rem;
+    }
+    
+    .skill-name {
+        font-size: 0.8rem;
+    }
+    
+    .skill-bar {
+        height: 6px;
+    }
+    
+    .session-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .session-score {
+        align-self: flex-end;
+    }
+}
+
+/* Skill Meters */
+.metrics-breakdown {
+    margin-bottom: 1.5rem;
+}
+
+.metrics-breakdown h4 {
+    color: #374151;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.skill-meters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.skill-meter {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 0.75rem;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.skill-name {
+    font-size: 0.85rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+.skill-score {
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.skill-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background: linear-gradient(90deg, #ef4444 0%, #f97316 25%, #eab308 50%, #22c55e 75%, #16a34a 100%);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.skill-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Recent Sessions */
+.recent-sessions {
+    margin-bottom: 1rem;
+}
+
+.recent-sessions h4 {
+    color: #374151;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.session-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.session-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.session-item:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    transform: translateX(2px);
+}
+
+.session-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.session-scenario {
+    font-weight: 500;
+    color: #374151;
+}
+
+.session-date {
+    color: #6b7280;
+    font-size: 0.75rem;
+}
+
+.session-score {
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.session-score.excellent {
+    background: #dcfce7;
+    color: #065f46;
+}
+
+.session-score.good {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.session-score.average {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.session-score.poor {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.no-sessions {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #6b7280;
+}
+
+.no-sessions p {
+    margin: 0;
+    font-weight: 500;
+}
+
+.no-sessions small {
+    font-size: 0.8rem;
+    color: #9ca3af;
+}
+
+/* Responsive Design for Score Dashboard */
+@media (max-width: 768px) {
+    .score-dashboard {
+        padding: 1rem;
+    }
+    
+    .skill-meters {
+        gap: 0.5rem;
+    }
+    
+    .skill-meter {
+        padding: 0.5rem;
+    }
+    
+    .skill-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .performance-chart canvas {
+        height: 100px;
+    }
+}
+
+
+
+/* ===================================
+   UOB ENHANCED ANIMATIONS
+   =================================== */
+
+@keyframes slideInFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Apply animations to interactive elements */
+.feature-card,
+.scenario-card,
+.message {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.suggestion-btn {
+    animation: slideInFromRight 0.3s ease-out;
+}
+
+
+/* Desktop Navigation Stability - Enhanced Fixed Positioning */
+@media (min-width: 769px) {
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        min-height: 80px; /* Consistent height across pages */
+    }
+    
+    .header .container {
+        min-height: 60px;
+        max-height: 60px; /* Prevent height changes */
+    }
+    
+    .nav {
+        position: relative;
+        right: 0;
+        top: 0;
+        height: 60px; /* Fixed nav height */
+        align-items: center;
+    }
+    
+    .nav-link {
+        height: 44px; /* Fixed link height */
+        line-height: 1.2; /* Consistent line height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Prevent layout shifts on different pages */
+    .logo {
+        min-height: 50px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 0.5rem;
+    }
+
+    .header {
+        min-height: 120px; /* Increased for mobile stacked layout */
+        padding: 1rem 0;
+    }
+
+    .header .container {
+        flex-direction: column;
+        gap: 1rem;
+        min-height: 100px;
+    }
+    
+    .logo {
+        max-width: 100%;
+        text-align: center;
+        min-height: auto;
+    }
+    
+    .logo h1,
+    .logo p {
+        white-space: normal;
+        text-overflow: unset;
+        overflow: visible;
+    }
+
+    .nav {
+        gap: 1rem;
+        margin-left: 0;
+        height: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-content h2 {
+        font-size: 2rem;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .chat-container {
+        flex-direction: column;
+        padding: 1rem;
+        height: calc(100vh - 80px); /* Account for mobile header height */
+        min-height: calc(100vh - 80px);
+    }
+    
+    .sidebar {
+        width: 100%;
+        max-height: 30vh;
+    }
+    
+    .message-content {
+        max-width: 85%;
+    }
+
+    .question-suggestions {
+        padding: 0;
+        gap: 0.25rem;
+    }
+
+    .suggestion-btn {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+        flex: 1;
+        min-width: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}

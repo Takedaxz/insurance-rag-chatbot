@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UOB RM AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="homepage">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <h1>UOB RM AI Assistant</h1>
+                    <p>ระบบฝึกอบรม RM</p>
+                </div>
+                <nav class="nav">
+                    <a href="/" class="nav-link active">หน้าหลัก</a>
+                    <a href="/knowledge" class="nav-link">คลังความรู้</a>
+                    <a href="/coaching" class="nav-link">โค้ช</a>
+                    <a href="/simulation" class="nav-link">จำลอง</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>พัฒนาทักษะ RM ของคุณด้วย AI</h2>
+                    <p>เข้าถึงความรู้ได้ทันที รับคำแนะนำการโค้ชแบบส่วนตัว และฝึกฝนกับการจำลองสถานการณ์จริง เพื่อฝึกฝนการเป็น Relationship Manager</p>
+                    <!-- 
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <span class="stat-label">โหมด AI</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">พร้อมใช้งาน</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">ปฏิบัติตามกฎ</span>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">เลือกโหมดผู้ช่วย AI ของคุณ</h2>
+                <div class="features-grid">
+                    
+                    <!-- Feature 1: Knowledge Mode -->
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>โหมดคลังความรู้</h3>
+                        <p>เครื่องมือถาม-ตอบ สำหรับการเข้าถึงข้อมูลบริษัทแบบครอบคลุม</p>
+                        <ul class="feature-list">
+                            <li>- รายละเอียดผลิตภัณฑ์และขั้นตอนการทำงาน</li>
+                            <li>- แนวทางการปฏิบัติตามกฎระเบียบ</li>
+                            <li>- คู่มือการปฏิบัติงานแบบทีละขั้นตอน</li>
+                            <li>- คำแนะนำเชิงกลยุทธ์และภาพรวมกรณีศึกษา</li>
+                        </ul>
+                        <a href="/knowledge" class="feature-btn">เข้าสู่คลังความรู้</a>
+                    </div>
+
+                    <!-- Feature 2: Coaching Assistant Mode -->
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>ผู้ช่วยโค้ช</h3>
+                        <p>การโค้ชตามความต้องการเพื่อเพิ่มประสิทธิภาพและทักษะของคุณ</p>
+                        <ul class="feature-list">
+                            <li>- การวิเคราะห์คู่แข่งและการเปรียบเทียบ</li>
+                            <li>- วลีสำคัญและจุดสนทนา</li>
+                            <li>- คำแนะนำตามสถานการณ์</li>
+                            <li>- ความช่วยเหลือในการกำหนดคำตอบ</li>
+                        </ul>
+                        <a href="/coaching" class="feature-btn">เริ่มเซสชันโค้ช</a>
+                    </div>
+
+                    <!-- Feature 3: Simulation & Training Mode -->
+                    <div class="feature-card">
+                        <div class="feature-icon">🎮</div>
+                        <h3>จำลองและฝึกอบรม</h3>
+                        <p>จำลองบทบาทแบบสมจริงเพื่อการฝึกฝนและรับ feedback</p>
+                        <ul class="feature-list">
+                            <li>- จำลองการสนทนากับลูกค้า</li>
+                            <li>- การสนทนาแบบโต้ตอบ</li>
+                            <li>- การให้คะแนนประสิทธิภาพและ feedback</li>
+                            <li>- การติดตามการพัฒนาทักษะ</li>
+                        </ul>
+                        <a href="/simulation" class="feature-btn">เข้าสู่การจำลอง</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Start Section -->
+        <section class="quick-start">
+            <div class="container">
+                <h2>คู่มือการใช้งานด่วน</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h4>เลือกโหมด AI</h4>
+                        <p>เลือกโหมดผู้ช่วย AI ที่เหมาะสมกับความต้องการของคุณ</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h4>อัปโหลดเอกสาร</h4>
+                        <p>อัปโหลดไฟล์ Excel หรือ PDF ที่เกี่ยวข้อง เพื่อเป็นข้อมูลเพิ่มเติม</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h4>เริ่มใช้งาน</h4>
+                        <p>ถามคำถาม รับการโค้ช หรือฝึกฝนกับการจำลองสถานการณ์</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h4>ติดตามความก้าวหน้า</h4>
+                        <p>ตรวจสอบตัวชี้วัดประสิทธิภาพและการพัฒนาอย่างต่อเนื่อง</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-section">
+                        <h4>UOB RM AI Assistant</h4>
+                        <p>พัฒนา Relationship Manager ด้วย AI</p>
+                    </div>
+                    <div class="footer-section">
+                        <h4>Feature</h4>
+                        <ul>
+                            <li><a href="/knowledge">โหมดคลังความรู้</a></li>
+                            <li><a href="/coaching">ผู้ช่วยโค้ช</a></li>
+                            <li><a href="/simulation">การฝึกอบรมจำลอง</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-section">
+                        <h4>ช่วยเหลือ</h4>
+                        <ul>
+                            <li><a href="#help">ศูนย์ช่วยเหลือ</a></li>
+                            <li><a href="#documentation">เอกสารคู่มือ</a></li>
+                            <li><a href="#feedback">ความคิดเห็น</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 UOB RM AI Assistant by Call me by UOB</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
