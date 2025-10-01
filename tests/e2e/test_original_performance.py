@@ -12,6 +12,8 @@ import time
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
 
+from src.core.rag_system import get_rag_system
+
 @pytest.mark.slow
 @pytest.mark.e2e
 def test_original_performance():

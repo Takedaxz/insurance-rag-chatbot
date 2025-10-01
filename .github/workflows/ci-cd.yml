@@ -11,6 +11,10 @@ on:
   release:
     types: [ published ]
 
+permissions:
+  contents: read
+  security-events: write
+
 env:
   PYTHON_VERSION: '3.11'
   NODE_VERSION: '18'
@@ -92,7 +96,7 @@ jobs:
         output: 'trivy-results.sarif'
 
     - name: Upload Trivy scan results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       if: always()
       with:
         sarif_file: 'trivy-results.sarif'

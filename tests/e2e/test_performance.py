@@ -7,7 +7,7 @@ import pytest
 import time
 import sys
 import os
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 # Add src to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))

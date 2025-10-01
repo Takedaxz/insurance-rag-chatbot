@@ -21,19 +21,19 @@ class TestAPIEndpoints:
         """Test knowledge mode page"""
         response = web_app.get('/knowledge')
         assert response.status_code == 200
-        assert b'Knowledge' in response.data or b'ความรู้' in response.data
+        assert b'Knowledge' in response.data or 'ความรู้'.encode('utf-8') in response.data
     
     def test_coaching_mode_page(self, web_app):
         """Test coaching mode page"""
         response = web_app.get('/coaching')
         assert response.status_code == 200
-        assert b'Coaching' in response.data or b'โค้ช' in response.data
+        assert b'Coaching' in response.data or 'โค้ช'.encode('utf-8') in response.data
     
     def test_simulation_mode_page(self, web_app):
         """Test simulation mode page"""
         response = web_app.get('/simulation')
         assert response.status_code == 200
-        assert b'Simulation' in response.data or b'จำลอง' in response.data
+        assert b'Simulation' in response.data or 'จำลอง'.encode('utf-8') in response.data
     
     @patch('src.interfaces.web.app.rag_system')
     def test_ask_question_success(self, mock_rag_system, web_app):
