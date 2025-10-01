@@ -12,7 +12,7 @@ import asyncio
 import pickle
 import re
 import time
-from typing import List, Dict, Optional, Tuple, Any
+from typing import List, Dict, Optional, Tuple, Any, Union
 from pathlib import Path
 import shutil
 from dataclasses import dataclass
@@ -159,10 +159,10 @@ class RAGSystem:
         
         # Cache for loaded indexes to avoid repeated file I/O
         self._index_cache = None  # Single cached index instead of dict
-        self._index_cache_time = 0
+        self._index_cache_time: float = 0.0
         self._initialized = False
         
-        self._query_lru_cache = OrderedDict()
+        self._query_lru_cache: OrderedDict[str, Any] = OrderedDict()
         self._max_cache_size = 100  # Limit cache size to prevent memory leaks
         
         # Disable LlamaParse for performance optimization
@@ -171,7 +171,7 @@ class RAGSystem:
         self._llama_lock = threading.Lock()
         
         # Quality enhancement components
-        self.performance_metrics = []
+        self.performance_metrics: List[Dict[str, Any]] = []
         self.quality_thresholds = {
             "min_confidence": 0.3,
             "min_relevance": 0.5,
@@ -179,10 +179,10 @@ class RAGSystem:
         }
         
         # Fallback components
-        self.llm_fallbacks = []
-        self.embedding_fallbacks = []
-        self.vectorstore_fallbacks = []
-        self.cache_fallbacks = []
+        self.llm_fallbacks: List[Any] = []
+        self.embedding_fallbacks: List[Any] = []
+        self.vectorstore_fallbacks: List[Any] = []
+        self.cache_fallbacks: List[Any] = []
         self.current_llm_index = 0
         self.current_embedding_index = 0
         self.current_vectorstore_index = 0
@@ -190,7 +190,7 @@ class RAGSystem:
         
 
     
-    def _ensure_initialized(self):
+    def _ensure_initialized(self) -> None:
         """Ensure OpenAI components are initialized"""
         if self._initialized:
             return
@@ -230,7 +230,7 @@ class RAGSystem:
             print(f"❌ Failed to initialize OpenAI components: {e}")
             raise
     
-    def _llama_parse_safe(self, file_path: str):
+    def _llama_parse_safe(self, file_path: str) -> Optional[List[Dict[str, Any]]]:
         """Thread-safe wrapper around LlamaParse.load_data with re-init on loop errors."""
         if not self.llama_parser:
             return None
@@ -259,7 +259,7 @@ class RAGSystem:
                         pass
                 raise
 
-    def _initialize_llm_fallbacks(self):
+    def _initialize_llm_fallbacks(self) -> None:
         """Initialize LLM fallbacks"""
         try:
             # Fallback 1: Anthropic Claude Sonnet-4
@@ -299,7 +299,7 @@ class RAGSystem:
         except Exception as e:
             print(f"⚠️ LLM fallback initialization failed: {e}")
     
-    def _initialize_embedding_fallbacks(self):
+    def _initialize_embedding_fallbacks(self) -> None:
         """Initialize embedding fallbacks"""
         try:
             # Fallback 1: Sentence Transformers
@@ -321,7 +321,7 @@ class RAGSystem:
         except Exception as e:
             print(f"⚠️ Embedding fallback initialization failed: {e}")
     
-    def _initialize_vectorstore_fallbacks(self):
+    def _initialize_vectorstore_fallbacks(self) -> None:
         """Initialize vectorstore fallbacks"""
         try:
             # Fallback 1: Pinecone (if API key available)
@@ -341,7 +341,7 @@ class RAGSystem:
         except Exception as e:
             print(f"⚠️ Vectorstore fallback initialization failed: {e}")
     
-    def _initialize_cache_fallbacks(self):
+    def _initialize_cache_fallbacks(self) -> None:
         """Initialize cache fallbacks"""
         try:
             # Temporarily disable Redis cache usage
@@ -350,7 +350,7 @@ class RAGSystem:
         except Exception as e:
             print(f"⚠️ Cache fallback initialization failed: {e}")
     
-    def get_fallback_llm(self):
+    def get_fallback_llm(self) -> Any:
         """Get next available LLM fallback"""
         if not self.llm_fallbacks:
             return None
@@ -370,7 +370,7 @@ class RAGSystem:
         
         return None
     
-    def get_fallback_embeddings(self):
+    def get_fallback_embeddings(self) -> Any:
         """Get next available embedding fallback"""
         if not self.embedding_fallbacks:
             return None
@@ -390,7 +390,7 @@ class RAGSystem:
         
         return None
     
-    def get_fallback_cache(self, key: str):
+    def get_fallback_cache(self, key: str) -> Any:
         """Get value from fallback cache"""
         if not self.cache_fallbacks:
             return None
@@ -407,7 +407,7 @@ class RAGSystem:
         
         return None
     
-    def set_fallback_cache(self, key: str, value: Any, ttl: int = 3600):
+    def set_fallback_cache(self, key: str, value: Any, ttl: int = 3600) -> bool:
         """Set value in fallback cache"""
         if not self.cache_fallbacks:
             return False
@@ -423,15 +423,15 @@ class RAGSystem:
         
         return False
     
-    def _get_from_lru_cache(self, key: str) -> Optional[Dict]:
+    def _get_from_lru_cache(self, key: str) -> Optional[Dict[str, Any]]:
         """Get item from LRU cache, moving it to end if found"""
         if key in self._query_lru_cache:
             value = self._query_lru_cache.pop(key)
             self._query_lru_cache[key] = value
-            return value
+            return value if isinstance(value, dict) else None
         return None
     
-    def _set_in_lru_cache(self, key: str, value: Dict):
+    def _set_in_lru_cache(self, key: str, value: Dict[str, Any]) -> None:
         """Set item in LRU cache, evicting oldest if necessary"""
         if key in self._query_lru_cache:
             self._query_lru_cache.pop(key)
@@ -516,7 +516,7 @@ class RAGSystem:
             print(f"❌ Full traceback: {traceback.format_exc()}")
             return None
     
-    def save_index(self, vectorstore: FAISS):
+    def save_index(self, vectorstore: FAISS) -> None:
         """
         Save FAISS index and update cache
         
@@ -626,7 +626,7 @@ class RAGSystem:
             print(f"❌ Ingestion failed: {e}")
             return error_result
     
-    def _process_excel_file(self, file_path: str) -> List[Document]:
+    def _process_excel_file(self, file_path: str) -> List[Document]:  # type: ignore
         """Process Excel file using LlamaParse with pandas fallback"""
         print(f"📊 Processing Excel file: {file_path}")
         
@@ -697,7 +697,7 @@ class RAGSystem:
                 
                 if documents:
                     print(f"📊 Unstructured processed {len(documents)} documents from Excel")
-                    return documents
+                    return documents  # type: ignore
                     
             except Exception as unstructured_error:
                 print(f"⚠️ Unstructured fallback failed: {unstructured_error}")
@@ -705,7 +705,7 @@ class RAGSystem:
         # If all methods fail, raise exception
         raise Exception(f"Failed to process Excel file with all methods (LlamaParse, pandas, Unstructured)")
     
-    def _process_pdf_file(self, file_path: str) -> List[Document]:
+    def _process_pdf_file(self, file_path: str) -> List[Document]:  # type: ignore
         """Process PDF file using LlamaParse or PyPDFLoader"""
         print(f"📄 Processing PDF file: {file_path}")
         
@@ -724,7 +724,7 @@ class RAGSystem:
             
             if documents:
                 print(f"📄 PyPDFLoader processed {len(documents)} pages from PDF")
-                return documents
+                return documents  # type: ignore
                 
         except Exception as pypdf_error:
             print(f"⚠️ PyPDFLoader failed, trying Unstructured: {pypdf_error}")
@@ -746,7 +746,7 @@ class RAGSystem:
                 
                 if documents:
                     print(f"📄 Unstructured processed {len(documents)} documents from PDF")
-                    return documents
+                    return documents  # type: ignore
                     
             except Exception as unstructured_error:
                 print(f"⚠️ Unstructured fallback failed: {unstructured_error}")
@@ -754,7 +754,7 @@ class RAGSystem:
         # If all methods fail, raise exception
         raise Exception(f"Failed to process PDF file with all methods (LlamaParse, PyPDFLoader, Unstructured)")
 
-    def _process_txt_file(self, file_path: str) -> List[Document]:
+    def _process_txt_file(self, file_path: str) -> List[Document]:  # type: ignore
         """Process plain text file"""
         print(f"📝 Processing TXT file: {file_path}")
         try:
@@ -966,7 +966,7 @@ Answer:"""
         
         # Calculate index size
         index_path = self.base_storage_dir / "faiss_index"
-        index_size_mb = 0
+        index_size_mb: float = 0.0
         if index_path.exists():
             index_size_mb = sum(f.stat().st_size for f in index_path.rglob('*') if f.is_file()) / (1024 * 1024)
         
@@ -976,7 +976,7 @@ Answer:"""
             "index_size_mb": round(index_size_mb, 2)
         }
     
-    def reset(self):
+    def reset(self) -> None:
         """Reset the RAG system (clear all data)"""
         self._ensure_initialized()  # Ensure components are initialized
         
@@ -1261,7 +1261,7 @@ Answer:"""
         # Relaxed repetitive word check - only flag if same word appears more than 5 times
         words = query.lower().split()
         if len(words) > 5:
-            word_counts = {}
+            word_counts: Dict[str, int] = {}
             for word in words:
                 # Skip common words that naturally repeat
                 if word in ['the', 'a', 'an', 'and', 'or', 'of', 'to', 'for', 'in', 'on', 'with', 'by', 'from', 'at', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'can', 'may', 'might', 'must']:
@@ -1307,9 +1307,9 @@ Answer:"""
         
         recent_metrics = self.performance_metrics[-10:]  # Last 10 queries
         
-        avg_query_time = sum(m.query_time for m in recent_metrics) / len(recent_metrics)
-        avg_confidence = sum(m.confidence_score for m in recent_metrics) / len(recent_metrics)
-        avg_relevance = sum(m.relevance_score for m in recent_metrics) / len(recent_metrics)
+        avg_query_time = sum(m.get('query_time', 0) for m in recent_metrics) / len(recent_metrics)
+        avg_confidence = sum(m.get('confidence_score', 0) for m in recent_metrics) / len(recent_metrics)
+        avg_relevance = sum(m.get('relevance_score', 0) for m in recent_metrics) / len(recent_metrics)
         
         return {
             "avg_query_time": round(avg_query_time, 3),

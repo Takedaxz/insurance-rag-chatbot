@@ -7,7 +7,7 @@ Terminal interface for the RAG system using the same framework as the reference 
 import os
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Any
 
 from rich.console import Console
 from rich.panel import Panel
@@ -25,13 +25,13 @@ from src.core.file_monitor import get_file_monitor
 console = Console()
 
 class RAGApplication:
-    def __init__(self):
+    def __init__(self) -> None:
         self.rag_system = get_rag_system()
         self.data_dir = Path("./data/documents")
         self.data_dir.mkdir(exist_ok=True)
         self.file_monitor = get_file_monitor()
     
-    def show_welcome(self):
+    def show_welcome(self) -> None:
         """Display welcome message"""
         welcome_text = """
 🤖 RAG System - Excel Data Query
@@ -156,7 +156,7 @@ Commands:
             console.print(f"❌ Error processing question: {e}", style="red")
             return False
     
-    def show_stats(self):
+    def show_stats(self) -> None:
         """Display system statistics"""
         try:
             stats = self.rag_system.get_stats()
@@ -179,7 +179,7 @@ Commands:
         except Exception as e:
             console.print(f"❌ Error getting statistics: {e}", style="red")
     
-    def show_quality_metrics(self):
+    def show_quality_metrics(self) -> None:
         """Display quality metrics and performance data"""
         try:
             quality_metrics = self.rag_system.get_quality_metrics()
@@ -217,7 +217,7 @@ Commands:
         except Exception as e:
             console.print(f"❌ Error getting quality metrics: {e}", style="red")
     
-    def show_fallback_status(self):
+    def show_fallback_status(self) -> None:
         """Display fallback system status"""
         try:
             console.print("🔄 Fallback System Status", style="blue")
@@ -267,7 +267,7 @@ Commands:
         except Exception as e:
             console.print(f"❌ Error getting fallback status: {e}", style="red")
     
-    def list_files(self):
+    def list_files(self) -> None:
         """List uploaded files"""
         try:
             stats = self.rag_system.get_stats()
@@ -304,7 +304,7 @@ Commands:
         except Exception as e:
             console.print(f"❌ Error listing files: {e}", style="red")
     
-    def reset_system(self):
+    def reset_system(self) -> None:
         """Reset the RAG system"""
         try:
             if Confirm.ask("⚠️ Are you sure you want to reset the system? This will delete all data."):
@@ -316,7 +316,7 @@ Commands:
         except Exception as e:
             console.print(f"❌ Error resetting system: {e}", style="red")
     
-    def toggle_monitoring(self):
+    def toggle_monitoring(self) -> None:
         """Toggle file monitoring on/off"""
         try:
             if self.file_monitor.is_monitoring:
@@ -328,7 +328,7 @@ Commands:
         except Exception as e:
             console.print(f"❌ Error toggling monitoring: {e}", style="red")
     
-    def scan_files(self):
+    def scan_files(self) -> None:
         """Scan for new files in data directory"""
         try:
             console.print("🔍 Scanning for new files...", style="blue")
@@ -336,7 +336,7 @@ Commands:
         except Exception as e:
             console.print(f"❌ Error scanning files: {e}", style="red")
     
-    def show_help(self):
+    def show_help(self) -> None:
         """Display help information"""
         help_text = """
 📖 Help - Available Commands
@@ -373,7 +373,7 @@ Commands:
         
         console.print(Panel(help_text, title="Help", border_style="blue"))
     
-    def run(self):
+    def run(self) -> None:
         """Main application loop"""
         self.show_welcome()
         
@@ -449,7 +449,7 @@ Commands:
             except Exception as e:
                 console.print(f"❌ Error: {e}", style="red")
 
-def main():
+def main() -> None:
     """Main function"""
     # Check environment variables
     required_vars = ["OPENAI_API_KEY"]

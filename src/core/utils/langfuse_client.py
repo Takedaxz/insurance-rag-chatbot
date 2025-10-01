@@ -18,7 +18,7 @@ _LANGFUSE_ENABLED = False
 _langfuse_client = None
 
 
-def _initialize_client_safely():
+def _initialize_client_safely() -> None:
     global _LANGFUSE_ENABLED, _langfuse_client
     if _langfuse_client is not None:
         return
@@ -118,7 +118,7 @@ def log_interaction(result: Dict[str, Any], tags: Optional[List[str]] = None) ->
         except Exception:
             pass
 
-        return trace.id
+        return str(trace.id) if trace.id else None
     except Exception:
         return None
 

@@ -9,7 +9,7 @@ import os
 import time
 import threading
 from pathlib import Path
-from typing import Set, Dict
+from typing import Set, Dict, Any, Optional
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -23,7 +23,7 @@ console = Console()
 class DataFileHandler(FileSystemEventHandler):
     """Handler for file system events in the data directory"""
     
-    def __init__(self, rag_system, data_dir: Path):
+    def __init__(self, rag_system: Any, data_dir: Path) -> None:
         self.rag_system = rag_system
         self.data_dir = data_dir
         self.processed_files: Set[str] = set()
@@ -32,7 +32,7 @@ class DataFileHandler(FileSystemEventHandler):
         # Load already processed files
         self._load_processed_files()
     
-    def _load_processed_files(self):
+    def _load_processed_files(self) -> None:
         """Load list of already processed files"""
         try:
             # Check existing index to see what's already processed
@@ -68,7 +68,7 @@ class DataFileHandler(FileSystemEventHandler):
         
         return True
     
-    def on_created(self, event):
+    def on_created(self, event: Any) -> None:
         """Handle file creation events"""
         if event.is_directory:
             return
@@ -83,7 +83,7 @@ class DataFileHandler(FileSystemEventHandler):
             # Process the file
             self._process_new_file(file_path)
     
-    def on_moved(self, event):
+    def on_moved(self, event: Any) -> None:
         """Handle file move events (like when files are copied)"""
         if event.is_directory:
             return
@@ -98,7 +98,7 @@ class DataFileHandler(FileSystemEventHandler):
             # Process the file
             self._process_new_file(file_path)
     
-    def _process_new_file(self, file_path: str):
+    def _process_new_file(self, file_path: str) -> None:
         """Process a new file"""
         try:
             filename = os.path.basename(file_path)
@@ -119,15 +119,15 @@ class DataFileHandler(FileSystemEventHandler):
 class FileMonitor:
     """File monitor for automatic ingestion"""
     
-    def __init__(self, data_dir: str = "./data/documents"):
+    def __init__(self, data_dir: str = "./data/documents") -> None:
         self.data_dir = Path(data_dir)
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self.rag_system = get_rag_system()
-        self.observer = None
-        self.handler = None
+        self.observer: Optional[Observer] = None
+        self.handler: Optional[DataFileHandler] = None
         self.is_monitoring = False
     
-    def start_monitoring(self):
+    def start_monitoring(self) -> None:
         """Start monitoring the data directory"""
         if self.is_monitoring:
             console.print("⚠️ File monitoring is already active", style="yellow")
@@ -151,7 +151,7 @@ class FileMonitor:
         except Exception as e:
             console.print(f"❌ Failed to start file monitoring: {e}", style="red")
     
-    def stop_monitoring(self):
+    def stop_monitoring(self) -> None:
         """Stop monitoring the data directory"""
         if not self.is_monitoring:
             return
@@ -172,7 +172,7 @@ class FileMonitor:
             return list(self.handler.processed_files)
         return []
     
-    def scan_existing_files(self):
+    def scan_existing_files(self) -> None:
         """Scan for existing files that haven't been processed"""
         console.print(f"🔍 Scanning for unprocessed files in: {self.data_dir}", style="blue")
         
