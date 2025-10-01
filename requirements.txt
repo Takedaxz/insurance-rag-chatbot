@@ -1,0 +1,12 @@
+# RAG Chatbot System - All Dependencies
+# ===================================
+# This file includes all dependencies for the complete system
+
+# Core RAG dependencies
+#-r requirements/base.txt
+
+# Web interface dependencies
+-r requirements/web.txt
+
+# Discord bot dependencies
+#-r requirements/discord.txt
