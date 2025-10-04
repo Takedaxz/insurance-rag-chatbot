@@ -5,7 +5,8 @@ Integration tests for API endpoints
 
 import pytest
 import json
-from unittest.mock import patch, Mock
+import io
+from unittest.mock import patch, Mock, PropertyMock
 
 
 class TestAPIEndpoints:
@@ -98,8 +99,8 @@ class TestAPIEndpoints:
         # Create test file
         test_file_content = b"This is a test document content."
         
-        response = web_app.post('/api/upload', 
-                              data={'file': (test_file_content, 'test.txt')},
+        response = web_app.post('/api/upload',
+                              data={'file': (io.BytesIO(test_file_content), 'test.txt')},
                               content_type='multipart/form-data')
         
         assert response.status_code == 200
@@ -178,16 +179,16 @@ class TestAPIEndpoints:
         """Test successful file deletion"""
         # Mock vectorstore
         mock_vectorstore = Mock()
-        mock_vectorstore.index.ntotal = 50
+        type(mock_vectorstore.index).ntotal = PropertyMock(side_effect=[50, 45])  # Before and after deletion
         mock_doc = Mock()
         mock_doc.metadata = {"filename": "test.txt"}
         mock_vectorstore.docstore._dict = {"doc1": mock_doc}
         mock_rag_system.load_index.return_value = mock_vectorstore
-        
+
         response = web_app.post('/api/files/delete',
                               json={'filename': 'test.txt'},
                               content_type='application/json')
-        
+
         assert response.status_code == 200
         data = json.loads(response.data)
         assert data['status'] == 'success'

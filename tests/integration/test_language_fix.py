@@ -15,8 +15,7 @@ def test_language_detection():
     """Test the language detection in coaching prompts"""
     
     # Import the function after path setup
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src', 'interfaces', 'web'))
-    from app import create_coaching_prompt
+    from interfaces.web.app import create_coaching_prompt
     
     print("🧪 Testing coaching prompt language detection...")
     print("=" * 60)

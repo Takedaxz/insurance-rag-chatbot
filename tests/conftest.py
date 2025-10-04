@@ -9,7 +9,7 @@ import pytest
 import tempfile
 import shutil
 from pathlib import Path
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, patch, MagicMock
 
 # Add src to Python path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
@@ -50,18 +50,22 @@ def sample_index_dir(test_data_dir):
 def mock_openai_api():
     """Mock OpenAI API calls to avoid real API usage in tests"""
     with patch('openai.OpenAI') as mock_openai:
-        mock_client = Mock()
+        mock_client = MagicMock()
         mock_openai.return_value = mock_client
-        
-        # Mock embeddings response
-        mock_client.embeddings.create.return_value = Mock(
-            data=[Mock(embedding=[0.1] * 1536)]
-        )
-        
-        # Mock chat completion response
-        mock_client.chat.completions.create.return_value = Mock(
-            choices=[Mock(message=Mock(content="Test response"))]
-        )
+
+        # Mock embeddings response to be dict-like
+        mock_embedding = MagicMock()
+        mock_embedding.embedding = [0.1] * 1536
+        mock_embedding_data = MagicMock()
+        mock_embedding_data.data = [mock_embedding]
+        mock_client.embeddings.create.return_value = mock_embedding_data
+
+        # Mock chat completion response to be dict-like
+        mock_choice = MagicMock()
+        mock_choice.message.content = "Test response"
+        mock_completion = MagicMock()
+        mock_completion.choices = [mock_choice]
+        mock_client.chat.completions.create.return_value = mock_completion
         
         yield mock_client
 
