@@ -24,6 +24,10 @@
                     <a href="/coaching" class="nav-link active">โค้ช</a>
                     <a href="/simulation" class="nav-link">จำลอง</a>
                 </nav>
+                <div class="user-info">
+                    <span class="user-role">{{ 'ผู้ดูแลระบบ' if user.role == 'admin' else 'ผู้ใช้ทั่วไป' }}</span>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">ออกจากระบบ</a>
+                </div>
             </div>
         </header>
 

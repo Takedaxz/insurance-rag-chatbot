@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-user-role="{{ user.role }}">
     <div class="chat-page">
         <!-- Header -->
         <header class="header">
@@ -667,8 +667,20 @@
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateTime();
-            loadStats();
-            loadFiles();
+            // Check if user is admin (passed from Flask template via data attribute)
+            const userRole = document.body.getAttribute('data-user-role');
+            console.log('Chat page - User role from data attribute:', userRole, 'Type:', typeof userRole);
+
+            if (userRole === 'admin') {
+                console.log('Chat page - User is admin, loading stats and files');
+                loadStats();
+                loadFiles();
+            } else {
+                console.log('Chat page - User is not admin, showing access message');
+                // For non-admin users, update the stats and files sections
+                document.getElementById('stats').innerHTML = '<div class="stat-item">เข้าถึงได้เฉพาะผู้ดูแลระบบ</div>';
+                document.getElementById('files').innerHTML = '<div class="file-item">เข้าถึงได้เฉพาะผู้ดูแลระบบ</div>';
+            }
             setInterval(updateTime, 1000);
         });
 

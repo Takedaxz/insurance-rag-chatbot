@@ -2,16 +2,25 @@
 // ========================
 
 let isProcessing = false;
-let adminMode = false;
 let showSources = false;
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
     generateDynamicWelcomeMessage();
-    loadAdminModeState();
-    if (adminMode) {
+    // Check if user is admin (passed from Flask template via data attribute)
+    const userRole = document.body.getAttribute('data-user-role');
+    console.log('User role from data attribute:', userRole, 'Type:', typeof userRole);
+
+    if (userRole === 'admin') {
+        console.log('User is admin, loading stats and files');
+        showSources = true;
         loadStats();
         loadFiles();
+    } else {
+        console.log('User is not admin, showing access message');
+        // For non-admin users, hide or update the stats and files sections
+        document.getElementById('stats').innerHTML = '<div class="stat-item">เข้าถึงได้เฉพาะผู้ดูแลระบบ</div>';
+        document.getElementById('files').innerHTML = '<div class="file-item">เข้าถึงได้เฉพาะผู้ดูแลระบบ</div>';
     }
     // Remove continuous time updates - timestamps are now fixed when messages are created
 });
@@ -66,48 +75,7 @@ function generateDynamicWelcomeMessage() {
     addMessageWithTimestamp(messageContent, 'bot', new Date().toLocaleTimeString());
 }
 
-// Admin toggle functionality
-function toggleAdminMode() {
-    adminMode = !adminMode;
-    const sidebar = document.getElementById('adminSidebar');
-    const toggleBtn = document.getElementById('adminToggle');
-    
-    if (adminMode) {
-        sidebar.style.display = 'block';
-        toggleBtn.textContent = 'Admin';
-        toggleBtn.style.background = '#16a34a';
-        showSources = true;
-        loadStats();
-        loadFiles();
-    } else {
-        sidebar.style.display = 'none';
-        toggleBtn.textContent = 'Admin';
-        toggleBtn.style.background = '#6b7280';
-        showSources = false;
-    }
-    
-    // Save admin mode state
-    localStorage.setItem('knowledge_admin_mode', adminMode);
-    localStorage.setItem('knowledge_show_sources', showSources);
-}
-
-// Load admin mode state from localStorage
-function loadAdminModeState() {
-    const savedAdminMode = localStorage.getItem('knowledge_admin_mode');
-    const savedShowSources = localStorage.getItem('knowledge_show_sources');
-    
-    if (savedAdminMode === 'true') {
-        adminMode = true;
-        showSources = savedShowSources === 'true';
-        
-        const sidebar = document.getElementById('adminSidebar');
-        const toggleBtn = document.getElementById('adminToggle');
-        
-        sidebar.style.display = 'block';
-        toggleBtn.textContent = 'Admin';
-        toggleBtn.style.background = '#16a34a';
-    }
-}
+// Admin functionality - now handled server-side based on user role
 
 function askSuggestedQuestion(question) {
     document.getElementById('questionInput').value = question;

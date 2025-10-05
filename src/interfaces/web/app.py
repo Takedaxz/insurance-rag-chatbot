@@ -4,13 +4,15 @@ Web Chatbot for RAG System
 Flask web application providing a web interface for the RAG system.
 """
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, session
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from pathlib import Path
 import os
 import random
 import re
 import traceback
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 
 import sys
 import os
@@ -19,8 +21,33 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', '..'))
 from src.core.rag_system import get_rag_system
 from src.core.file_monitor import get_file_monitor
 
+# User class for Flask-Login
+class User(UserMixin):
+    def __init__(self, id, username, role):
+        self.id = id
+        self.username = username
+        self.role = role  # 'user' or 'admin'
+
+# Simple user database (in production, use a real database)
+USERS = {
+    'user': User('user', 'user', 'user'),
+    'admin': User('admin', 'admin', 'admin')
+}
+
+# Passwords (in production, hash these properly)
+PASSWORDS = {
+    'user': 'user123',
+    'admin': 'admin123'
+}
+
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+app.config['SECRET_KEY'] = 'your-secret-key-change-in-production'  # Change this in production
+
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 # Global instances
 rag_system = None
@@ -30,7 +57,7 @@ def sanitize_content(text):
     """Enhanced content sanitization to remove markdown artifacts and headers"""
     if not text:
         return ''
-    
+
     text = str(text)
     # Remove markdown headers (# ## ### etc.)
     text = re.sub(r'^#{1,6}\s*', '', text, flags=re.MULTILINE)
@@ -48,6 +75,49 @@ def sanitize_content(text):
     text = text.strip('[]()"\'\ -.')
     
     return text.strip()
+
+# Flask-Login user loader
+@login_manager.user_loader
+def load_user(user_id):
+    return USERS.get(user_id)
+
+# Admin-only decorator
+def admin_required(f):
+    from functools import wraps
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated or current_user.role != 'admin':
+            return jsonify({'status': 'error', 'message': 'Admin access required'}), 403
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """Login page"""
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+
+        # Simple authentication (in production, use proper authentication)
+        if username in USERS and password == PASSWORDS.get(username):
+            user = USERS[username]
+            login_user(user)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('index'))
+        else:
+            flash('Invalid username or password', 'error')
+
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    """Logout user"""
+    logout_user()
+    return redirect(url_for('login'))
 
 def initialize_rag():
     """Initialize RAG system and file monitor"""
@@ -67,26 +137,31 @@ def initialize_rag():
 initialize_rag()
 
 @app.route('/')
+@login_required
 def index():
     """Homepage with feature navigation"""
-    return render_template('index.html')
+    return render_template('index.html', user=current_user)
 
 @app.route('/knowledge')
+@login_required
 def knowledge_mode():
     """Knowledge Mode - Deep Q&A Engine"""
-    return render_template('knowledge.html')
+    return render_template('knowledge.html', user=current_user)
 
 @app.route('/coaching')
+@login_required
 def coaching_mode():
     """Coaching Assistant Mode"""
-    return render_template('coaching.html')
+    return render_template('coaching.html', user=current_user)
 
 @app.route('/simulation')
+@login_required
 def simulation_mode():
     """Simulation & Training Mode"""
-    return render_template('simulation.html')
+    return render_template('simulation.html', user=current_user)
 
 @app.route('/api/ask', methods=['POST'])
+@login_required
 def ask_question():
     """API endpoint for asking questions"""
     try:
@@ -129,6 +204,8 @@ def ask_question():
         }), 500
 
 @app.route('/api/upload', methods=['POST'])
+@login_required
+@admin_required
 def upload_file():
     """API endpoint for file upload"""
     try:
@@ -180,6 +257,7 @@ def upload_file():
         }), 500
 
 @app.route('/api/stats')
+@login_required
 def get_stats():
     """API endpoint for system statistics"""
     try:
@@ -226,6 +304,7 @@ def get_stats():
         }), 500
 
 @app.route('/api/files')
+@login_required
 def list_files():
     """API endpoint for listing uploaded files"""
     try:
@@ -290,6 +369,7 @@ def list_files():
         }), 500
 
 @app.route('/api/coaching', methods=['POST'])
+@login_required
 def coaching_session():
     """Enhanced API endpoint for coaching assistant with advanced prompt engineering"""
     try:
@@ -353,6 +433,7 @@ def coaching_session():
         }), 500
 
 @app.route('/api/simulation', methods=['POST'])
+@login_required
 def simulation_session():
     """Enhanced API endpoint for simulation training with AI-driven scenarios"""
     try:
@@ -423,6 +504,8 @@ def simulation_session():
         }), 500
 
 @app.route('/api/files/delete', methods=['POST'])
+@login_required
+@admin_required
 def delete_file():
     """Delete a file's vectors from the index by filename"""
     try:
