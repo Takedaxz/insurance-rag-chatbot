@@ -102,7 +102,6 @@ The project utilizes several key Python libraries:
 - `faiss-cpu`: For efficient similarity search and clustering of dense vectors (vector storage).
 - `watchdog`: For monitoring file system events.
 - `rich`: For rich text and beautiful formatting in the terminal.
-- `langfuse`: For observability and tracing.
 
 ## Contributing
 

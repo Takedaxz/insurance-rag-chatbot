@@ -88,13 +88,6 @@ from langchain.schema import HumanMessage, SystemMessage
 
 from dotenv import load_dotenv
 
-# Optional: Langfuse telemetry
-try:
-    from src.core.utils.langfuse_client import log_interaction
-    LANGFUSE_INTEGRATION_AVAILABLE = True
-except Exception:
-    LANGFUSE_INTEGRATION_AVAILABLE = False
-
 @dataclass
 class QueryAnalysis:
     """Query analysis result for quality enhancement"""
