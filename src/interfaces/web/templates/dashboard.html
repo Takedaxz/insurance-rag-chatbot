@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - UOB RM AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="logo">
+                    <h1>UOB RM AI Assistant</h1>
+                    <p>Admin Dashboard</p>
+                </div>
+                <nav class="nav">
+                    <a href="/" class="nav-link">หน้าหลัก</a>
+                    <a href="/knowledge" class="nav-link">คลังความรู้</a>
+                    <a href="/coaching" class="nav-link">โค้ช</a>
+                    <a href="/simulation" class="nav-link">จำลอง</a>
+                    <a href="/dashboard" class="nav-link active">Dashboard</a>
+                </nav>
+                <div class="user-info">
+                    <span class="user-role">ผู้ดูแลระบบ</span>
+                    <a href="{{ url_for('logout') }}" class="logout-btn">ออกจากระบบ</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Navigation Tabs -->
+        <div class="dashboard-nav">
+            <div class="container">
+                <div class="dashboard-tabs">
+                    <button class="tab-btn active" data-tab="overview">ภาพรวม</button>
+                    <button class="tab-btn" data-tab="trainees">ผู้ฝึกอบรม</button>
+                    <button class="tab-btn" data-tab="scores">คะแนน</button>
+                    <button class="tab-btn" data-tab="analytics">วิเคราะห์</button>
+                    <button class="tab-btn" data-tab="reports">รายงาน</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <main class="dashboard-content">
+            <div class="container">
+                
+                <!-- Overview Tab -->
+                <div class="tab-content active" id="overview">
+                    <h2>ภาพรวมระบบ</h2>
+                    
+                    <!-- Quick Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+
+                            <div class="stat-info">
+                                <h3 id="total-trainees">0</h3>
+                                <p>ผู้ฝึกอบรมทั้งหมด</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+
+                            <div class="stat-info">
+                                <h3 id="avg-score">0%</h3>
+                                <p>คะแนนเฉลี่ย</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+
+                            <div class="stat-info">
+                                <h3 id="completed-sessions">0</h3>
+                                <p>เซสชันที่เสร็จสิ้น</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+
+                            <div class="stat-info">
+                                <h3 id="top-performer">-</h3>
+                                <p>ผู้ฝึกอบรมยอดเยี่ยม</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="dashboard-section">
+                        <h3>กิจกรรมล่าสุด</h3>
+                        <div class="activity-list" id="recent-activity">
+                            <!-- Activity items will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Performance Chart -->
+                    <div class="dashboard-section">
+                        <h3>คะแนนเฉลี่ยรายเดือน</h3>
+                        <div class="chart-container">
+                            <canvas id="monthly-performance-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trainees Tab -->
+                <div class="tab-content" id="trainees">
+                    <div class="tab-header">
+                        <h2>จัดการผู้ฝึกอบรม</h2>
+                        <div class="tab-actions">
+                            <button class="btn btn-primary" onclick="addNewTrainee()">เพิ่มผู้ฝึกอบรม</button>
+                            <button class="btn btn-secondary" onclick="refreshTrainees()">รีเฟรช</button>
+                        </div>
+                    </div>
+
+                    <!-- Search and Filter -->
+                    <div class="search-filter">
+                        <input type="text" id="trainee-search" placeholder="ค้นหาผู้ฝึกอบรม..." class="search-input">
+                        <select id="score-filter" class="filter-select">
+                            <option value="">คะแนนทั้งหมด</option>
+                            <option value="90-100">90-100%</option>
+                            <option value="80-89">80-89%</option>
+                            <option value="70-79">70-79%</option>
+                            <option value="60-69">60-69%</option>
+                            <option value="0-59">ต่ำกว่า 60%</option>
+                        </select>
+                        <select id="status-filter" class="filter-select">
+                            <option value="">สถานะทั้งหมด</option>
+                            <option value="active">กำลังฝึกอบรม</option>
+                            <option value="completed">เสร็จสิ้น</option>
+                            <option value="inactive">ไม่ใช้งาน</option>
+                        </select>
+                    </div>
+
+                    <!-- Trainees Table -->
+                    <div class="table-container">
+                        <table class="trainees-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>ชื่อ-นามสกุล</th>
+                                    <th>ตำแหน่ง</th>
+                                    <th>วันที่เริ่ม</th>
+                                    <th>เซสชันทั้งหมด</th>
+                                    <th>คะแนนเฉลี่ย</th>
+                                    <th>สถานะ</th>
+                                    <th>การดำเนินการ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trainees-table-body">
+                                <!-- Trainees will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination" id="trainees-pagination">
+                        <!-- Pagination will be generated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Scores Tab -->
+                <div class="tab-content" id="scores">
+                    <div class="tab-header">
+                        <h2>คะแนนการจำลอง</h2>
+                        <div class="tab-actions">
+                            <select id="score-period" class="filter-select">
+                                <option value="week">สัปดาห์นี้</option>
+                                <option value="month">เดือนนี้</option>
+                                <option value="quarter">ไตรมาสนี้</option>
+                                <option value="year">ปีนี้</option>
+                                <option value="all">ทั้งหมด</option>
+                            </select>
+                            <button class="btn btn-secondary" onclick="exportScores()">ส่งออกข้อมูล</button>
+                        </div>
+                    </div>
+
+                    <!-- Score Statistics -->
+                    <div class="score-stats">
+                        <div class="score-stat-card">
+                            <h4>คะแนนสูงสุด</h4>
+                            <div class="score-value" id="max-score">0%</div>
+                        </div>
+                        <div class="score-stat-card">
+                            <h4>คะแนนต่ำสุด</h4>
+                            <div class="score-value" id="min-score">0%</div>
+                        </div>
+                        <div class="score-stat-card">
+                            <h4>คะแนนเฉลี่ย</h4>
+                            <div class="score-value" id="avg-score-detail">0%</div>
+                        </div>
+                        <div class="score-stat-card">
+                            <h4>จำนวนเซสชัน</h4>
+                            <div class="score-value" id="total-sessions">0</div>
+                        </div>
+                    </div>
+
+                    <!-- Score Distribution Chart -->
+                    <div class="dashboard-section">
+                        <h3>การกระจายคะแนน</h3>
+                        <div class="chart-container">
+                            <canvas id="score-distribution-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Scores Table -->
+                    <div class="table-container">
+                        <table class="scores-table">
+                            <thead>
+                                <tr>
+                                    <th>ผู้ฝึกอบรม</th>
+                                    <th>สถานการณ์</th>
+                                    <th>วันที่</th>
+                                    <th>คะแนนรวม</th>
+                                    <th>การสร้างความสัมพันธ์</th>
+                                    <th>การค้นหาความต้องการ</th>
+                                    <th>ความรู้ผลิตภัณฑ์</th>
+                                    <th>การจัดการความคัดค้าน</th>
+                                    <th>การปิดการขาย</th>
+                                    <th>การสื่อสาร</th>
+                                    <th>รายละเอียด</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scores-table-body">
+                                <!-- Scores will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div class="tab-content" id="analytics">
+                    <h2>การวิเคราะห์ประสิทธิภาพ</h2>
+
+                    <!-- Performance Trends -->
+                    <div class="dashboard-section">
+                        <h3>แนวโน้มประสิทธิภาพ</h3>
+                        <div class="chart-container">
+                            <canvas id="performance-trends-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Scenario Performance -->
+                    <div class="dashboard-section">
+                        <h3>ประสิทธิภาพตามสถานการณ์</h3>
+                        <div class="chart-container">
+                            <canvas id="scenario-performance-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Skill Development -->
+                    <div class="dashboard-section">
+                        <h3>การพัฒนาทักษะ</h3>
+                        <div class="skill-development-grid">
+                            <div class="skill-card">
+                                <h4>การสร้างความสัมพันธ์</h4>
+                                <div class="skill-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill good" style="width: 78%" data-score="8"></div>
+                                    </div>
+                                    <span class="progress-text">78%</span>
+                                </div>
+                                <div class="skill-description">การสร้างความสัมพันธ์ที่ดีกับลูกค้า</div>
+                            </div>
+                            <div class="skill-card">
+                                <h4>การค้นหาความต้องการ</h4>
+                                <div class="skill-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill average" style="width: 65%" data-score="6"></div>
+                                    </div>
+                                    <span class="progress-text">65%</span>
+                                </div>
+                                <div class="skill-description">การถามคำถามเพื่อเข้าใจความต้องการ</div>
+                            </div>
+                            <div class="skill-card">
+                                <h4>ความรู้ผลิตภัณฑ์</h4>
+                                <div class="skill-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill good" style="width: 82%" data-score="8"></div>
+                                    </div>
+                                    <span class="progress-text">82%</span>
+                                </div>
+                                <div class="skill-description">ความเข้าใจในผลิตภัณฑ์และบริการ</div>
+                            </div>
+                            <div class="skill-card">
+                                <h4>การจัดการความคัดค้าน</h4>
+                                <div class="skill-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill average" style="width: 71%" data-score="7"></div>
+                                    </div>
+                                    <span class="progress-text">71%</span>
+                                </div>
+                                <div class="skill-description">การจัดการข้อโต้แย้งและข้อกังวล</div>
+                            </div>
+                            <div class="skill-card">
+                                <h4>การปิดการขาย</h4>
+                                <div class="skill-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill average" style="width: 69%" data-score="7"></div>
+                                    </div>
+                                    <span class="progress-text">69%</span>
+                                </div>
+                                <div class="skill-description">เทคนิคการปิดการขายอย่างมีประสิทธิภาพ</div>
+                            </div>
+                            <div class="skill-card">
+                                <h4>การสื่อสาร</h4>
+                                <div class="skill-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill good" style="width: 75%" data-score="7"></div>
+                                </div>
+                                    <span class="progress-text">75%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reports Tab -->
+                <div class="tab-content" id="reports">
+                    <div class="tab-header">
+                        <h2>รายงานและเอกสาร</h2>
+                        <div class="tab-actions">
+                            <button class="btn btn-primary" onclick="generateReport()">สร้างรายงานใหม่</button>
+                        </div>
+                    </div>
+
+                    <!-- Report Templates -->
+                    <div class="reports-grid">
+                        <div class="report-card">
+                            <div class="report-icon">📊</div>
+                            <h3>รายงานประสิทธิภาพรายเดือน</h3>
+                            <p>สรุปคะแนนและสถิติการฝึกอบรมของแต่ละเดือน</p>
+                            <button class="btn btn-secondary" onclick="generateMonthlyReport()">สร้างรายงาน</button>
+                        </div>
+                        <div class="report-card">
+                            <div class="report-icon">👥</div>
+                            <h3>รายงานผู้ฝึกอบรม</h3>
+                            <p>รายละเอียดการพัฒนาของผู้ฝึกอบรมแต่ละคน</p>
+                            <button class="btn btn-secondary" onclick="generateTraineeReport()">สร้างรายงาน</button>
+                        </div>
+                        <div class="report-card">
+                            <div class="report-icon">🎯</div>
+                            <h3>รายงานสถานการณ์</h3>
+                            <p>วิเคราะห์ประสิทธิภาพในแต่ละสถานการณ์การจำลอง</p>
+                            <button class="btn btn-secondary" onclick="generateScenarioReport()">สร้างรายงาน</button>
+                        </div>
+                        <div class="report-card">
+                            <div class="report-icon">📈</div>
+                            <h3>รายงานแนวโน้ม</h3>
+                            <p>วิเคราะห์แนวโน้มการพัฒนาทักษะในระยะยาว</p>
+                            <button class="btn btn-secondary" onclick="generateTrendReport()">สร้างรายงาน</button>
+                        </div>
+                    </div>
+
+                    <!-- Generated Reports -->
+                    <div class="dashboard-section">
+                        <h3>รายงานที่สร้างแล้ว</h3>
+                        <div class="reports-list" id="generated-reports">
+                            <!-- Generated reports will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Trainee Details -->
+    <div class="modal" id="trainee-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>รายละเอียดผู้ฝึกอบรม</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body" id="trainee-modal-body">
+                <!-- Trainee details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

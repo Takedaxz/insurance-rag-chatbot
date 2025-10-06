@@ -23,6 +23,9 @@
                     <a href="/knowledge" class="nav-link">คลังความรู้</a>
                     <a href="/coaching" class="nav-link">โค้ช</a>
                     <a href="/simulation" class="nav-link active">จำลอง</a>
+                    {% if user.role == 'admin' %}
+                    <a href="/dashboard" class="nav-link">Dashboard</a>
+                    {% endif %}
                 </nav>
                 <div class="user-info">
                     <span class="user-role">{{ 'ผู้ดูแลระบบ' if user.role == 'admin' else 'ผู้ใช้ทั่วไป' }}</span>

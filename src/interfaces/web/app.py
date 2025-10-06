@@ -160,6 +160,13 @@ def simulation_mode():
     """Simulation & Training Mode"""
     return render_template('simulation.html', user=current_user)
 
+@app.route('/dashboard')
+@login_required
+@admin_required
+def dashboard():
+    """Admin Dashboard"""
+    return render_template('dashboard.html', user=current_user)
+
 @app.route('/api/ask', methods=['POST'])
 @login_required
 def ask_question():
@@ -503,6 +510,124 @@ def simulation_session():
             'message': f'Simulation error: {str(e)}'
         }), 500
 
+@app.route('/api/files/content', methods=['POST'])
+@login_required
+@admin_required
+def get_file_content():
+    """API endpoint for getting file content"""
+    try:
+        data = request.get_json()
+        filename = data.get('filename')
+        
+        if not filename:
+            return jsonify({
+                'status': 'error',
+                'message': 'Filename is required'
+            }), 400
+        
+        if not rag_system:
+            return jsonify({
+                'status': 'error',
+                'message': 'RAG system not initialized'
+            }), 500
+        
+        try:
+            vectorstore = rag_system.load_index()
+            if vectorstore is None:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'No index found'
+                }), 404
+            
+            # Get all documents with this filename
+            docs = vectorstore.similarity_search("", k=1000)  # Get all docs
+            file_chunks = []
+            
+            for doc in docs:
+                if doc.metadata.get('filename') == filename:
+                    file_chunks.append({
+                        'content': doc.page_content,
+                        'metadata': doc.metadata
+                    })
+            
+            # Sort chunks by their position in the original document
+            # Try to maintain the original order using various metadata fields
+            def get_chunk_order(chunk):
+                metadata = chunk['metadata']
+                content = chunk['content']
+                
+                # Try different ordering methods
+                if 'chunk_index' in metadata:
+                    return int(metadata['chunk_index'])
+                elif 'page' in metadata:
+                    return int(metadata['page'])
+                
+                # For text files, try to determine order based on content structure
+                if filename.endswith('.txt'):
+                    # Look for section headers and numbering patterns
+                    lines = content.split('\n')
+                    for line in lines[:3]:  # Check first few lines
+                        line = line.strip()
+                        
+                        # Check for numbered sections (e.g., "1.1.", "1.2.", "2.1.")
+                        if line and line[0].isdigit():
+                            # Extract the first number pattern
+                            import re
+                            match = re.match(r'^(\d+(?:\.\d+)*)', line)
+                            if match:
+                                # Convert to sortable format (e.g., "1.1" -> 1.1)
+                                try:
+                                    return float(match.group(1))
+                                except:
+                                    pass
+                        
+                        # Check for markdown headers (###, ##, #)
+                        if line.startswith('#'):
+                            # Count the number of # to determine hierarchy
+                            header_level = len(line) - len(line.lstrip('#'))
+                            return header_level * 1000  # Higher level headers first
+                
+                # Fallback: use content position hints
+                # Look for common document structure indicators
+                content_lower = content.lower()
+                if 'การประกันภัย' in content_lower and 'insurance' in content_lower:
+                    return 1  # Introduction section
+                elif 'ประกันชีวิต' in content_lower or 'life insurance' in content_lower:
+                    return 2  # Life insurance section
+                elif 'ประกันวินาศภัย' in content_lower or 'non-life insurance' in content_lower:
+                    return 3  # Non-life insurance section
+                
+                # Final fallback: use content hash for consistent ordering
+                return hash(content) % 10000
+            
+            # Sort chunks to maintain document order
+            file_chunks.sort(key=get_chunk_order)
+            
+            if not file_chunks:
+                return jsonify({
+                    'status': 'error',
+                    'message': 'No content found for this file'
+                }), 404
+            
+            return jsonify({
+                'status': 'success',
+                'content': file_chunks
+            })
+            
+        except Exception as e:
+            print(f"Error retrieving file content: {e}")
+            return jsonify({
+                'status': 'error',
+                'message': f'Error retrieving file content: {str(e)}'
+            }), 500
+            
+    except Exception as e:
+        print(f"Error in get_file_content: {e}")
+        return jsonify({
+            'status': 'error',
+            'message': f'Error retrieving file content: {str(e)}'
+        }), 500
+
 @app.route('/api/files/delete', methods=['POST'])
 @login_required
 @admin_required
@@ -560,6 +685,363 @@ def delete_file():
         })
     except Exception as e:
         return jsonify({'status': 'error', 'message': f'Error deleting file: {str(e)}'}), 500
+
+# Dashboard API endpoints
+@app.route('/api/dashboard/overview')
+@login_required
+@admin_required
+def get_dashboard_overview():
+    """Get dashboard overview statistics"""
+    try:
+        # Mock data for dashboard overview
+        overview_data = {
+            'total_trainees': 20,
+            'average_score': 78,
+            'completed_sessions': 300,
+            'top_performer': {
+                'name': 'คุณสมชาย วิวัฒน์',
+                'score': 92
+            },
+            'recent_activity': [
+                {
+                    'trainee': 'คุณสมชาย วิวัฒน์',
+                    'action': 'เสร็จสิ้นการจำลอง',
+                    'scenario': 'ลูกค้าใหม่',
+                    'score': 92,
+                    'time': '2 ชั่วโมงที่แล้ว'
+                },
+                {
+                    'trainee': 'คุณสมหญิง เก่งมาก',
+                    'action': 'เสร็จสิ้นการจำลอง',
+                    'scenario': 'จัดการความคัดค้าน',
+                    'score': 85,
+                    'time': '3 ชั่วโมงที่แล้ว'
+                },
+                {
+                    'trainee': 'คุณวิชัย รุ่งโรจน์',
+                    'action': 'เสร็จสิ้นการจำลอง',
+                    'scenario': 'ครอบครัวซับซ้อน',
+                    'score': 88,
+                    'time': '5 ชั่วโมงที่แล้ว'
+                }
+            ]
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': overview_data
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'Error getting overview data: {str(e)}'
+        }), 500
+
+@app.route('/api/dashboard/trainees')
+@login_required
+@admin_required
+def get_trainees():
+    """Get trainees list with filtering"""
+    try:
+        # Mock trainee data
+        trainees = [
+            {
+                'id': 'T001',
+                'name': 'คุณสมชาย วิวัฒน์',
+                'position': 'RM อาวุโส',
+                'start_date': '2024-10-15',
+                'total_sessions': 25,
+                'average_score': 92,
+                'status': 'active',
+                'last_activity': '2025-01-15'
+            },
+            {
+                'id': 'T002',
+                'name': 'คุณสมหญิง เก่งมาก',
+                'position': 'RM ใหม่',
+                'start_date': '2024-11-20',
+                'total_sessions': 18,
+                'average_score': 85,
+                'status': 'active',
+                'last_activity': '2025-01-14'
+            },
+            {
+                'id': 'T003',
+                'name': 'คุณวิชัย รุ่งโรจน์',
+                'position': 'Senior RM',
+                'start_date': '2024-09-10',
+                'total_sessions': 32,
+                'average_score': 88,
+                'status': 'active',
+                'last_activity': '2025-01-13'
+            },
+            {
+                'id': 'T004',
+                'name': 'คุณวิไล สวยงาม',
+                'position': 'Junior RM',
+                'start_date': '2024-12-01',
+                'total_sessions': 12,
+                'average_score': 76,
+                'status': 'active',
+                'last_activity': '2025-01-12'
+            },
+            {
+                'id': 'T005',
+                'name': 'คุณธนพล มั่งคั่ง',
+                'position': 'RM อาวุโส',
+                'start_date': '2024-08-05',
+                'total_sessions': 45,
+                'average_score': 94,
+                'status': 'completed',
+                'last_activity': '2025-01-10'
+            }
+        ]
+        
+        # Apply filters if provided
+        search = request.args.get('search', '').lower()
+        score_filter = request.args.get('score_filter', '')
+        status_filter = request.args.get('status_filter', '')
+        
+        filtered_trainees = trainees
+        
+        if search:
+            filtered_trainees = [t for t in filtered_trainees 
+                               if search in t['name'].lower() or search in t['position'].lower()]
+        
+        if score_filter:
+            min_score, max_score = map(int, score_filter.split('-'))
+            filtered_trainees = [t for t in filtered_trainees 
+                               if min_score <= t['average_score'] <= max_score]
+        
+        if status_filter:
+            filtered_trainees = [t for t in filtered_trainees if t['status'] == status_filter]
+        
+        return jsonify({
+            'status': 'success',
+            'data': filtered_trainees,
+            'total': len(filtered_trainees)
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'Error getting trainees: {str(e)}'
+        }), 500
+
+@app.route('/api/dashboard/scores')
+@login_required
+@admin_required
+def get_simulation_scores():
+    """Get simulation scores with filtering"""
+    try:
+        # Mock simulation scores data
+        scores = [
+            {
+                'id': 1,
+                'trainee_id': 'T001',
+                'trainee_name': 'คุณสมชาย วิวัฒน์',
+                'scenario': 'ลูกค้าใหม่',
+                'scenario_name': 'ลูกค้าใหม่',
+                'date': '2025-01-15',
+                'overall_score': 92,
+                'rapport_building': 95,
+                'needs_discovery': 90,
+                'product_knowledge': 94,
+                'objection_handling': 88,
+                'closing_effectiveness': 91,
+                'communication_skills': 93,
+                'duration': 25,
+                'feedback': 'ยอดเยี่ยม! การแสดงออกเป็นมืออาชีพมาก'
+            },
+            {
+                'id': 2,
+                'trainee_id': 'T002',
+                'trainee_name': 'คุณสมหญิง เก่งมาก',
+                'scenario': 'จัดการความคัดค้าน',
+                'scenario_name': 'จัดการความคัดค้าน',
+                'date': '2025-01-14',
+                'overall_score': 85,
+                'rapport_building': 82,
+                'needs_discovery': 87,
+                'product_knowledge': 83,
+                'objection_handling': 88,
+                'closing_effectiveness': 84,
+                'communication_skills': 86,
+                'duration': 22,
+                'feedback': 'ดีมาก! มีการพัฒนาที่ชัดเจน'
+            },
+            {
+                'id': 3,
+                'trainee_id': 'T003',
+                'trainee_name': 'คุณวิชัย รุ่งโรจน์',
+                'scenario': 'ครอบครัวซับซ้อน',
+                'scenario_name': 'ครอบครัวซับซ้อน',
+                'date': '2025-01-13',
+                'overall_score': 88,
+                'rapport_building': 89,
+                'needs_discovery': 87,
+                'product_knowledge': 90,
+                'objection_handling': 86,
+                'closing_effectiveness': 87,
+                'communication_skills': 89,
+                'duration': 28,
+                'feedback': 'ดีมาก! มีการพัฒนาที่ชัดเจน'
+            }
+        ]
+        
+        # Apply period filter
+        period = request.args.get('period', 'all')
+        if period != 'all':
+            from datetime import datetime, timedelta
+            now = datetime.now()
+            
+            if period == 'week':
+                cutoff = now - timedelta(days=7)
+            elif period == 'month':
+                cutoff = now - timedelta(days=30)
+            elif period == 'quarter':
+                cutoff = now - timedelta(days=90)
+            elif period == 'year':
+                cutoff = now - timedelta(days=365)
+            else:
+                cutoff = datetime.min
+                
+            scores = [s for s in scores if datetime.strptime(s['date'], '%Y-%m-%d') >= cutoff]
+        
+        # Calculate statistics
+        if scores:
+            overall_scores = [s['overall_score'] for s in scores]
+            stats = {
+                'max_score': max(overall_scores),
+                'min_score': min(overall_scores),
+                'avg_score': round(sum(overall_scores) / len(overall_scores), 1),
+                'total_sessions': len(scores)
+            }
+        else:
+            stats = {
+                'max_score': 0,
+                'min_score': 0,
+                'avg_score': 0,
+                'total_sessions': 0
+            }
+        
+        return jsonify({
+            'status': 'success',
+            'data': scores,
+            'stats': stats,
+            'total': len(scores)
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'Error getting scores: {str(e)}'
+        }), 500
+
+@app.route('/api/dashboard/analytics')
+@login_required
+@admin_required
+def get_analytics():
+    """Get analytics data for charts"""
+    try:
+        # Mock analytics data
+        analytics_data = {
+            'monthly_performance': [
+                {'month': 'ก.พ. 2024', 'score': 72},
+                {'month': 'มี.ค. 2024', 'score': 75},
+                {'month': 'เม.ย. 2024', 'score': 78},
+                {'month': 'พ.ค. 2024', 'score': 76},
+                {'month': 'มิ.ย. 2024', 'score': 80},
+                {'month': 'ก.ค. 2024', 'score': 82},
+                {'month': 'ส.ค. 2024', 'score': 79},
+                {'month': 'ก.ย. 2024', 'score': 85},
+                {'month': 'ต.ค. 2024', 'score': 87},
+                {'month': 'พ.ย. 2024', 'score': 84},
+                {'month': 'ธ.ค. 2024', 'score': 86},
+                {'month': 'ม.ค. 2025', 'score': 88}
+            ],
+            'scenario_performance': [
+                {'scenario': 'ลูกค้าใหม่', 'avg_score': 85},
+                {'scenario': 'จัดการความคัดค้าน', 'avg_score': 78},
+                {'scenario': 'ครอบครัวซับซ้อน', 'avg_score': 82},
+                {'scenario': 'ขายข้าม', 'avg_score': 80},
+                {'scenario': 'ลูกค้าระดับสูง', 'avg_score': 88},
+                {'scenario': 'วัยทำงานรุ่นใหม่', 'avg_score': 75}
+            ],
+            'skill_development': [
+                {'skill': 'การสร้างความสัมพันธ์', 'score': 78},
+                {'skill': 'การค้นหาความต้องการ', 'score': 65},
+                {'skill': 'ความรู้ผลิตภัณฑ์', 'score': 82},
+                {'skill': 'การจัดการความคัดค้าน', 'score': 71},
+                {'skill': 'การปิดการขาย', 'score': 69},
+                {'skill': 'การสื่อสาร', 'score': 75}
+            ]
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': analytics_data
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'Error getting analytics: {str(e)}'
+        }), 500
+
+@app.route('/api/dashboard/trainee/<trainee_id>')
+@login_required
+@admin_required
+def get_trainee_details(trainee_id):
+    """Get detailed information about a specific trainee"""
+    try:
+        # Mock detailed trainee data
+        trainee_details = {
+            'id': trainee_id,
+            'name': 'คุณสมชาย วิวัฒน์',
+            'position': 'RM อาวุโส',
+            'start_date': '2024-10-15',
+            'total_sessions': 25,
+            'average_score': 92,
+            'status': 'active',
+            'last_activity': '2025-01-15',
+            'performance_history': [
+                {'date': '2025-01-15', 'score': 92, 'scenario': 'ลูกค้าใหม่'},
+                {'date': '2025-01-12', 'score': 89, 'scenario': 'จัดการความคัดค้าน'},
+                {'date': '2025-01-10', 'score': 94, 'scenario': 'ครอบครัวซับซ้อน'},
+                {'date': '2025-01-08', 'score': 87, 'scenario': 'ขายข้าม'},
+                {'date': '2025-01-05', 'score': 91, 'scenario': 'ลูกค้าระดับสูง'}
+            ],
+            'skill_breakdown': {
+                'rapport_building': 95,
+                'needs_discovery': 90,
+                'product_knowledge': 94,
+                'objection_handling': 88,
+                'closing_effectiveness': 91,
+                'communication_skills': 93
+            },
+            'improvement_areas': [
+                'การจัดการความคัดค้านสามารถพัฒนาได้อีก',
+                'ควรฝึกฝนการปิดการขายให้หลากหลายขึ้น'
+            ],
+            'strengths': [
+                'การสร้างความสัมพันธ์กับลูกค้าได้ดีเยี่ยม',
+                'ความรู้ผลิตภัณฑ์ครอบคลุมและแม่นยำ',
+                'การสื่อสารชัดเจนและเป็นมืออาชีพ'
+            ]
+        }
+        
+        return jsonify({
+            'status': 'success',
+            'data': trainee_details
+        })
+        
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': f'Error getting trainee details: {str(e)}'
+        }), 500
 
 # Advanced Coaching and Simulation Helper Functions
 def detect_coaching_type(question):

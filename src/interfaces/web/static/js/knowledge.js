@@ -22,6 +22,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('stats').innerHTML = '<div class="stat-item">เข้าถึงได้เฉพาะผู้ดูแลระบบ</div>';
         document.getElementById('files').innerHTML = '<div class="file-item">เข้าถึงได้เฉพาะผู้ดูแลระบบ</div>';
     }
+    
+    // Add click-outside-to-close functionality for file view modal
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('fileViewModal');
+        if (event.target === modal) {
+            closeFileViewModal();
+        }
+    });
+    
     // Remove continuous time updates - timestamps are now fixed when messages are created
 });
 
@@ -270,7 +279,8 @@ async function loadFiles() {
                     `<small>${file.chunks} chunks</small>`+
                     `</div>`+
                     `<div class=\"file-actions\">`+
-                    `<button onclick=\"deleteUploadedFile('${file.filename.replace(/'/g, "\\'")}')\">Delete</button>`+
+                    `<button class=\"view-btn\" onclick=\"viewFileContent('${file.filename.replace(/'/g, "\\'")}')\">ดู</button>`+
+                    `<button class=\"delete-btn\" onclick=\"deleteUploadedFile('${file.filename.replace(/'/g, "\\'")}')\">ลบ</button>`+
                     `</div>`+
                     `</div>`
                 ).join('');
@@ -281,17 +291,124 @@ async function loadFiles() {
     }
 }
 
+async function viewFileContent(filename) {
+    console.log('Viewing file content for:', filename);
+    
+    // Create modal if it doesn't exist
+    let modal = document.getElementById('fileViewModal');
+    if (!modal) {
+        modal = createFileViewModal();
+        document.body.appendChild(modal);
+    }
+    
+    // Show modal and loading state
+    modal.style.display = 'block';
+    const contentDiv = document.getElementById('fileViewContent');
+    const titleDiv = document.getElementById('fileViewTitle');
+    
+    titleDiv.textContent = `เนื้อหาไฟล์: ${filename}`;
+    contentDiv.innerHTML = '<div class="loading show"><div class="spinner"></div><p>กำลังโหลดเนื้อหาไฟล์...</p></div>';
+    
+    try {
+        const response = await fetch('/api/files/content', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename })
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            // Display file content
+            if (data.content && data.content.length > 0) {
+                let contentHtml = '<div class="file-content">';
+                
+                // Group content by chunks for better readability
+                data.content.forEach((chunk, index) => {
+                    // Try to extract section title from content
+                    let sectionTitle = `ส่วนที่ ${index + 1}`;
+                    const content = chunk.content || '';
+                    
+                    // Look for headers in the content
+                    const lines = content.split('\n');
+                    for (let line of lines.slice(0, 3)) {
+                        line = line.trim();
+                        if (line.startsWith('### ') || line.startsWith('## ') || line.startsWith('# ')) {
+                            sectionTitle = line.replace(/^#+\s*/, '');
+                            break;
+                        } else if (line && line.length > 3 && line.length < 100) {
+                            // Check if it looks like a title (short line, no punctuation at end)
+                            if (!line.endsWith('.') && !line.endsWith(':') && line.length > 5) {
+                                sectionTitle = line;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    contentHtml += `<div class="content-chunk">`;
+                    contentHtml += `<h4 class="section-title">${sectionTitle}</h4>`;
+                    contentHtml += `<div class="chunk-content">${content}</div>`;
+                    if (chunk.metadata) {
+                        contentHtml += `<div class="chunk-metadata">`;
+                        if (chunk.metadata.page) contentHtml += `<span>หน้า: ${chunk.metadata.page}</span>`;
+                        if (chunk.metadata.source) contentHtml += `<span>แหล่งที่มา: ${chunk.metadata.source}</span>`;
+                        contentHtml += `</div>`;
+                    }
+                    contentHtml += `</div>`;
+                });
+                
+                contentHtml += '</div>';
+                contentDiv.innerHTML = contentHtml;
+            } else {
+                contentDiv.innerHTML = '<div class="no-content">ไม่พบเนื้อหาในไฟล์นี้</div>';
+            }
+        } else {
+            contentDiv.innerHTML = `<div class="error">เกิดข้อผิดพลาด: ${data.message}</div>`;
+        }
+    } catch (error) {
+        console.error('Error loading file content:', error);
+        contentDiv.innerHTML = `<div class="error">เกิดข้อผิดพลาดในการโหลดไฟล์: ${error.message}</div>`;
+    }
+}
+
+function createFileViewModal() {
+    const modal = document.createElement('div');
+    modal.id = 'fileViewModal';
+    modal.className = 'file-view-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="fileViewTitle">เนื้อหาไฟล์</h3>
+                <button class="close-btn" onclick="closeFileViewModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="fileViewContent"></div>
+            </div>
+        </div>
+    `;
+    return modal;
+}
+
+function closeFileViewModal() {
+    const modal = document.getElementById('fileViewModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
 async function deleteUploadedFile(filename) {
-    if (!confirm(`Delete \"${filename}\" from the index?`)) return;
+    if (!confirm(`ลบไฟล์ "${filename}" ออกจากระบบ?`)) return;
     
     // Show loading state
     const fileItems = document.querySelectorAll('.file-item');
     fileItems.forEach(item => {
         if (item.querySelector('.filename').textContent.includes(filename.slice(0, 15))) {
             item.style.opacity = '0.5';
-            const deleteBtn = item.querySelector('button');
-            deleteBtn.textContent = 'Deleting...';
-            deleteBtn.disabled = true;
+            const deleteBtn = item.querySelector('.delete-btn');
+            if (deleteBtn) {
+                deleteBtn.textContent = 'กำลังลบ...';
+                deleteBtn.disabled = true;
+            }
         }
     });
     
@@ -309,15 +426,15 @@ async function deleteUploadedFile(filename) {
             loadFiles();
             
             // Show success message
-            addMessage(`File \"${filename}\" deleted successfully. Removed ${data.chunks_removed || 0} chunks.`, 'bot');
+            addMessage(`ไฟล์ "${filename}" ถูกลบเรียบร้อยแล้ว ลบ ${data.chunks_removed || 0} ส่วน`, 'bot');
         } else {
             // Show error and restore UI
-            addMessage(`Failed to delete file: ${data.message}`, 'bot');
+            addMessage(`ไม่สามารถลบไฟล์ได้: ${data.message}`, 'bot');
             loadFiles(); // Restore the file list
         }
     } catch (e) {
         // Show error and restore UI
-        addMessage(`Error deleting file: ${e.message}`, 'bot');
+        addMessage(`เกิดข้อผิดพลาดในการลบไฟล์: ${e.message}`, 'bot');
         loadFiles(); // Restore the file list
     }
 }
