@@ -1095,17 +1095,17 @@ def create_coaching_prompt(question, coaching_type, product, customer_type, cont
     
     clean_question = ' '.join(filtered_words)
     
-    # Create coaching-type specific prompts
+    # Create coaching-type specific prompts (simplified to match available documents)
     if coaching_type == 'competitive':
-        prompt = f"As a UOB insurance competitive analysis expert, help with: {clean_question}. Focus on UOB's unique advantages, competitive differentiation, and winning strategies against competitors."
+        prompt = f"{clean_question} เปรียบเทียบผลิตภัณฑ์ประกันต่างๆ และจุดเด่นของแต่ละแบบ"
     elif coaching_type == 'objection_handling':
-        prompt = f"As a UOB insurance objection handling coach, help with: {clean_question}. Provide specific techniques for addressing concerns, building trust, and turning objections into opportunities."
+        prompt = f"วิธีจัดการข้อโต้แย้งเกี่ยวกับ: {clean_question} ใช้ขั้นตอนและแนวทางจากเอกสาร"
     elif coaching_type == 'communication':
-        prompt = f"As a UOB insurance communication expert, help with: {clean_question}. Focus on powerful keywords, persuasive language, and customer-resonant messaging for {product or 'insurance'} sales."
+        prompt = f"คำแนะนำการสื่อสาร: {clean_question} ตามแนวทางและขั้นตอนที่กำหนด"
     elif coaching_type == 'product_knowledge':
-        prompt = f"As a UOB insurance product specialist, help with: {clean_question}. Explain {product or 'insurance'} benefits clearly, provide real-world examples, and suggest effective presentation techniques."
+        prompt = f"ข้อมูลผลิตภัณฑ์: {clean_question} รายละเอียดความคุ้มครองและประโยชน์"
     elif coaching_type == 'sales_process':
-        prompt = f"As a UOB insurance sales methodology coach, help with: {clean_question}. Provide step-by-step guidance, proven techniques, and best practices for {customer_type or 'customer'} interactions."
+        prompt = f"ขั้นตอนการขาย: {clean_question} ตามกระบวนการที่กำหนดไว้"
     else:
         # General coaching prompt
         prompt = f"As a UOB insurance expert coach, help with: {clean_question}. Provide specific, actionable advice for {product or 'insurance'} sales success."

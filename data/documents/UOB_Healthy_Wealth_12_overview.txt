@@ -1,0 +1,206 @@
+{
+    "product_name": "UOB Healthcare Plus",
+    "overview": {
+      "description_th": "ประกันสุขภาพ UOB Healthy Wealth เหมาะสำหรับผู้ที่ต้องการสวัสดิการค่ารักษาพยาบาลที่เกิดจากการเจ็บป่วย เหมาะสำหรับลูกค้าที่อยากคุ้มครองสุขภาพ สามารถเบิกค่ารักษาพยาบาลได้",
+      "available_plans": ["Bronze", "Silver", "Gold", "Diamond", "Platinum"]
+    },
+    "plans": [
+      {
+        "plan_name": "Bronze",
+        "annual_max_benefit": 7500000,
+        "coverage_area": "Thailand",
+        "room_rate_per_day": 5000,
+        "room_days_limit": 180,
+        "organ_transplant": "Not covered",
+        "outpatient_coverage": {
+          "limit_per_visit": 750,
+          "max_visits_per_year": 30
+        },
+        "annual_checkup": "Not covered",
+        "vaccination": "Not covered",
+        "dental_care": "Not covered",
+        "vision_care": "Not covered",
+        "intensive_care": "Actual expenses",
+        "medical_services": "Actual expenses",
+        "nursing_and_medication": "Actual expenses",
+        "physician_fee": "Actual expenses",
+        "surgery_fee": "Actual expenses",
+        "anesthesiologist_fee": "Actual expenses",
+        "day_surgery": "Actual expenses",
+        "followup_treatment": "Actual expenses",
+        "emergency_outpatient_treatment": "Actual expenses",
+        "rehabilitation": "Actual expenses",
+        "chronic_kidney_dialysis": "Actual expenses",
+        "cancer_radiation_treatment": "Actual expenses",
+        "cancer_chemotherapy": "Actual expenses",
+        "emergency_ambulance": "Actual expenses",
+        "minor_surgery": "Actual expenses",
+        "deductible": {
+          "amount": 40000,
+          "area": "Thailand"
+        },
+        "co_payment": {
+          "percentage": 20,
+          "premium_discount": 20
+        }
+      },
+      {
+        "plan_name": "Silver",
+        "annual_max_benefit": 10500000,
+        "coverage_area": "Thailand",
+        "room_rate_per_day": 7000,
+        "room_days_limit": 180,
+        "organ_transplant": "Not covered",
+        "outpatient_coverage": {
+          "limit_per_visit": 1000,
+          "max_visits_per_year": 30
+        },
+        "annual_checkup": "Not covered",
+        "vaccination": "Not covered",
+        "dental_care": "Not covered",
+        "vision_care": "Not covered",
+        "intensive_care": "Actual expenses",
+        "medical_services": "Actual expenses",
+        "nursing_and_medication": "Actual expenses",
+        "physician_fee": "Actual expenses",
+        "surgery_fee": "Actual expenses",
+        "anesthesiologist_fee": "Actual expenses",
+        "day_surgery": "Actual expenses",
+        "followup_treatment": "Actual expenses",
+        "emergency_outpatient_treatment": "Actual expenses",
+        "rehabilitation": "Actual expenses",
+        "chronic_kidney_dialysis": "Actual expenses",
+        "cancer_radiation_treatment": "Actual expenses",
+        "cancer_chemotherapy": "Actual expenses",
+        "emergency_ambulance": "Actual expenses",
+        "minor_surgery": "Actual expenses",
+        "deductible": {
+          "amount": 45000,
+          "area": "Thailand"
+        },
+        "co_payment": {
+          "percentage": 20,
+          "premium_discount": 20
+        }
+      },
+      {
+        "plan_name": "Gold",
+        "annual_max_benefit": 20000000,
+        "coverage_area": "Thailand",
+        "room_rate_per_day": 12000,
+        "room_days_limit": 180,
+        "organ_transplant": 10000000,
+        "outpatient_coverage": {
+          "limit_per_visit": 1500,
+          "max_visits_per_year": 30
+        },
+        "annual_checkup": 5000,
+        "vaccination": 2500,
+        "dental_care": 2500,
+        "vision_care": "Not covered",
+        "intensive_care": "Actual expenses",
+        "medical_services": "Actual expenses",
+        "nursing_and_medication": "Actual expenses",
+        "physician_fee": "Actual expenses",
+        "surgery_fee": "Actual expenses",
+        "anesthesiologist_fee": "Actual expenses",
+        "day_surgery": "Actual expenses",
+        "followup_treatment": "Actual expenses",
+        "emergency_outpatient_treatment": "Actual expenses",
+        "rehabilitation": "Actual expenses",
+        "chronic_kidney_dialysis": "Actual expenses",
+        "cancer_radiation_treatment": "Actual expenses",
+        "cancer_chemotherapy": "Actual expenses",
+        "emergency_ambulance": "Actual expenses",
+        "minor_surgery": "Actual expenses",
+        "deductible": {
+          "amount": 55000,
+          "area": "Thailand"
+        },
+        "co_payment": {
+          "percentage": 20,
+          "premium_discount": 20
+        }
+      },
+      {
+        "plan_name": "Diamond",
+        "annual_max_benefit": 50000000,
+        "coverage_area": "Worldwide except USA",
+        "room_rate_per_day": 20000,
+        "room_days_limit": 360,
+        "organ_transplant": "Actual expenses",
+        "outpatient_coverage": {
+          "limit_per_visit": 2500,
+          "max_visits_per_year": 30
+        },
+        "annual_checkup": 20000,
+        "vaccination": 20000,
+        "dental_care": 20000,
+        "vision_care": 20000,
+        "intensive_care": "Actual expenses",
+        "medical_services": "Actual expenses",
+        "nursing_and_medication": "Actual expenses",
+        "physician_fee": "Actual expenses",
+        "surgery_fee": "Actual expenses",
+        "anesthesiologist_fee": "Actual expenses",
+        "day_surgery": "Actual expenses",
+        "followup_treatment": "Actual expenses",
+        "emergency_outpatient_treatment": "Actual expenses",
+        "rehabilitation": "Actual expenses",
+        "chronic_kidney_dialysis": "Actual expenses",
+        "cancer_radiation_treatment": "Actual expenses",
+        "cancer_chemotherapy": "Actual expenses",
+        "emergency_ambulance": "Actual expenses",
+        "minor_surgery": "Actual expenses",
+        "deductible": {
+          "amount_thailand": 55000,
+          "amount_international": 65000,
+          "note": "except USA"
+        },
+        "co_payment": {
+          "percentage": 20,
+          "premium_discount": 20
+        }
+      },
+      {
+        "plan_name": "Platinum",
+        "annual_max_benefit": 100000000,
+        "coverage_area": "Worldwide",
+        "room_rate_per_day": 20000,
+        "room_days_limit": 360,
+        "organ_transplant": "Actual expenses",
+        "outpatient_coverage": {
+          "limit_per_year": 150000
+        },
+        "annual_checkup": 35000,
+        "vaccination": 35000,
+        "dental_care": 35000,
+        "vision_care": 35000,
+        "intensive_care": "Actual expenses",
+        "medical_services": "Actual expenses",
+        "nursing_and_medication": "Actual expenses",
+        "physician_fee": "Actual expenses",
+        "surgery_fee": "Actual expenses",
+        "anesthesiologist_fee": "Actual expenses",
+        "day_surgery": "Actual expenses",
+        "followup_treatment": "Actual expenses",
+        "emergency_outpatient_treatment": "Actual expenses",
+        "rehabilitation": "Actual expenses",
+        "chronic_kidney_dialysis": "Actual expenses",
+        "cancer_radiation_treatment": "Actual expenses",
+        "cancer_chemotherapy": "Actual expenses",
+        "emergency_ambulance": "Actual expenses",
+        "minor_surgery": "Actual expenses",
+        "deductible": {
+          "amount_thailand": 55000,
+          "amount_international": 65000,
+          "amount_usa": 65000
+        },
+        "co_payment": {
+          "percentage": 20,
+          "premium_discount": 20
+        }
+      }
+    ]
+  }
+  

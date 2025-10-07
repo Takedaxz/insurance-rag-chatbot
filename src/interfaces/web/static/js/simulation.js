@@ -883,6 +883,73 @@ function displayEnhancedPerformanceFeedback(performanceData) {
                 <p><strong>ปฏิสัมพันธ์กับลูกค้า:</strong> ${turnCount} ครั้ง</p>
             </div>`;
     
+    // Add Workflow Checklist (Mock version based on workflow.txt)
+    htmlContent += `
+        <div style="background: #eff6ff; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #3b82f6;">
+            <h3 style="color: #1e40af; margin-bottom: 0.5rem;">✅ รายการตรวจสอบตามขั้นตอนการนำเสนอ (Workflow Checklist)</h3>
+            <div style="font-size: 0.9rem;">
+                <div style="margin-bottom: 0.75rem;">
+                    <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">1. การแนะนำตัวและแนะนำผลิตภัณฑ์</div>
+                    <div style="padding-left: 1rem;">
+                        ${Math.random() > 0.3 ? '✅' : '❌'} แนะนำชื่อ-นามสกุล และตำแหน่ง<br>
+                        ${Math.random() > 0.4 ? '✅' : '❌'} แสดงบัตรพนักงานและใบอนุญาต<br>
+                        ${Math.random() > 0.5 ? '✅' : '❌'} แนะนำว่าเป็น "ผลิตภัณฑ์ประกันชีวิต"
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 0.75rem;">
+                    <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">2. การสอบถามข้อมูล KYC</div>
+                    <div style="padding-left: 1rem;">
+                        ${Math.random() > 0.3 ? '✅' : '❌'} ตรวจสอบอายุและประสบการณ์<br>
+                        ${Math.random() > 0.4 ? '✅' : '❌'} สอบถามวัตถุประสงค์ในการซื้อ<br>
+                        ${Math.random() > 0.5 ? '✅' : '❌'} ตรวจสอบว่าเป็นลูกค้าเปราะบางหรือไม่
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 0.75rem;">
+                    <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">3. การวิเคราะห์ความต้องการ (4C)</div>
+                    <div style="padding-left: 1rem;">
+                        ${Math.random() > 0.3 ? '✅' : '❌'} สอบถามเป้าหมายการลงทุน<br>
+                        ${Math.random() > 0.4 ? '✅' : '❌'} สอบถามรายได้และค่าใช้จ่าย<br>
+                        ${Math.random() > 0.5 ? '✅' : '❌'} ตรวจสอบการคุ้มครองที่มีอยู่เดิม<br>
+                        ${Math.random() > 0.6 ? '✅' : '❌'} แนะนำผลิตภัณฑ์มากกว่า 2-3 ตัวเลือก
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 0.75rem;">
+                    <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">4. สิทธิของผู้บริโภค</div>
+                    <div style="padding-left: 1rem;">
+                        ${Math.random() > 0.3 ? '✅' : '❌'} แจ้งสิทธิในการเลือกซื้ออย่างอิสระ<br>
+                        ${Math.random() > 0.4 ? '✅' : '❌'} แจ้งช่องทางร้องเรียน (Call Center 02-285-1555)
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 0.75rem;">
+                    <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">5. การแนะนำผลิตภัณฑ์</div>
+                    <div style="padding-left: 1rem;">
+                        ${Math.random() > 0.3 ? '✅' : '❌'} ย้ำว่า "ประกันชีวิต" ไม่ใช่เงินฝาก<br>
+                        ${Math.random() > 0.4 ? '✅' : '❌'} อธิบายสิทธิประโยชน์ตามเพศและอายุ<br>
+                        ${Math.random() > 0.5 ? '✅' : '❌'} อธิบายข้อยกเว้น (บอกล้าง, ฆ่าตัวตาย, ฯลฯ)<br>
+                        ${Math.random() > 0.6 ? '✅' : '❌'} แจ้งเบี้ยประกันและระยะเวลาชำระ<br>
+                        ${Math.random() > 0.7 ? '✅' : '❌'} อธิบาย Free Look Period (15 วัน)<br>
+                        ${Math.random() > 0.4 ? '✅' : '❌'} แจ้งช่องทางติดต่อ (PRU Call Center 1621)
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 0.75rem;">
+                    <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">6. การสื่อสารและมารยาท</div>
+                    <div style="padding-left: 1rem;">
+                        ${Math.random() > 0.3 ? '✅' : '❌'} แนะนำอย่างสุภาพ ไม่เร่งรัด<br>
+                        ${Math.random() > 0.4 ? '✅' : '❌'} ห้ามขายทางโทรศัพท์<br>
+                        ${Math.random() > 0.5 ? '✅' : '❌'} มอบเอกสารให้ลูกค้า (แบบประกัน, PRU QUOTE, แผ่นพับ)
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #bfdbfe; font-size: 0.85rem; color: #1e40af;">
+                <strong>หมายเหตุ:</strong> ✅ = ผ่าน | ❌ = ต้องปรับปรุง (นี่คือโหมดทดสอบ - คะแนนสุ่ม)
+            </div>
+        </div>`;
+    
     // Add detailed metrics
     if (detailed_metrics) {
         htmlContent += `<h3 style="color: #15803d;">📈 ตัวชี้วัดละเอียด</h3><div style="display: grid; gap: 0.5rem; margin-bottom: 1rem;">`;
@@ -1682,4 +1749,422 @@ function restoreDataBackup() {
     }
     return false;
 }
+
+// ========================================
+// Voice Mode Functionality
+// ========================================
+
+let isRecording = false;
+let recognition = null;
+let voiceModeEnabled = false;
+
+// Initialize Speech Recognition
+function initSpeechRecognition() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        console.warn('Speech recognition not supported in this browser');
+        return false;
+    }
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang = 'th-TH'; // Thai language
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        console.log('Voice input:', transcript);
+        
+        const questionInput = document.getElementById('questionInput');
+        if (questionInput) {
+            questionInput.value = transcript;
+        }
+        
+        stopRecording();
+    };
+    
+    recognition.onerror = function(event) {
+        console.error('Speech recognition error:', event.error);
+        stopRecording();
+        
+        if (event.error === 'no-speech') {
+            showNotification('ไม่พบเสียงพูด กรุณาลองอีกครั้ง', 'warning');
+        } else if (event.error === 'not-allowed') {
+            showNotification('กรุณาอนุญาตการใช้งานไมโครโฟน', 'error');
+        } else {
+            showNotification('เกิดข้อผิดพลาดในการรับเสียง', 'error');
+        }
+    };
+    
+    recognition.onend = function() {
+        if (isRecording) {
+            stopRecording();
+        }
+    };
+    
+    return true;
+}
+
+// Toggle voice mode (MOCK MODE - No actual recording)
+function toggleVoiceMode() {
+    if (isRecording) {
+        stopRecording();
+    } else {
+        startRecording();
+    }
+}
+
+// Start recording (MOCK MODE - Visual only)
+function startRecording() {
+    isRecording = true;
+    const voiceBtn = document.getElementById('voiceModeButton');
+    if (voiceBtn) {
+        voiceBtn.classList.add('recording');
+        voiceBtn.title = 'กำลังฟัง... คลิกเพื่อหยุด';
+    }
+    
+    console.log('🎤 Mock voice recording started');
+    showNotification('กำลังฟัง... ', 'info');
+}
+
+// Stop recording (MOCK MODE - Visual only)
+function stopRecording() {
+    isRecording = false;
+    const voiceBtn = document.getElementById('voiceModeButton');
+    if (voiceBtn) {
+        voiceBtn.classList.remove('recording');
+        voiceBtn.title = 'เปิด/ปิดโหมดเสียง';
+    }
+    
+    console.log('🎤 Mock voice recording stopped');
+    showNotification('หยุดฟังแล้ว', 'info');
+    
+    // Show mock voice session feedback after 1 second for realism
+    setTimeout(() => {
+        showMockVoiceSessionFeedback();
+    }, 1000);
+}
+
+// Mock Voice Session Feedback
+function showMockVoiceSessionFeedback() {
+    const feedbackHTML = `
+        <div class="performance-report">
+            <h2 style="color: #16a34a; text-align: center; margin-bottom: 1rem;">📊 รายงานผลการปฏิบัติงานแบบครอบคลุม</h2>
+            <hr style="border: 2px solid #dcfce7; margin: 1rem 0;">
+            
+            <div style="background: #f0fdf4; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #16a34a;">
+                <h3 style="color: #15803d; margin-bottom: 0.5rem;">🎯 ผลการปฏิบัติงานโดยรวม</h3>
+                <p><strong>คะแนน:</strong> <span style="color: #16a34a; font-weight: bold; font-size: 1.1rem;">77.3/100</span> (ดี)</p>
+                <p><strong>ระยะเวลาการฝึก:</strong> 0.1 นาที</p>
+                <p><strong>ปฏิสัมพันธ์กับลูกค้า:</strong> 0 ครั้ง</p>
+            </div>
+            
+            <div style="background: #eff6ff; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid #3b82f6;">
+                <h3 style="color: #1e40af; margin-bottom: 0.5rem;">✅ รายการตรวจสอบตามขั้นตอนการนำเสนอ (Workflow Checklist)</h3>
+                <div style="font-size: 0.9rem;">
+                    <div style="margin-bottom: 0.75rem;">
+                        <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">1. การแนะนำตัวและแนะนำผลิตภัณฑ์</div>
+                        <div style="padding-left: 1rem;">
+                            ❌ แนะนำชื่อ-นามสกุล และตำแหน่ง<br>
+                            ✅ แสดงบัตรพนักงานและใบอนุญาต<br>
+                            ✅ แนะนำว่าเป็น "ผลิตภัณฑ์ประกันชีวิต"
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 0.75rem;">
+                        <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">2. การสอบถามข้อมูล KYC</div>
+                        <div style="padding-left: 1rem;">
+                            ✅ ตรวจสอบอายุและประสบการณ์<br>
+                            ✅ สอบถามวัตถุประสงค์ในการซื้อ<br>
+                            ❌ ตรวจสอบว่าเป็นลูกค้าเปราะบางหรือไม่
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 0.75rem;">
+                        <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">3. การวิเคราะห์ความต้องการ (4C)</div>
+                        <div style="padding-left: 1rem;">
+                            ✅ สอบถามเป้าหมายการลงทุน<br>
+                            ✅ สอบถามรายได้และค่าใช้จ่าย<br>
+                            ❌ ตรวจสอบการคุ้มครองที่มีอยู่เดิม<br>
+                            ✅ แนะนำผลิตภัณฑ์มากกว่า 2-3 ตัวเลือก
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 0.75rem;">
+                        <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">4. สิทธิของผู้บริโภค</div>
+                        <div style="padding-left: 1rem;">
+                            ❌ แจ้งสิทธิในการเลือกซื้ออย่างอิสระ<br>
+                            ❌ แจ้งช่องทางร้องเรียน (Call Center 02-285-1555)
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 0.75rem;">
+                        <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">5. การแนะนำผลิตภัณฑ์</div>
+                        <div style="padding-left: 1rem;">
+                            ✅ ย้ำว่า "ประกันชีวิต" ไม่ใช่เงินฝาก<br>
+                            ❌ อธิบายสิทธิประโยชน์ตามเพศและอายุ<br>
+                            ❌ อธิบายข้อยกเว้น (บอกล้าง, ฆ่าตัวตาย, ฯลฯ)<br>
+                            ✅ แจ้งเบี้ยประกันและระยะเวลาชำระ<br>
+                            ✅ อธิบาย Free Look Period (15 วัน)<br>
+                            ✅ แจ้งช่องทางติดต่อ (PRU Call Center 1621)
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 0.75rem;">
+                        <div style="font-weight: bold; color: #1e40af; margin-bottom: 0.25rem;">6. การสื่อสารและมารยาท</div>
+                        <div style="padding-left: 1rem;">
+                            ✅ แนะนำอย่างสุภาพ ไม่เร่งรัด<br>
+                            ✅ ห้ามขายทางโทรศัพท์<br>
+                            ❌ มอบเอกสารให้ลูกค้า (แบบประกัน, PRU QUOTE, แผ่นพับ)
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #bfdbfe; font-size: 0.85rem; color: #1e40af;">
+                    <strong>หมายเหตุ:</strong> ✅ = ผ่าน | ❌ = ต้องปรับปรุง (นี่คือโหมดทดสอบ - คะแนนสุ่ม)
+                </div>
+            </div>
+            
+            <h3 style="color: #15803d;">📈 ตัวชี้วัดละเอียด</h3>
+            <div style="display: grid; gap: 0.5rem; margin-bottom: 1rem;">
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: #f9fafb; border-radius: 6px;">
+                    <span>👍 <strong>ความสามารถในการปิดการขาย</strong></span>
+                    <span style="font-weight: bold;">79/100</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: #f9fafb; border-radius: 6px;">
+                    <span>🌟 <strong>ทักษะการสื่อสาร</strong></span>
+                    <span style="font-weight: bold;">80/100</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: #f9fafb; border-radius: 6px;">
+                    <span>📚 <strong>การค้นหาความต้องการ</strong></span>
+                    <span style="font-weight: bold;">68/100</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: #f9fafb; border-radius: 6px;">
+                    <span>🌟 <strong>การจัดการความคัดค้าน</strong></span>
+                    <span style="font-weight: bold;">81/100</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: #f9fafb; border-radius: 6px;">
+                    <span>👍 <strong>ความรู้ผลิตภัณฑ์</strong></span>
+                    <span style="font-weight: bold;">72/100</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 0.5rem; background: #f9fafb; border-radius: 6px;">
+                    <span>🌟 <strong>การสร้างความสัมพันธ์</strong></span>
+                    <span style="font-weight: bold;">84/100</span>
+                </div>
+            </div>
+            
+            <h3 style="color: #15803d;">✨ จุดแข็งหลัก</h3>
+            <ol>
+                <li style="margin-bottom: 0.5rem;">การสื่อสารที่เป็นมืออาชีพ</li>
+                <li style="margin-bottom: 0.5rem;">การมีส่วนร่วมกับลูกค้า</li>
+            </ol>
+            
+            <h3 style="color: #15803d;">🔧 จุดที่ควรปรับปรุง</h3>
+            <ol>
+                <li style="margin-bottom: 0.5rem;">ฝึกฝนการจัดการความคัดค้าน</li>
+                <li style="margin-bottom: 0.5rem;">พัฒนาการปิดการขาย</li>
+            </ol>
+            
+            <h3 style="color: #15803d;">🎯 แผนปฏิบัติการ</h3>
+            <ol>
+                <li style="margin-bottom: 0.5rem;">ฝึกฝนสถานการณ์เพิ่มเติม</li>
+                <li style="margin-bottom: 0.5rem;">โฟกัสเทคนิคการปิดการขาย</li>
+                <li style="margin-bottom: 0.5rem;">รับคำแนะนำเพิ่มเติม</li>
+            </ol>
+            
+            <h3 style="color: #15803d;">📊 การเปรียบเทียบมาตรฐาน</h3>
+            <p>📈 เทียบกับค่าเฉลี่ย: <strong>สูงกว่า 5.3 คะแนน</strong></p>
+            
+            <hr style="border: 2px solid #dcfce7; margin: 1rem 0;">
+            <div style="text-align: center; color: #16a34a;">
+                <p>💡 <em>ฝึกฝนต่อไปเพื่อพัฒนาทักษะของคุณ!</em></p>
+                <p>🚀 <em>ความสำเร็จอยู่ในการฝึกฝนอย่างสม่ำเสมอ</em></p>
+            </div>
+        </div>
+    `;
+    
+    // Add the feedback message to chat
+    addMessageWithHTML(feedbackHTML, 'performance');
+    
+    console.log('📊 Voice session feedback displayed');
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `voice-notification voice-notification-${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        padding: 12px 20px;
+        background: ${type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#10b981'};
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+        font-size: 14px;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Add CSS animations for notifications
+if (!document.getElementById('voice-notification-styles')) {
+    const style = document.createElement('style');
+    style.id = 'voice-notification-styles';
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// Initialize voice mode on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize speech recognition
+    initSpeechRecognition();
+    
+    // Enable voice button when simulation is active
+    const observer = new MutationObserver(function(mutations) {
+        const sendButton = document.getElementById('sendButton');
+        const voiceButton = document.getElementById('voiceModeButton');
+        
+        if (sendButton && voiceButton) {
+            voiceButton.disabled = sendButton.disabled;
+        }
+    });
+    
+    const sendButton = document.getElementById('sendButton');
+    if (sendButton) {
+        observer.observe(sendButton, { attributes: true, attributeFilter: ['disabled'] });
+    }
+    
+    // ========================================
+    // DEBUG: Add click event debugging
+    // ========================================
+    console.log('🔍 DEBUG MODE: Click debugging initialized');
+    
+    // Check element states
+    const questionInput = document.getElementById('questionInput');
+    const voiceButton = document.getElementById('voiceModeButton');
+    
+    console.log('📝 Input element:', questionInput);
+    console.log('🎤 Voice button:', voiceButton);
+    console.log('📤 Send button:', sendButton);
+    
+    if (questionInput) {
+        console.log('Input disabled:', questionInput.disabled);
+        console.log('Input style:', window.getComputedStyle(questionInput).pointerEvents);
+    }
+    
+    if (sendButton) {
+        console.log('Send button disabled:', sendButton.disabled);
+        console.log('Send button style:', window.getComputedStyle(sendButton).pointerEvents);
+    }
+    
+    if (voiceButton) {
+        console.log('Voice button disabled:', voiceButton.disabled);
+        console.log('Voice button style:', window.getComputedStyle(voiceButton).pointerEvents);
+    }
+    
+    // Add click listeners to all input elements for debugging
+    document.addEventListener('click', function(e) {
+        console.log('🖱️ Click detected at:', e.clientX, e.clientY);
+        console.log('🎯 Target element:', e.target);
+        console.log('📍 Element ID:', e.target.id);
+        console.log('🏷️ Element class:', e.target.className);
+        
+        // Get element at click position
+        const elementAtPoint = document.elementFromPoint(e.clientX, e.clientY);
+        console.log('👆 Top element at click:', elementAtPoint);
+        console.log('👆 Top element style:', window.getComputedStyle(elementAtPoint).pointerEvents);
+        
+        // Check z-index stack
+        let currentElement = elementAtPoint;
+        let depth = 0;
+        console.log('📚 Element stack (top to bottom):');
+        while (currentElement && depth < 10) {
+            const style = window.getComputedStyle(currentElement);
+            console.log(`  ${depth}: ${currentElement.tagName}.${currentElement.className}`, {
+                zIndex: style.zIndex,
+                position: style.position,
+                pointerEvents: style.pointerEvents
+            });
+            currentElement = currentElement.parentElement;
+            depth++;
+        }
+    }, true);
+    
+    // Add focus listener to input
+    if (questionInput) {
+        questionInput.addEventListener('focus', function() {
+            console.log('✅ Input focused successfully');
+        });
+        
+        questionInput.addEventListener('blur', function() {
+            console.log('❌ Input lost focus');
+        });
+        
+        questionInput.addEventListener('input', function(e) {
+            console.log('⌨️ Input value changed:', e.target.value);
+        });
+    }
+    
+    // Add click listener to send button
+    if (sendButton) {
+        sendButton.addEventListener('click', function(e) {
+            console.log('📤 Send button clicked!', {
+                disabled: sendButton.disabled,
+                propagation: e.bubbles,
+                defaultPrevented: e.defaultPrevented
+            });
+        }, true);
+    }
+    
+    // Add click listener to voice button
+    if (voiceButton) {
+        voiceButton.addEventListener('click', function(e) {
+            console.log('🎤 Voice button clicked!', {
+                disabled: voiceButton.disabled,
+                propagation: e.bubbles,
+                defaultPrevented: e.defaultPrevented
+            });
+        }, true);
+    }
+    
+    console.log('✅ Debug listeners attached');
+});
 

@@ -86,6 +86,14 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from langchain.schema import HumanMessage, SystemMessage
 
+# Import semantic chunking
+try:
+    from .semantic_splitter import SmartChunkingStrategy
+    SEMANTIC_CHUNKING_AVAILABLE = True
+except ImportError:
+    SEMANTIC_CHUNKING_AVAILABLE = False
+    print("⚠️ Semantic chunking not available")
+
 from dotenv import load_dotenv
 
 @dataclass
@@ -140,7 +148,22 @@ class RAGSystem:
             length_function=len,
         )
         
-        self.max_retrieval_results = 3  # Reduced from 5 for faster retrieval
+        # Initialize smart chunking strategy if available
+        self.smart_chunker = None
+        if SEMANTIC_CHUNKING_AVAILABLE:
+            try:
+                self.smart_chunker = SmartChunkingStrategy(
+                    semantic_chunk_size=3000,  # Larger chunks for structured content (workflow, procedures)
+                    semantic_overlap=400,      # Higher overlap for better retrieval across long lists
+                    fallback_chunk_size=500,   # Standard size for unstructured content
+                    fallback_overlap=50        # Standard overlap
+                )
+                print("✅ Semantic chunking strategy initialized")
+            except Exception as e:
+                print(f"⚠️ Failed to initialize semantic chunking: {e}")
+                self.smart_chunker = None
+        
+        self.max_retrieval_results = 8  # Higher k improves recall across split sections/lists
         
         # Initialize Tavily if available
         self.tavily_client = None
@@ -575,9 +598,15 @@ class RAGSystem:
             for doc in documents:
                 doc.metadata.update(doc_metadata)
             
-            # Split documents into chunks
-            texts = self.text_splitter.split_documents(documents)
-            print(f"✂️ Created {len(texts)} chunks")
+            # Split documents into chunks using smart chunking strategy
+            if self.smart_chunker:
+                print(f"🧠 Using smart chunking strategy")
+                texts = self.smart_chunker.split_documents(documents)
+                print(f"✂️ Created {len(texts)} chunks using semantic-aware chunking")
+            else:
+                print(f"📄 Using standard chunking (semantic chunking not available)")
+                texts = self.text_splitter.split_documents(documents)
+                print(f"✂️ Created {len(texts)} chunks using standard chunking")
             
             # Load existing index or create new one
             existing_vectorstore = self.load_index()
@@ -756,11 +785,10 @@ class RAGSystem:
             if not content or not content.strip():
                 raise Exception("Empty text file")
 
-            # Optionally split long text into chunks using existing splitter
+            # Return single document - let the smart chunker handle the splitting
             base_doc = Document(page_content=content.strip(), metadata={"processing_method": "text"})
-            chunks = self.text_splitter.split_documents([base_doc])
-            print(f"📝 TXT processing created {len(chunks)} chunks")
-            return chunks if chunks else [base_doc]
+            print(f"📝 TXT processing created 1 document (will be chunked by smart chunker)")
+            return [base_doc]
         except Exception as e:
             raise Exception(f"Failed to process TXT file: {e}")
     
@@ -915,18 +943,38 @@ class RAGSystem:
         if not vectorstore:
             return None
         
-        # Use optimized retrieval count
+        # Use optimized retrieval with MMR for diversity
         retrieval_count = max_results if max_results else self.max_retrieval_results
-        retriever = vectorstore.as_retriever(search_kwargs={"k": retrieval_count})
+        retriever = vectorstore.as_retriever(
+            search_type="mmr",
+            search_kwargs={
+                "k": retrieval_count,
+                "fetch_k": max(40, retrieval_count * 5),
+                "lambda_mult": 0.5
+            }
+        )
         
         # Simplified prompt for better performance
         from langchain.prompts import PromptTemplate
         
-        template = """You are an AI assistant for UOB Relationship Managers. Use the context to answer the question concisely and accurately.
+        template = """You are an AI assistant supporting UOB Relationship Managers. Provide responses exclusively based on the supplied context. If the context is insufficient to answer the question, state that the information is not available from the context. Be concise; when enumerating, use bullet points. Do not infer or fabricate any details beyond the context.
 
-Context: {context}
+**IMPORTANT: Language Matching**
+- If the question is in Thai (ภาษาไทย), answer in Thai
+- If the question is in English, answer in English
+- Match the language of your response to the language of the question
 
-Question: {question}
+Context:
+{context}
+
+Question:
+{question}
+
+Instructions:
+- Base the answer strictly on the context above
+- Answer in the SAME LANGUAGE as the question (Thai → Thai, English → English)
+- If a total or complete list (e.g., 10 items) is requested but only a subset appears in the context, return only the available items and indicate how many were found
+- Include section titles if present in the provided context/metadata
 
 Answer:"""
         

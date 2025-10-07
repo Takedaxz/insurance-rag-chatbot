@@ -645,17 +645,72 @@ button, .suggestion-btn {
     border-top: 2px solid #e2e8f0;
     position: sticky;
     bottom: 0;
+    z-index: 10;
+    pointer-events: auto;
 }
 
 .input-group {
     display: flex;
     gap: 1rem;
     align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Voice Mode Button */
+.voice-mode-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    background: white;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    pointer-events: auto;
+    position: relative;
+    z-index: 2;
+}
+
+.voice-mode-btn:hover:not(:disabled) {
+    background: #f1f5f9;
+    border-color: #003d82;
+    color: #003d82;
+    transform: scale(1.05);
+}
+
+.voice-mode-btn:active:not(:disabled) {
+    transform: scale(0.95);
+}
+
+.voice-mode-btn.recording {
+    background: #ef4444;
+    border-color: #dc2626;
+    color: white;
+    animation: pulse 1.5s infinite;
+}
+
+.voice-mode-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
 }
 
 .chat-input input {
     flex: 1;
-    padding: 1rem 1.5rem;
+    padding: 0.6rem 1.2rem;
     border: 2px solid #cbd5e1;
     border-radius: 25px;
     background: #ffffff;
@@ -664,6 +719,8 @@ button, .suggestion-btn {
     outline: none;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    pointer-events: auto;
+    cursor: text;
 }
 
 .chat-input input:focus {
@@ -673,15 +730,16 @@ button, .suggestion-btn {
 }
 
 .chat-input button {
-    padding: 1rem 1.8rem;
+    padding: 0.6rem 1.2rem;
     border: none;
     border-radius: 16px;
     background: #0059bf;
     color: #ffffff;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    pointer-events: auto;
 }
 
 .chat-input button:hover {
@@ -803,16 +861,18 @@ button, .suggestion-btn {
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
     padding: 0 0.5rem;
+    pointer-events: none;
 }
 
 .suggestion-btn {
     background: #e3f2fd;
     border: 2px solid #0066cc;
     color: #003d82;
-    padding: 0.5rem 0.75rem;
+    padding: 0.4rem 0.75rem;
     border-radius: 25px;
     font-size: 0.9rem;
     font-weight: 500;
+    pointer-events: auto;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -2175,7 +2235,7 @@ button, .suggestion-btn {
 
     .suggestion-btn {
         font-size: 0.8rem;
-        padding: 0.4rem 0.6rem;
+        padding: 0.4rem 0.75rem;
         flex: 1;
         min-width: 0;
         text-overflow: ellipsis;

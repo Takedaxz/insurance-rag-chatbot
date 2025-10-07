@@ -1,0 +1,74 @@
+{
+    "product_name": "AIA Health Happy",
+    "overview": {
+      "description_th": "ประกันสุขภาพ AIA Health Happy เหมาะสำหรับผู้ที่ต้องการสวัสดิการค่ารักษาพยาบาลที่เกิดจากการเจ็บป่วย เหมาะสำหรับลูกค้าที่อยากคุ้มครองสุขภาพ สามารถเบิกค่ารักษาพยาบาลได้",
+      "comparison_target": "UOB Healthy Wealth",
+      "available_plans": ["แผนที่1", "แผนที่2", "แผนที่3", "แผนที่4"]
+    },
+    "plans": [
+      {
+        "plan_name": "แผนที่1",
+        "annual_max_benefit": 1000000,
+        "room_rate_per_day": 1500,
+        "physician_fee_per_day": 1000,
+        "actual_expense_coverage": [
+          "ค่าห้อง ค่าอาหาร และค่าบริการ ICU",
+          "ค่ายาและค่าบริการทางการแพทย์",
+          "ค่าผ่าตัด ศัลยกรรม และหัตถการ",
+          "ค่ารักษาอุบัติเหตุฉุกเฉินภายใน 24 ชั่วโมง",
+          "ค่าล้างไต เคมีบำบัด และรังสีรักษา"
+        ],
+        "outpatient_coverage": "ไม่ครอบคลุม",
+        "critical_illness_benefit": 2000000
+      },
+      {
+        "plan_name": "แผนที่2",
+        "annual_max_benefit": 5000000,
+        "room_rate_per_day": 3000,
+        "physician_fee_per_day": 2000,
+        "actual_expense_coverage": [
+          "ค่าห้อง ค่าอาหาร และค่าบริการ ICU",
+          "ค่ายาและค่าบริการทางการแพทย์",
+          "ค่าผ่าตัด ศัลยกรรม และหัตถการ",
+          "ค่ารักษาอุบัติเหตุฉุกเฉินภายใน 24 ชั่วโมง",
+          "ค่าล้างไต เคมีบำบัด และรังสีรักษา"
+        ],
+        "outpatient_coverage": "ไม่ครอบคลุม",
+        "critical_illness_benefit": 10000000
+      },
+      {
+        "plan_name": "แผนที่3",
+        "annual_max_benefit": 15000000,
+        "room_rate_per_day": 6000,
+        "physician_fee_per_day": 4000,
+        "actual_expense_coverage": [
+          "ค่าห้อง ค่าอาหาร และค่าบริการ ICU",
+          "ค่ายาและค่าบริการทางการแพทย์",
+          "ค่าผ่าตัด ศัลยกรรม และหัตถการ",
+          "ค่ารักษาอุบัติเหตุฉุกเฉินภายใน 24 ชั่วโมง",
+          "ค่าล้างไต เคมีบำบัด และรังสีรักษา"
+        ],
+        "outpatient_coverage": "ไม่ครอบคลุม",
+        "critical_illness_benefit": 30000000
+      },
+      {
+        "plan_name": "แผนที่4",
+        "annual_max_benefit": 25000000,
+        "room_rate_per_day": 9000,
+        "physician_fee_per_day": 6000,
+        "actual_expense_coverage": [
+          "ค่าห้อง ค่าอาหาร และค่าบริการ ICU",
+          "ค่ายาและค่าบริการทางการแพทย์",
+          "ค่าผ่าตัด ศัลยกรรม และหัตถการ",
+          "ค่ารักษาอุบัติเหตุฉุกเฉินภายใน 24 ชั่วโมง",
+          "ค่าล้างไต เคมีบำบัด และรังสีรักษา"
+        ],
+        "outpatient_coverage": {
+          "limit_per_visit": 2000,
+          "max_visits_per_year": 30
+        },
+        "critical_illness_benefit": 50000000
+      }
+    ]
+  }
+  
