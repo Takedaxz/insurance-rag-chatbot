@@ -1,5 +1,5 @@
 {
-    "product_name": "UOB Healthcare Plus",
+    "product_name": "UOB Healthy Wealth",
     "overview": {
       "description_th": "ประกันสุขภาพ UOB Healthy Wealth เหมาะสำหรับผู้ที่ต้องการสวัสดิการค่ารักษาพยาบาลที่เกิดจากการเจ็บป่วย เหมาะสำหรับลูกค้าที่อยากคุ้มครองสุขภาพ สามารถเบิกค่ารักษาพยาบาลได้",
       "available_plans": ["Bronze", "Silver", "Gold", "Diamond", "Platinum"]

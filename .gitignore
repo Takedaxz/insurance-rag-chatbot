@@ -69,3 +69,5 @@ logs/
 .pytest_cache/
 
 *.Zone.Identifier
+
+data/temp_documents
