@@ -220,12 +220,12 @@ async function askCoachingQuestion(coachingType = 'general') {
 
 // Enhanced coaching display and helper functions
 function displayCoachingInsights(insights) {
-    let insightsHTML = `## 🎯 Coaching Insights\n\n**Key Focus Areas:**\n${insights.key_focus_areas.map(area => `• ${area}`).join('\n')}`;
+    let insightsHTML = `## 🎯 Coaching Insights\n\n**จุดสำคัญที่ต้องเน้น:**\n${insights.key_focus_areas.map(area => `• ${area}`).join('\n')}`;
     addMessage(insightsHTML, 'insights');
 }
 
 function displayPracticeSuggestions(suggestions) {
-    let suggestionsHTML = `## 💪 Practice Suggestions\n\n${suggestions.map((suggestion, index) => `${index + 1}. ${suggestion}`).join('\n')}`;
+    let suggestionsHTML = `## 💪 คำแนะนำในการฝึกฝน\n\n${suggestions.map((suggestion, index) => `${index + 1}. ${suggestion}`).join('\n')}`;
     addMessage(suggestionsHTML, 'practice');
 }
 

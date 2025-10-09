@@ -1299,16 +1299,17 @@ Answer:"""
         if re.search(r'\s{5,}', query):  # Increased from 3 to 5
             errors.append("Query contains excessive whitespace")
         
-        # Relaxed repetitive word check - only flag if same word appears more than 5 times
+        # Relaxed repetitive word check - only flag if same word appears more than 8 times
         words = query.lower().split()
         if len(words) > 5:
             word_counts = {}
             for word in words:
-                # Skip common words that naturally repeat
-                if word in ['the', 'a', 'an', 'and', 'or', 'of', 'to', 'for', 'in', 'on', 'with', 'by', 'from', 'at', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'can', 'may', 'might', 'must']:
+                # Skip common words that naturally repeat (English and Thai)
+                if word in ['the', 'a', 'an', 'and', 'or', 'of', 'to', 'for', 'in', 'on', 'with', 'by', 'from', 'at', 'as', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'can', 'may', 'might', 'must',
+                           'ครับ', 'ค่ะ', 'คุณ', 'ของ', 'ที่', 'และ', 'หรือ', 'เป็น', 'ใน', 'กับ', 'จาก', 'ไป', 'มา', 'ได้', 'ให้', 'แล้ว', 'เพื่อ', 'ว่า', 'ก็', 'ไว้', 'อยู่', 'ซึ่ง', 'ไม่', 'มี', 'ประกัน']:
                     continue
                 word_counts[word] = word_counts.get(word, 0) + 1
-                if word_counts[word] > 5:  # Increased threshold from 3 to 5
+                if word_counts[word] > 8:  # Increased threshold from 5 to 8
                     errors.append("Query contains excessive repetitive words")
                     break
         

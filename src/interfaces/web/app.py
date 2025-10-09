@@ -1194,53 +1194,53 @@ def generate_practice_suggestions(coaching_type, context):
     # Generate suggestions based on coaching type and context
     if coaching_type == 'competitive':
         suggestions = [
-            "Practice your 30-second UOB value proposition",
-            "Memorize 3 key differentiators for each product line",
-            "Role-play price objection scenarios with colleagues"
+            "ฝึกนำเสนอจุดเด่น UOB ภายใน 30 วินาที",
+            "จดจำจุดแตกต่างหลัก 3 ประการของแต่ละผลิตภัณฑ์",
+            "ฝึกบทบาทสมมติเรื่องการตอบคำถามเรื่องราคากับเพื่อนร่วมงาน"
         ]
         # Add context-specific suggestions
         if 'objection_handling' not in previous_topics:
-            suggestions.append("Prepare responses to \"Why should I choose UOB?\"")
+            suggestions.append("เตรียมคำตอบสำหรับคำถาม \"ทำไมต้องเลือก UOB?\"")
     elif coaching_type == 'objection_handling':
         suggestions = [
-            "Practice active listening with the pause-and-reflect technique",
-            "Develop your empathy statement repertoire",
-            "Master the \"acknowledge-empathize-redirect\" framework"
+            "ฝึกการฟังอย่างตั้งใจด้วยเทคนิค pause-and-reflect",
+            "พัฒนาคลังประโยคแสดงความเข้าใจของคุณ",
+            "เชี่ยวชาญกรอบการทำงาน \"รับรู้-เข้าใจ-นำทาง\""
         ]
         if 'competitive_analysis' not in previous_topics:
-            suggestions.append("Study competitor weaknesses to address comparisons")
+            suggestions.append("ศึกษาจุดอ่อนของคู่แข่งเพื่อรับมือการเปรียบเทียบ")
     elif coaching_type == 'communication' or 'keyword' in str(context).lower():
         suggestions = [
-            "Practice using emotion-driven language (\"protect\", \"secure\", \"peace of mind\")",
-            "Develop customer-specific vocabulary for different segments",
-            "Record yourself explaining products and analyze clarity"
+            "ฝึกใช้ภาษาที่กระตุ้นอารมณ์ (\"ปกป้อง\", \"มั่นคง\", \"ความสบายใจ\")",
+            "พัฒนาคำศัพท์เฉพาะสำหรับกลุ่มลูกค้าแต่ละกลุ่ม",
+            "บันทึกการอธิบายผลิตภัณฑ์ของคุณและวิเคราะห์ความชัดเจน"
         ]
     elif coaching_type == 'product_knowledge' or any(prod in str(context).lower() for prod in ['term life', 'whole life', 'unit link']):
         suggestions = [
-            "Create simple analogies for complex insurance concepts",
-            "Practice explaining policy benefits in 60 seconds or less",
-            "Develop stories that illustrate real customer scenarios"
+            "สร้างการเปรียบเทียบง่ายๆ สำหรับแนวคิดประกันที่ซับซ้อน",
+            "ฝึกอธิบายผลประโยชน์กรมธรรม์ภายใน 60 วินาทีหรือน้อยกว่า",
+            "พัฒนาเรื่องราวที่แสดงสถานการณ์ลูกค้าจริง"
         ]
     else:
         # Dynamic suggestions based on question patterns
         context_str = str(context).lower() if context else ''
         if 'young' in context_str or 'millennial' in context_str:
             suggestions = [
-                "Practice digital-first engagement techniques",
-                "Focus on flexible, life-stage appropriate solutions",
-                "Develop social media-friendly explanations"
+                "ฝึกเทคนิคการมีส่วนร่วมแบบดิจิทัลเป็นหลัก",
+                "มุ่งเน้นโซลูชันที่ยืดหยุ่นและเหมาะกับช่วงชีวิต",
+                "พัฒนาคำอธิบายที่เป็นมิตรกับโซเชียลมีเดีย"
             ]
         elif 'family' in context_str or 'children' in context_str:
             suggestions = [
-                "Practice comprehensive family needs analysis",
-                "Develop education funding conversation starters",
-                "Master multi-generational protection strategies"
+                "ฝึกวิเคราะห์ความต้องการของครอบครัวอย่างครอบคลุม",
+                "พัฒนาประโยคเริ่มต้นบทสนทนาเรื่องทุนการศึกษา",
+                "เชี่ยวชาญกลยุทธ์การปกป้องหลายชั่วอายุคน"
             ]
         else:
             suggestions = [
-                "Practice your product explanations with real-world examples",
-                "Work on open-ended questioning techniques",
-                "Improve your closing skills with assumptive language"
+                "ฝึกฝนการอธิบายผลิตภัณฑ์ด้วยตัวอย่างจากชีวิตจริง",
+                "พัฒนาทักษะการถามคำถามแบบปลายเปิด",
+                "พัฒนาทักษะการปิดการขายด้วยภาษาเชิงยืนยัน"
             ]
     
     return suggestions[:4]  # Limit to 4 suggestions for better focus
